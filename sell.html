@@ -9,55 +9,39 @@
   :root{
     --txt:#fff7fb; --mut:#dbc9d0; --green:#21d072;
     --blue:#1877f2; --discord:#5865f2;
-    --accent1:#ff1d5a; --accent2:#ff5c90;         /* theme accent */
-    --spark1: rgba(255,90,140,1);                  /* sparkle color stops */
-    --spark2: rgba(255,40,100,1);
+    --ring: conic-gradient(#ff1d5a,#ff5c90,#ff1d5a);
     --border: rgba(255,80,120,.18);
     --glow: 0 0 18px rgba(255,30,80,.35), 0 0 28px rgba(255,30,80,.14);
+    --spark1: rgba(255,90,140,1);
+    --spark2: rgba(255,40,100,1);
   }
   *{box-sizing:border-box}
 
   html,body{height:100%;margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0609;overflow-x:hidden}
-  /* Animated dark red (themeable) background */
+  /* Animated dark red background */
   body::before{
     content:"";position:fixed;inset:-10% -10%;z-index:-2;pointer-events:none;
     background:
       radial-gradient(40% 30% at 15% 8%, rgba(255,0,80,.12), transparent 60%),
       radial-gradient(35% 25% at 85% 0%, rgba(200,0,60,.08), transparent 65%),
       radial-gradient(45% 30% at 50% 110%, rgba(255,30,100,.08), transparent 70%);
-    filter: blur(12px) saturate(115%); animation:bgFloat 14s ease-in-out infinite alternate;
+    filter: blur(12px) saturate(115%);
+    animation:bgFloat 14s ease-in-out infinite alternate;
   }
   @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(1%,-1%,0) scale(1.02)}100%{transform:translate3d(-1%,1%,0) scale(1.03)}}
-  /* Sparkles */
+
+  /* Sparkle canvas */
   #sparkleCanvas{position:fixed; inset:0; z-index:-1; pointer-events:none}
 
-  .wrap{max-width:760px;margin:auto;padding:14px 14px 80px; position:relative; z-index:1;}
+  .wrap{max-width:760px;margin:auto;padding:14px 14px 64px; position:relative; z-index:1;}
   .title{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:20px;letter-spacing:.4px;margin:2px 0 8px}
-
-  /* Theme switcher */
-  .toolbar{display:flex;gap:8px;justify-content:center;align-items:center;margin:6px 0 10px;flex-wrap:wrap}
-  .chipBtn{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);padding:8px 12px;border-radius:999px;font-weight:800;cursor:pointer}
-  .chipBtn.active{outline:2px solid rgba(255,255,255,.35)}
 
   /* LOGO (subtle ring, bigger image) */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
   .logo{width:min(44vw,190px);aspect-ratio:1/1;border-radius:999px;position:relative;display:grid;place-items:center;background:radial-gradient(120px 110px at 50% 50%, #0b070b 40%, #000 100%);box-shadow:0 0 0 8px rgba(0,0,0,.55)}
-  .ring{position:absolute;inset:10px;border-radius:999px;background:conic-gradient(var(--accent1),var(--accent2),var(--accent1));filter:blur(.6px);-webkit-mask:radial-gradient(circle, transparent 61.5%, #000 63%);mask:radial-gradient(circle, transparent 61.5%, #000 63%);animation:spin 9s linear infinite;opacity:.55}
+  .ring{position:absolute;inset:10px;border-radius:999px;background:var(--ring);filter:blur(.6px);-webkit-mask:radial-gradient(circle, transparent 61.5%, #000 63%);mask:radial-gradient(circle, transparent 61.5%, #000 63%);animation:spin 9s linear infinite;opacity:.55}
   @keyframes spin{to{transform:rotate(360deg)}}
   .logo img{width:82%;border-radius:999px;box-shadow:0 0 18px rgba(0,0,0,.35)}
-
-  /* Promo banner */
-  .promo{display:none;margin:8px 0;padding:10px 12px;border-radius:14px;font-weight:800;text-align:center;
-         background:linear-gradient(180deg,#112015,#0b170f);border:1px solid rgba(40,255,160,.28);box-shadow:0 0 24px rgba(40,255,160,.18)}
-  .promo b{color:#9dffd2}
-
-  /* Controls row */
-  .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:14px;padding:12px 14px;font-weight:800;letter-spacing:.2px;cursor:pointer}
-  .buy{background:var(--green);color:#092112;box-shadow:0 18px 44px rgba(33,208,114,.28)}
-  .promoBtn{background:#1f8f53;color:#ecfff5}
-  .endBtn{background:#532222;color:#ffdede}
-  .btn[disabled]{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
 
   /* Tier pills */
   .row{display:grid;gap:12px}
@@ -69,7 +53,7 @@
   @keyframes bump{0%{transform:scale(0.98)}40%{transform:scale(1.03)}100%{transform:scale(1.02)}}
   .pill.lock{opacity:.45;filter:grayscale(0.35);border-color:rgba(255,255,255,.12);box-shadow:none}
 
-  /* Section + inputs */
+  /* Inputs & Result */
   .section{background:linear-gradient(180deg,#160e14,#110c11);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow)}
   .label{font-size:13px;color:var(--mut);margin:4px 2px 6px}
   .in{width:100%;border:1px solid var(--border);background:#0b090c;color:#fff;padding:14px;border-radius:14px;font-size:18px;outline:none;box-shadow:inset 0 0 18px rgba(255,10,60,.06), 0 0 14px rgba(255,40,100,.12)}
@@ -82,6 +66,14 @@
   .rateOut{font-weight:900;font-size:20px}
   .saveOut{font-weight:900;font-size:20px;color:#c9ffe0}
   .saveBox{background:linear-gradient(180deg,#0f2117,#0a1a11);border-color:rgba(40,255,160,.28)}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;padding:14px 16px;font-weight:800;letter-spacing:.2px;cursor:pointer;user-select:none;position:relative;overflow:hidden}
+  .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28)}
+  .btn:active{transform:translateY(1px)}
+  .btn[disabled]{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
+  .btn .ripple{position:absolute;border-radius:999px;transform:scale(0);background:rgba(255,255,255,.55);animation:rip .6s linear}
+  @keyframes rip{to{transform:scale(9);opacity:0}}
 
   /* Payment + socials */
   .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.22);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16)}
@@ -96,17 +88,10 @@
   .chip{display:flex;align-items:center;gap:8px;background:#0b1310;border:1px solid rgba(80,255,120,.25);padding:10px 14px;border-radius:12px;font-weight:900}
   .num{font-size:20px}
 
-  /* Popup + QR modal */
+  /* Popup */
   .popup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
   .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
   .close{background:#272327;color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800}
-  .qrImg{max-width:92vw;max-height:80vh;border-radius:12px;border:1px solid rgba(255,255,255,.16);box-shadow:0 0 22px rgba(0,0,0,.35)}
-
-  @media (max-width:540px){
-    .prices{grid-template-columns:repeat(3,1fr)}
-    .controls{grid-template-columns:1fr 1fr}
-    .grid2{grid-template-columns:1fr 1fr}
-  }
 </style>
 </head>
 <body>
@@ -116,29 +101,12 @@
   <div class="wrap">
     <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
 
-    <!-- Theme switcher -->
-    <div class="toolbar">
-      <button class="chipBtn" data-theme="red">🔴 Red</button>
-      <button class="chipBtn" data-theme="purple">🟣 Purple</button>
-      <button class="chipBtn" data-theme="blue">🔵 Ice Blue</button>
-      <button class="chipBtn" data-theme="green">🟢 Emerald</button>
-    </div>
-
     <!-- LOGO -->
     <div class="logoWrap">
       <div class="logo">
         <div class="ring"></div>
         <img src="logo.png" alt="Logo">
       </div>
-    </div>
-
-    <!-- Promo banner -->
-    <div id="promoBar" class="promo">🔥 <b>PROMO ACTIVE:</b> All orders at <b>₱0.72 / dia</b> • Ends in <b id="promoLeft">--:--:--</b></div>
-
-    <!-- Controls -->
-    <div class="controls">
-      <button id="startPromo" class="btn promoBtn">✨ Start 24h Promo ₱0.72</button>
-      <button id="endPromo" class="btn endBtn">⏹ End Promo</button>
     </div>
 
     <!-- Price pills (with mins) -->
@@ -168,7 +136,7 @@
       <div class="grid2">
         <div class="box">
           <h5>Rate</h5>
-        <div id="rateOut" class="rateOut">—</div>
+          <div id="rateOut" class="rateOut">—</div>
         </div>
         <div class="box saveBox">
           <h5>Save</h5>
@@ -177,13 +145,9 @@
       </div>
     </div>
 
-    <!-- Buy + Promo + QR -->
-    <div class="controls">
-      <button id="buyBtn" class="btn buy" disabled>💎 Buy (Copy + Messenger)</button>
-      <button id="qrBtn" class="btn" style="background:#1877f2;color:#fff">📷 Scan QR</button>
-    </div>
-
-    <div class="label" style="text-align:center;margin-top:2px">Enter at least 1000 dias or PHP equivalent.</div>
+    <!-- Buy -->
+    <button id="buyBtn" class="btn buy" style="width:100%;margin-top:10px" disabled>💎 Buy</button>
+    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
 
     <!-- Payment + socials (icons) -->
     <div class="pay" style="margin-top:10px">
@@ -226,131 +190,40 @@
   <div id="buyPopup" class="popup">
     <div class="cardPop">
       <h3>Copied ✔</h3>
-      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>We opened your Messenger chat.</p>
+      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
       <button id="closePop" class="close">OK</button>
     </div>
   </div>
 
-  <!-- QR Modal -->
-  <div id="qrModal" class="popup">
-    <div class="cardPop">
-      <img class="qrImg" src="gcash-qr.png" alt="GCash QR">
-      <div style="margin-top:10px">
-        <button id="closeQR" class="close">Close</button>
-      </div>
-    </div>
-  </div>
-
 <script>
-  /* ===== CONFIG — set your Messenger link (optional) =====
-     Example: const MESSENGER_URL = 'https://m.me/your.username';
-     If left '', we'll just open the Messenger app if available.
-  */
-  const MESSENGER_URL = ''; // <- put your chat link here if you want
-
   /* ===== Helpers ===== */
   const $ = id => document.getElementById(id);
   const num = v => parseFloat(String(v).replace(/[^0-9.]/g,'')) || 0;
   const int = v => parseInt(String(v).replace(/[^0-9]/g,'')) || 0;
   const F = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
 
-  /* ===== THEME SWITCHER ===== */
-  const THEME_KEY='ymir_theme';
-  const THEMES={
-    red:    {accent1:'#ff1d5a',accent2:'#ff5c90',spark1:'rgba(255,90,140,1)',spark2:'rgba(255,40,100,1)'},
-    purple: {accent1:'#8b5cff',accent2:'#d19bff',spark1:'rgba(180,130,255,1)',spark2:'rgba(120,70,220,1)'},
-    blue:   {accent1:'#00c2ff',accent2:'#66e0ff',spark1:'rgba(80,190,255,1)',  spark2:'rgba(30,120,255,1)'},
-    green:  {accent1:'#19e07a',accent2:'#7af5bf',spark1:'rgba(90,255,180,1)',  spark2:'rgba(20,200,120,1)'}
-  };
-  function applyTheme(name){
-    const t = THEMES[name] || THEMES.red;
-    document.documentElement.style.setProperty('--accent1', t.accent1);
-    document.documentElement.style.setProperty('--accent2', t.accent2);
-    document.documentElement.style.setProperty('--spark1', t.spark1);
-    document.documentElement.style.setProperty('--spark2', t.spark2);
-    localStorage.setItem(THEME_KEY, name);
-    // highlight button
-    document.querySelectorAll('.chipBtn').forEach(b=>b.classList.toggle('active', b.dataset.theme===name));
-  }
-  document.querySelectorAll('.chipBtn').forEach(b => b.addEventListener('click', ()=>applyTheme(b.dataset.theme)));
-  applyTheme(localStorage.getItem(THEME_KEY)||'red');
+  const MIN1000 = 1000, MIN4000 = 4000, MIN8000 = 8000;
+  const T1=0.80, T2=0.75, T3=0.70;
 
-  /* ===== PRICING / PROMO ===== */
-  const MIN1000=1000, MIN4000=4000, MIN8000=8000;
-  const T1=0.80, T2=0.75, T3=0.70, PROMO_RATE=0.72;
-  const PROMO_KEY='ymir_promo_until';
-
-  function isPromoActive(){
-    const u = parseInt(localStorage.getItem(PROMO_KEY)||'0');
-    return u && Date.now() < u;
-  }
-  function promoUntil(){
-    return parseInt(localStorage.getItem(PROMO_KEY)||'0') || 0;
-  }
-  function startPromo24h(){
-    const until = Date.now() + 24*60*60*1000;
-    localStorage.setItem(PROMO_KEY, String(until));
-    paintPromo();
-    compute();
-  }
-  function endPromo(){
-    localStorage.removeItem(PROMO_KEY);
-    paintPromo();
-    compute();
-  }
-  function paintPromo(){
-    const bar = $('promoBar');
-    if (isPromoActive()){
-      bar.style.display='block';
-      tickPromoCountdown();
-    } else {
-      bar.style.display='none';
-    }
-  }
-  function tickPromoCountdown(){
-    if (!isPromoActive()) { $('promoBar').style.display='none'; return; }
-    const left = promoUntil() - Date.now();
-    const h = Math.max(0, Math.floor(left/3600000));
-    const m = Math.max(0, Math.floor((left%3600000)/60000));
-    const s = Math.max(0, Math.floor((left%60000)/1000));
-    $('promoLeft').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    if (left<=0) { endPromo(); return; }
-    setTimeout(tickPromoCountdown, 1000);
-  }
-  $('startPromo').onclick = startPromo24h;
-  $('endPromo').onclick = endPromo;
-  paintPromo();
-
-  function baseRate(q){
+  function rate(q){
     if(!q || q<MIN1000) return null;
     if(q<MIN4000) return T1;
     if(q<MIN8000) return T2;
     return T3;
   }
-  function rate(q){
-    if (!q || q<MIN1000) return null;
-    if (isPromoActive()) return PROMO_RATE; // promo overrides tiers
-    return baseRate(q);
-  }
 
   function estFromPhp(php){
     if (!php) return 0;
-    // try around promo/base rates for accuracy
-    let q = Math.floor(php/(isPromoActive()?PROMO_RATE:T1));
-    for (let i=0;i<3;i++){ const r = rate(q) ?? (isPromoActive()?PROMO_RATE:T1); q = Math.floor(php/r); }
+    let q = Math.floor(php/T1);
+    for (let i=0;i<3;i++){ const r = rate(q) ?? T1; q = Math.floor(php/r); }
     return q;
   }
 
-  // highlight + lock pills
+  // tier pill locking + highlight
   function paintPills(q, r){
     const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
     [p80,p75,p70].forEach(p=>{p.classList.remove('active','lock')});
     if(q<MIN1000){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
-    // in promo, show all unlocked and highlight all (or just label)
-    if (isPromoActive()){
-      // unlock all, visually hint promo on Rate box instead
-      return;
-    }
     if(q<MIN4000) p75.classList.add('lock');
     if(q<MIN8000) p70.classList.add('lock');
     if(r===T1) p80.classList.add('active');
@@ -358,8 +231,8 @@
     else if(r===T3) p70.classList.add('active');
   }
 
-  /* ===== Inputs / compute ===== */
-  let lastInput=null, lastRate=null;
+  let lastInput = null, lastRate = null;
+
   $('dias').addEventListener('input', ()=>{ lastInput='d'; compute(true); });
   $('phpIn').addEventListener('input', ()=>{ lastInput='p'; compute(true); });
 
@@ -385,19 +258,17 @@
     $('warn').style.display = ok ? 'none' : 'block';
     $('buyBtn').disabled = !ok;
 
-    // outputs
     let rateTxt='—', saveTxt='—';
     if(q && r){
-      rateTxt = isPromoActive() ? `PROMO ₱${r.toFixed(2)} / dia` : `₱${r.toFixed(2)} / dia`;
-      const base = q*T1;
-      const saveAmt = Math.max(0, base - (q*r));
-      const savePct = Math.max(0,(1 - r/T1)*100);
+      rateTxt = `₱${r.toFixed(2)} / dia`;
+      const base=q*T1, saveAmt=Math.max(0, base - (q*r));
+      const savePct=Math.max(0,(1 - r/T1)*100);
       saveTxt = `${savePct.toFixed(2)}% • ₱${F(saveAmt)}`;
     }
     $('rateOut').textContent = rateTxt;
     $('saveOut').textContent = saveTxt;
 
-    if(r !== lastRate && r && !isPromoActive()){
+    if(r !== lastRate && r){
       const target = r===T1 ? $('pill80') : r===T2 ? $('pill75') : $('pill70');
       target.classList.remove('active'); void target.offsetWidth; target.classList.add('active');
       lastRate = r;
@@ -405,21 +276,18 @@
   }
   compute();
 
-  /* ===== Buy: copy + open Messenger ===== */
-  function openMessenger(){
-    if (MESSENGER_URL){
-      window.open(MESSENGER_URL, '_blank');
-    } else {
-      // try to open messenger app; fallback: FB site
-      const app = 'fb-messenger://';
-      const fbweb = 'https://www.facebook.com/messages/';
-      // attempt app
-      const a = document.createElement('a');
-      a.href = app; document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(()=>window.open(fbweb,'_blank'), 300); // fallback
-    }
+  /* Button ripple */
+  function ripple(e){
+    const r=document.createElement('span'); r.className='ripple';
+    const rect=e.currentTarget.getBoundingClientRect();
+    r.style.width=r.style.height=Math.max(rect.width,rect.height)+'px';
+    r.style.left=(e.clientX-rect.left - rect.width/2)+'px';
+    r.style.top=(e.clientY-rect.top - rect.height/2)+'px';
+    e.currentTarget.appendChild(r); setTimeout(()=>r.remove(),600);
   }
+  document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',ripple,{passive:true}));
 
+  /* Buy: copy + popup */
   $('buyBtn').addEventListener('click', async ()=>{
     let q = int($('dias').value);
     let p = num($('phpIn').value);
@@ -431,15 +299,100 @@
     const msg =
 `BUY ORDER
 Diamonds: ${q} 💎
-Rate: ₱${r.toFixed(2)} / dia${isPromoActive()?' (PROMO)':''}
+Rate: ₱${r.toFixed(2)} / dia
 Total: ₱${F(total)}
 GCash: 09162466318 (MOISES B.)`;
 
     try{ await navigator.clipboard.writeText(msg); }catch{}
-    openMessenger();
-    $('buyPopup').style.display='grid';
+    document.getElementById('buyPopup').style.display='grid';
   });
-  $('closePop').onclick = ()=> $('buyPopup').style.display='none';
+  document.getElementById('closePop').onclick = ()=> document.getElementById('buyPopup').style.display='none';
 
-  /* ===== GCash QR modal ===== */
-  $('qrBtn').onclick = ()=> { $('qrModal').
+  /* ===== Global Transactions Counter (CountAPI) ===== */
+  const NS  = 'ymir_moistore_v2';   // change if you want a fresh namespace
+  const KEY = 'transactions_global';
+
+  async function getGlobalCount() {
+    try {
+      const r = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(NS)}/${encodeURIComponent(KEY)}`);
+      if (r.ok) { const d=await r.json(); return Number(d.value)||0; }
+      const c = await fetch(`https://api.countapi.xyz/create?namespace=${encodeURIComponent(NS)}&key=${encodeURIComponent(KEY)}&value=0`);
+      const d = await c.json(); return Number(d.value)||0;
+    } catch { return null; }
+  }
+  async function bumpGlobalCount() {
+    try {
+      const r = await fetch(`https://api.countapi.xyz/hit/${encodeURIComponent(NS)}/${encodeURIComponent(KEY)}`);
+      if (!r.ok) return null; const d=await r.json(); return Number(d.value)||0;
+    } catch { return null; }
+  }
+  const TX_DISPLAY = $('txNum');
+  async function refreshGlobalCount(){ const v=await getGlobalCount(); if (typeof v==='number') TX_DISPLAY.textContent=String(v); }
+  setInterval(refreshGlobalCount, 30000);
+  refreshGlobalCount();
+
+  const DONE_KEY='ymir_done_global_once';
+  function paintDoneState(){ const done = localStorage.getItem(DONE_KEY)==='1'; $('doneBtn').disabled = done; }
+  paintDoneState();
+
+  $('doneBtn').addEventListener('click', async ()=>{
+    if (localStorage.getItem(DONE_KEY)==='1') return;
+    localStorage.setItem(DONE_KEY,'1'); paintDoneState();
+    const v = await bumpGlobalCount();
+    if (typeof v==='number') TX_DISPLAY.textContent=String(v);
+    else TX_DISPLAY.textContent = String((parseInt(TX_DISPLAY.textContent||'0')||0)+1);
+  });
+
+  // Secret local reset (long press title, 3s) – testing only
+  (function(){
+    const title = document.querySelector('.title'); if(!title) return;
+    let t=null; const reset=()=>{ localStorage.removeItem(DONE_KEY); alert('✅ This device reset. (Global stays)'); paintDoneState(); };
+    title.addEventListener('touchstart', ()=>{ t=setTimeout(reset,3000); });
+    title.addEventListener('touchend', ()=>{ if(t) clearTimeout(t); });
+    title.addEventListener('mousedown', ()=>{ t=setTimeout(reset,3000); });
+    title.addEventListener('mouseup', ()=>{ if(t) clearTimeout(t); });
+  })();
+
+  /* ===== Sparkle engine (light) ===== */
+  (function(){
+    const cvs = document.getElementById('sparkleCanvas'), c = cvs.getContext('2d');
+    let W=0,H=0, dpr=1, stars=[];
+    const MAX = 48, SPEED = 0.12, TWINKLE = 0.025;
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      W = cvs.width = Math.floor(innerWidth * dpr);
+      H = cvs.height = Math.floor(innerHeight * dpr);
+      cvs.style.width = innerWidth+'px'; cvs.style.height = innerHeight+'px';
+      if(stars.length===0) init();
+    }
+    function rnd(a,b){ return a + Math.random()*(b-a); }
+    function init(){
+      stars=[]; for(let i=0;i<MAX;i++){
+        stars.push({x:rnd(0,W),y:rnd(0,H*1.0),r:rnd(0.6,1.8)*dpr,a:Math.random()*Math.PI*2,o:rnd(0.35,0.9),vx:rnd(-SPEED,SPEED)*dpr*0.6,vy:rnd(-SPEED,SPEED)*dpr*0.6});
+      }
+    }
+    let rafId=null;
+    function frame(){
+      c.clearRect(0,0,W,H);
+      c.globalCompositeOperation='lighter';
+      const s1=getComputedStyle(document.documentElement).getPropertyValue('--spark1').trim();
+      const s2=getComputedStyle(document.documentElement).getPropertyValue('--spark2').trim();
+      for(const s of stars){
+        s.a += TWINKLE; s.x += s.vx; s.y += s.vy;
+        if(s.x<-10 || s.x>W+10) s.vx*=-1; if(s.y<-10 || s.y>H+10) s.vy*=-1;
+        const pulse = (Math.sin(s.a)+1)/2; const alpha = (s.o*0.5 + pulse*0.5)*0.9;
+        const grd = c.createRadialGradient(s.x,s.y,0, s.x,s.y,s.r*3);
+        grd.addColorStop(0, s1.replace('1)', alpha+')'));
+        grd.addColorStop(0.6, s2.replace('1)', (alpha*0.45)+')'));
+        grd.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = grd; c.beginPath(); c.arc(s.x,s.y,s.r*3,0,Math.PI*2); c.fill();
+      }
+      rafId = requestAnimationFrame(frame);
+    }
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden){ if(rafId){ cancelAnimationFrame(rafId); rafId=null; } } else { if(!rafId){ rafId = requestAnimationFrame(frame); } }});
+    window.addEventListener('resize', resize);
+    resize(); init(); rafId = requestAnimationFrame(frame);
+  })();
+</script>
+</body>
+</html>
