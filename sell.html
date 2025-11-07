@@ -18,7 +18,6 @@
   *{box-sizing:border-box}
 
   html,body{height:100%;margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0609;overflow-x:hidden}
-  /* Animated dark red background */
   body::before{
     content:"";position:fixed;inset:-10% -10%;z-index:-2;pointer-events:none;
     background:
@@ -29,21 +28,17 @@
     animation:bgFloat 14s ease-in-out infinite alternate;
   }
   @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(1%,-1%,0) scale(1.02)}100%{transform:translate3d(-1%,1%,0) scale(1.03)}}
-
-  /* Sparkle canvas */
   #sparkleCanvas{position:fixed; inset:0; z-index:-1; pointer-events:none}
 
   .wrap{max-width:760px;margin:auto;padding:14px 14px 84px; position:relative; z-index:1;}
   .title{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:20px;letter-spacing:.4px;margin:2px 0 8px}
 
-  /* LOGO (subtle ring, bigger image) */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
   .logo{width:min(44vw,190px);aspect-ratio:1/1;border-radius:999px;position:relative;display:grid;place-items:center;background:radial-gradient(120px 110px at 50% 50%, #0b070b 40%, #000 100%);box-shadow:0 0 0 8px rgba(0,0,0,.55)}
   .ring{position:absolute;inset:10px;border-radius:999px;background:var(--ring);filter:blur(.6px);-webkit-mask:radial-gradient(circle, transparent 61.5%, #000 63%);mask:radial-gradient(circle, transparent 61.5%, #000 63%);animation:spin 9s linear infinite;opacity:.55}
   @keyframes spin{to{transform:rotate(360deg)}}
   .logo img{width:82%;border-radius:999px;box-shadow:0 0 18px rgba(0,0,0,.35)}
 
-  /* Tier pills */
   .row{display:grid;gap:12px}
   .prices{grid-template-columns:repeat(3,1fr);margin:6px 0 10px}
   .pill{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:18px;padding:12px;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,30,80,.06), var(--glow);transition:transform .18s, box-shadow .18s, border-color .18s, opacity .18s}
@@ -53,7 +48,6 @@
   @keyframes bump{0%{transform:scale(0.98)}40%{transform:scale(1.03)}100%{transform:scale(1.02)}}
   .pill.lock{opacity:.45;filter:grayscale(0.35);border-color:rgba(255,255,255,.12);box-shadow:none}
 
-  /* Inputs & Result */
   .section{background:linear-gradient(180deg,#160e14,#110c11);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow)}
   .label{font-size:13px;color:var(--mut);margin:4px 2px 6px}
   .in{width:100%;border:1px solid var(--border);background:#0b090c;color:#fff;padding:14px;border-radius:14px;font-size:18px;outline:none;box-shadow:inset 0 0 18px rgba(255,10,60,.06), 0 0 14px rgba(255,40,100,.12)}
@@ -67,7 +61,6 @@
   .saveOut{font-weight:900;font-size:20px;color:#c9ffe0}
   .saveBox{background:linear-gradient(180deg,#0f2117,#0a1a11);border-color:rgba(40,255,160,.28)}
 
-  /* Buttons */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;padding:14px 16px;font-weight:800;letter-spacing:.2px;cursor:pointer;user-select:none;position:relative;overflow:hidden}
   .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28)}
   .btn:active{transform:translateY(1px)}
@@ -75,19 +68,17 @@
   .btn .ripple{position:absolute;border-radius:999px;transform:scale(0);background:rgba(255,255,255,.55);animation:rip .6s linear}
   @keyframes rip{to{transform:scale(9);opacity:0}}
 
-  /* Payment + socials */
   .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.22);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16)}
-  .gcash{display:flex;align-items:center;gap:10px;font-weight:800;background:rgba(24,119,242,.10);border:1px solid rgba(24,119,242,.35);padding:10px 12px;border-radius:12px}
+  .gcash{display:flex;align-items:center;gap:10px;font-weight:800;background:rgba(24,119,242,.10);border:1px solid rgba(24,119,242,.35);padding:10px 12px;border-radius:12px;cursor:pointer}
+  .gcash:active{transform:translateY(1px)}
   .soc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
   .fb{background:var(--blue);color:#fff}
   .dc{background:var(--discord);color:#fff}
 
-  /* Notice */
   .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 18px rgba(0,0,0,.25)}
   .notice h4{margin:0 0 6px;font-size:14px}
   .notice p{margin:0;color:var(--mut);font-size:13px}
 
-  /* Footer owner with Meta Verified badge */
   .owner{
     margin-top:14px; display:flex; gap:10px; align-items:center; justify-content:center;
     padding:10px 12px; border-radius:14px;
@@ -101,16 +92,16 @@
     width:22px; height:22px; display:inline-block;
     filter: drop-shadow(0 0 10px rgba(24,119,242,.45));
   }
+
+  /* popup inline styles kept minimal in body */
 </style>
 </head>
 <body>
-  <!-- Sparkles -->
   <canvas id="sparkleCanvas"></canvas>
 
   <div class="wrap">
     <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
 
-    <!-- LOGO -->
     <div class="logoWrap">
       <div class="logo">
         <div class="ring"></div>
@@ -118,7 +109,6 @@
       </div>
     </div>
 
-    <!-- Price pills (with mins) -->
     <div class="row prices">
       <div id="pill80" class="pill">
         <div class="pval">₱0.80</div>
@@ -134,7 +124,6 @@
       </div>
     </div>
 
-    <!-- Inputs -->
     <div class="section">
       <div class="label">Enter Diamonds 💎</div>
       <input id="dias" class="in" inputmode="numeric" placeholder="e.g. 1500">
@@ -154,21 +143,18 @@
       </div>
     </div>
 
-    <!-- Buy -->
     <button id="buyBtn" class="btn buy" style="width:100%;margin-top:10px" disabled>💎 Buy</button>
     <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
 
-    <!-- Payment + socials (icons) -->
     <div class="pay" style="margin-top:10px">
-      <div class="gcash">
-        <!-- Wallet + ₱ icon -->
+      <div id="gcashRow" class="gcash" title="Tap to open GCash • number auto-copied">
         <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
           <rect x="2.8" y="6" width="18.4" height="12" rx="3" fill="#1877f2"/>
           <rect x="13.2" y="9" width="7" height="6" rx="1.4" fill="#0f5bd7"/>
           <circle cx="17.2" cy="12" r="1.2" fill="#fff"/>
           <text x="7.2" y="14.7" font-size="7.6" fill="#fff" font-family="Poppins, Arial" font-weight="700">₱</text>
         </svg>
-        GCash • <strong>09162466318 — MOISES B.</strong>
+        GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong>
       </div>
 
       <div class="soc">
@@ -188,22 +174,14 @@
       </div>
     </div>
 
-    <!-- Waiting Time Notice -->
     <div class="notice">
       <h4>⏳ Waiting Time Notice</h4>
       <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
     </div>
 
-    <!-- Owner + Meta Verified -->
     <div class="owner">
-      <!-- Simple Meta Verified style badge (SVG) -->
       <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
-        <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#2aa4ff"/>
-            <stop offset="1" stop-color="#1877f2"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs>
         <circle cx="12" cy="12" r="10" fill="url(#g)"/>
         <path d="M9.2 12.6l-1.7-1.7a1 1 0 10-1.4 1.4l2.4 2.4c.4.4 1 .4 1.4 0l6.1-6.1a1 1 0 10-1.4-1.4l-5.4 5.4z" fill="#fff"/>
       </svg>
@@ -211,7 +189,6 @@
     </div>
   </div>
 
-  <!-- BUY Popup -->
   <div id="buyPopup" class="popup" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50">
     <div class="cardPop" style="width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center">
       <h3>Copied ✔</h3>
@@ -221,7 +198,7 @@
   </div>
 
 <script>
-  /* ===== Links (update mo kung kailangan) ===== */
+  /* ===== Links (edit if needed) ===== */
   const FB_URL = 'https://www.facebook.com/share/p/1DB1da3qMn/';
   const DC_URL = 'https://discord.gg/QkdVz5mh';
 
@@ -240,28 +217,22 @@
     if(q<MIN8000) return T2;
     return T3;
   }
-
   function estFromPhp(php){
     if (!php) return 0;
     let q = Math.floor(php/T1);
     for (let i=0;i<3;i++){ const r = rate(q) ?? T1; q = Math.floor(php/r); }
     return q;
   }
-
-  // tier pill locking + highlight
   function paintPills(q, r){
     const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
-    [p80,p75,p70].forEach(p=>{p.classList.remove('active','lock')});
+    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
     if(q<MIN1000){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
     if(q<MIN4000) p75.classList.add('lock');
     if(q<MIN8000) p70.classList.add('lock');
-    if(r===T1) p80.classList.add('active');
-    else if(r===T2) p75.classList.add('active');
-    else if(r===T3) p70.classList.add('active');
+    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
   }
 
   let lastInput = null, lastRate = null;
-
   $('dias').addEventListener('input', ()=>{ lastInput='d'; compute(true); });
   $('phpIn').addEventListener('input', ()=>{ lastInput='p'; compute(true); });
 
@@ -305,7 +276,6 @@
   }
   compute();
 
-  /* Button ripple */
   function ripple(e){
     const r=document.createElement('span'); r.className='ripple';
     const rect=e.currentTarget.getBoundingClientRect();
@@ -316,7 +286,6 @@
   }
   document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',ripple,{passive:true}));
 
-  /* Buy: copy + popup */
   $('buyBtn').addEventListener('click', async ()=>{
     let q = int($('dias').value);
     let p = num($('phpIn').value);
@@ -337,15 +306,56 @@ GCash: 09162466318 (MOISES B.)`;
   });
   document.getElementById('closePop').onclick = ()=> document.getElementById('buyPopup').style.display='none';
 
-  /* Social buttons — open links in new tab */
-  $('fbBtn').addEventListener('click', ()=> {
-    window.open(FB_URL, '_blank', 'noopener');
-  });
-  $('dcBtn').addEventListener('click', ()=> {
-    window.open(DC_URL, '_blank', 'noopener');
-  });
+  /* ===== Social buttons ===== */
+  const FB_URL = 'https://www.facebook.com/share/p/1DB1da3qMn/';
+  const DC_URL = 'https://discord.gg/QkdVz5mh';
+  $('fbBtn').addEventListener('click', ()=> window.open(FB_URL, '_blank', 'noopener'));
+  $('dcBtn').addEventListener('click', ()=> window.open(DC_URL, '_blank', 'noopener'));
 
-  /* ===== Sparkle engine (light) ===== */
+  /* ===== GCash tap: copy number + try open app + fallback store ===== */
+  (function(){
+    const GCASH_MOBILE = '09162466318';
+    const PKG = 'com.globe.gcash.android';
+    const PLAY = 'https://play.google.com/store/apps/details?id=' + PKG;
+    const APPLE = 'https://apps.apple.com/app/id520020791';
+
+    function isIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+    function toast(msg){
+      const t=document.createElement('div');
+      t.textContent=msg;
+      Object.assign(t.style,{position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',background:'rgba(0,0,0,.85)',color:'#fff',padding:'10px 14px',borderRadius:'12px',fontWeight:'800',zIndex:9999});
+      document.body.appendChild(t); setTimeout(()=>t.remove(),1800);
+    }
+
+    async function copyNum(){
+      try{ await navigator.clipboard.writeText(GCASH_MOBILE); }catch(e){}
+    }
+
+    async function openGcash(){
+      // 1) copy number
+      await copyNum();
+
+      // 2) try deep link (may not open Express Send directly, but opens the app)
+      const scheme = 'gcash://';
+      const start = Date.now();
+      // Using location.href is more reliable in many mobile browsers
+      window.location.href = scheme;
+
+      // 3) fallback to store if nothing happened in ~1.2s
+      setTimeout(()=>{
+        const elapsed = Date.now() - start;
+        if (document.visibilityState === 'visible') {
+          window.location.href = isIOS() ? APPLE : PLAY;
+        }
+      }, 1200);
+
+      toast('Number copied. Opened GCash — go to Express Send and paste.');
+    }
+
+    $('gcashRow').addEventListener('click', openGcash);
+  })();
+
+  /* ===== Sparkle engine ===== */
   (function(){
     const cvs = document.getElementById('sparkleCanvas'), c = cvs.getContext('2d');
     let W=0,H=0, dpr=1, stars=[];
