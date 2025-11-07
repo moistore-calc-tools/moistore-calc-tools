@@ -11,9 +11,7 @@
   :root{
     --bg:#0b0a0b;
     --red:#ff2b56;
-    --red2:#ff0055;
     --panel:#181418;
-    --panel2:#120f12;
     --text:#fff6f8;
     --muted:#d9c7cc;
     --green:#23cf6b;
@@ -23,8 +21,14 @@
     --ring: conic-gradient(from 0deg, #ff2b56, #ff5f93, #ff2b56);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;background:radial-gradient(1200px 600px at 50% -200px, #3a0013 0%, #14000a 40%, #0a0609 70%, #060407 100%); color:var(--text); font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;}
+  html,body{
+    margin:0;
+    background:radial-gradient(1200px 600px at 50% -200px, #3a0013 0%, #14000a 40%, #0a0609 70%, #060407 100%);
+    color:var(--text);
+    font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  }
   .wrap{max-width:760px;margin-inline:auto;padding:16px 14px 60px}
+
   /* Logo */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
   .logo{
@@ -43,7 +47,8 @@
   }
   @keyframes spin{to{transform:rotate(360deg)}}
   .logo img{width:65%;border-radius:999px;box-shadow:0 0 30px rgba(255,0,90,.35)}
-  /* Price pills */
+
+  /* Price tiles */
   .row{display:grid;gap:12px}
   .prices{grid-template-columns:repeat(3,1fr);margin:10px 0 12px}
   .card{
@@ -53,8 +58,13 @@
   }
   .card h4{margin:0 0 6px;color:var(--muted);font-weight:600;font-size:14px;text-align:center}
   .price{font-size:28px;font-weight:800;letter-spacing:.3px;text-align:center}
+
   /* Inputs */
-  .inputCard{background:linear-gradient(180deg,#170e14,#120c11);border-radius:18px;border:1px solid rgba(255,70,120,.18);padding:14px;box-shadow:var(--glow1);margin:6px 0}
+  .inputCard{
+    background:linear-gradient(180deg,#170e14,#120c11);
+    border-radius:18px;border:1px solid rgba(255,70,120,.18);
+    padding:14px;box-shadow:var(--glow1);margin:6px 0
+  }
   .label{font-size:13px;color:var(--muted);margin:4px 2px 6px}
   .in{
     width:100%;border:1px solid rgba(255,70,120,.18);background:#0b090c;
@@ -63,7 +73,8 @@
     transition:border .15s, box-shadow .2s;
   }
   .in:focus{border-color:#ff5f93;box-shadow:0 0 0 3px rgba(255,60,110,.18), var(--glow1)}
-  /* Applied / Save */
+
+  /* Applied + Save */
   .appliedRow{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;margin:10px 0}
   .applied{
     background:linear-gradient(180deg,#1b1217,#130e13);border-radius:16px;border:1px solid rgba(255,70,120,.18);
@@ -72,6 +83,7 @@
   .applied .big{font-size:22px;font-weight:800}
   .applied .small{font-size:12px;color:var(--muted)}
   .save{background:linear-gradient(180deg,#0f2a19,#0a1e12);border:1px solid rgba(40,255,160,.25)}
+
   /* Buttons */
   .btnRow{display:grid;grid-template-columns:1fr auto;gap:10px;margin:10px 0}
   .btn{
@@ -83,6 +95,7 @@
   .btn:active{transform:translateY(1px)}
   .btn:disabled{opacity:.55;cursor:not-allowed}
   .confirm{background:#1f8f53;color:#ecfff5}
+
   /* Payment + social */
   .payCard{background:linear-gradient(180deg,#121019,#0c0a10);border:1px solid rgba(60,90,255,.12);border-radius:18px;padding:12px 14px;margin:12px 0}
   .gcash{display:flex;align-items:center;gap:12px;background:radial-gradient(300px 100px at 0 0, rgba(24,119,242,.18), transparent), #0b0f1a;border:1px solid rgba(24,119,242,.28);color:#eaf3ff;padding:12px 14px;border-radius:14px;font-weight:700}
@@ -90,11 +103,13 @@
   .sbtn{display:flex;align-items:center;gap:10px;justify-content:center;padding:14px;border-radius:14px;font-weight:800;border:none;cursor:pointer}
   .fb{background:var(--blue);color:#fff}
   .dc{background:var(--discord);color:#fff}
+
   /* Transactions pill */
   .txBox{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(180deg,#121512,#0c0f0c);border:1px solid rgba(80,255,120,.22);border-radius:18px;padding:14px;margin-top:10px;box-shadow:0 0 22px rgba(20,255,120,.12)}
   .txNum{font-size:24px;font-weight:900;letter-spacing:.5px}
-  /* Helpers */
+
   .muter{font-size:12px;color:var(--muted);margin-top:6px}
+
   @media (max-width:540px){
     .prices{grid-template-columns:repeat(3,1fr)}
     .appliedRow{grid-template-columns:1fr}
@@ -108,7 +123,7 @@
     <div class="logoWrap">
       <div class="logo">
         <div class="ring"></div>
-        <!-- Put your logo file name here (it is already uploaded as logo.png in your repo) -->
+        <!-- Upload your logo file as logo.png in the repo root -->
         <img src="logo.png" alt="Moistore" />
       </div>
     </div>
@@ -161,9 +176,9 @@
     <div class="payCard">
       <div class="gcash">GCash • <strong>09162466318 — MOISES B.</strong></div>
       <div class="socRow">
-  <button class="sbtn fb" id="fbBtn">📘 Facebook</button>
-  <button class="sbtn dc" id="dcBtn">🟣 Discord</button>
-</div>
+        <button class="sbtn fb" id="fbBtn">📘 Facebook</button>
+        <button class="sbtn dc" id="dcBtn">🟣 Discord</button>
+      </div>
     </div>
 
     <!-- Transactions -->
@@ -173,9 +188,30 @@
     </div>
   </div>
 
-  <!-- chime via WebAudio -->
+  <!-- BUY POPUP -->
+  <div id="buyPopup" style="
+    position:fixed; inset:0; display:none; place-items:center;
+    background:rgba(0,0,0,.55); backdrop-filter:blur(4px); z-index:9999;">
+    <div style="
+      background:#160c13; border:1px solid rgba(255,70,120,.35);
+      border-radius:18px; padding:22px 20px; width:80%; max-width:300px;
+      text-align:center; box-shadow:0 0 25px rgba(255,0,80,.45);">
+      <div style="font-size:17px; font-weight:700; margin-bottom:8px;">
+        ✅ COPIED!
+      </div>
+      <div style="font-size:14px; opacity:.85; margin-bottom:18px;">
+        <b>I-paste mo ito sa Messenger ko</b> para ma-process ang order.
+      </div>
+      <button id="closePopup" style="
+        background:#ff2b56; color:#fff; border:none; padding:10px 14px;
+        border-radius:12px; font-weight:700; cursor:pointer; width:100%;">
+        OKAY ✅
+      </button>
+    </div>
+  </div>
+
+  <!-- Logic -->
   <script>
-    // ====== helpers ======
     const $ = id => document.getElementById(id);
 
     const MIN_DIAS = 500;
@@ -188,10 +224,9 @@
       return T3;
     }
 
-    // Estimate diamonds from PHP (iterate to lock correct tier)
+    // Diamonds from PHP (iterate to lock correct tier)
     function estimateDiamondsFromPhp(php){
       if (!php || php <= 0) return 0;
-      // start with base tier then refine
       let q = Math.floor(php / T1);
       for (let i=0;i<3;i++){
         const r = rateByQty(q) ?? T1;
@@ -204,27 +239,21 @@
       if (n===null || isNaN(n)) return "—";
       return "₱" + Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
     }
-    function fmtRate(r){
-      return r ? `₱${r.toFixed(2)} / dia` : "—";
-    }
+    function fmtRate(r){ return r ? `₱${r.toFixed(2)} / dia` : "—"; }
 
-    // compute + paint
     const diasEl = $('dias'), phpEl = $('phpIn'), tierBig = $('tierBig'), saveBig = $('saveBig');
 
     function compute(){
       let q = parseInt(String(diasEl.value).replace(/[^0-9]/g,'')) || 0;
       let php = parseFloat(String(phpEl.value).replace(/[^0-9.]/g,'')) || 0;
 
-      // If only PHP provided, derive diamonds
       if (!q && php) q = estimateDiamondsFromPhp(php);
 
-      // If only diamonds provided, compute PHP
       const rate = rateByQty(q);
       let total = null;
       if (rate) total = q * rate;
       if (!php && total !== null) php = total;
 
-      // Savings vs base tier (0.80)
       let saveAmt = null, savePct = null;
       if (q && rate){
         const base = q * T1;
@@ -240,7 +269,7 @@
     phpEl.addEventListener('input', compute);
     compute();
 
-    // ====== BUY (copy message) ======
+    // BUY — copy message + popup
     $('buyBtn').addEventListener('click', async ()=>{
       let q = parseInt(String(diasEl.value).replace(/[^0-9]/g,'')) || 0;
       let php = parseFloat(String(phpEl.value).replace(/[^0-9.]/g,'')) || 0;
@@ -249,19 +278,13 @@
       if (!r){ alert('Enter at least 500 dias or PHP equivalent.'); return; }
       const total = (php && php>0) ? php : (q*r);
       const txt = `BUY ORDER\n• Diamonds: ${q} 💎\n• Tier: ₱${r.toFixed(2)} / dia\n• Total: ${fmtMoney(total)}\n• GCash: 09162466318 (MOISES B.)`;
-      try{
-        await navigator.clipboard.writeText(txt);
-        // small toast
-        miniToast('Copied. Open Messenger and paste the order.');
-      }catch{
-        alert(txt);
-      }
+      try{ await navigator.clipboard.writeText(txt); }catch{ alert(txt); }
+      document.getElementById("buyPopup").style.display = "grid";
     });
 
-    // ====== Confirm (1x per device) ======
+    // Confirm (1x per device) with chime + counter
     const TX_KEY='ymir_device_confirmed';
-    const COUNT_KEY='ymir_tx_count'; // optional local count (per device)
-
+    const COUNT_KEY='ymir_tx_count';
     function setTxUI(){
       const c = parseInt(localStorage.getItem(COUNT_KEY)||'0');
       $('txNum').textContent = isNaN(c)?'0':String(c);
@@ -281,7 +304,7 @@
       setTxUI();
     });
 
-    // ====== Sound (soft chime) ======
+    // Soft chime
     function chime(){
       try{
         const a = new (window.AudioContext||window.webkitAudioContext)();
@@ -290,29 +313,20 @@
         g.gain.setValueAtTime(0.0001,a.currentTime);
         g.gain.exponentialRampToValueAtTime(0.2,a.currentTime+0.02);
         o.connect(g).connect(a.destination); o.start();
-        // up glide
         o.frequency.exponentialRampToValueAtTime(990, a.currentTime+0.18);
         g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+0.25);
         o.stop(a.currentTime+0.26);
       }catch(e){}
     }
 
-    // ====== Social ======
+    // Social links
     $('fbBtn').addEventListener('click', ()=> window.open('https://www.facebook.com/share/p/1DB1da3qMn/','_blank'));
     $('dcBtn').addEventListener('click', ()=> window.open('https://discord.gg/QkdVz5mh','_blank'));
 
-    // tiny toast
-    function miniToast(msg){
-      const t=document.createElement('div');
-      t.textContent = msg;
-      Object.assign(t.style,{
-        position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',
-        background:'rgba(0,0,0,.8)',color:'#fff',padding:'10px 14px',borderRadius:'12px',
-        fontWeight:'700',boxShadow:'0 10px 30px rgba(0,0,0,.35)',zIndex:9999
-      });
-      document.body.appendChild(t);
-      setTimeout(()=>t.remove(),1800);
-    }
+    // Popup close
+    document.getElementById("closePopup").onclick = () =>{
+      document.getElementById("buyPopup").style.display = "none";
+    };
   </script>
 </body>
 </html>
