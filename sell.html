@@ -3,311 +3,189 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LEGEND OF YMIR DIAMOND 💎</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Legend of Ymir Diamond</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --txt:#fff7fb; --mut:#dbc9d0; --green:#21d072;
-    --blue:#1877f2; --discord:#5865f2;
-    --ring: conic-gradient(#ff1d5a,#ff5c90,#ff1d5a);
-    --border: rgba(255,80,120,.18);
-    --glow: 0 0 18px rgba(255,30,80,.35), 0 0 28px rgba(255,30,80,.14);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0609}
-  body::before{content:"";position:fixed;inset:-10% -10%;z-index:-2;pointer-events:none;
-    background:
-      radial-gradient(40% 30% at 15% 8%, rgba(255,0,80,.12), transparent 60%),
-      radial-gradient(35% 25% at 85% 0%, rgba(200,0,60,.08), transparent 65%),
-      radial-gradient(45% 30% at 50% 110%, rgba(255,30,100,.08), transparent 70%);
-    filter: blur(12px) saturate(115%);
-    animation:bgFloat 14s ease-in-out infinite alternate;}
-  @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(1%,-1%,0) scale(1.02)}100%{transform:translate3d(-1%,1%,0) scale(1.03)}}
-  .wrap{max-width:760px;margin:auto;padding:16px 14px 90px}
-  .title{display:flex;gap:10px;justify-content:center;font-weight:800;font-size:22px;letter-spacing:.4px;margin:2px 0 8px}
-  /* Logo */
-  .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
-  .logo{width:min(44vw,190px);aspect-ratio:1/1;border-radius:999px;position:relative;display:grid;place-items:center;background:radial-gradient(120px 110px at 50% 50%, #0b070b 40%, #000 100%);box-shadow:0 0 0 8px rgba(0,0,0,.55)}
-  .ring{position:absolute;inset:10px;border-radius:999px;background:var(--ring);filter:blur(.6px);-webkit-mask:radial-gradient(circle, transparent 61.5%, #000 63%);mask:radial-gradient(circle, transparent 61.5%, #000 63%);animation:spin 9s linear infinite;opacity:.55}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .logo img{width:82%;border-radius:999px;box-shadow:0 0 18px rgba(0,0,0,.35)}
-  /* Tiers */
-  .row{display:grid;gap:12px}
-  .prices{grid-template-columns:repeat(3,1fr);margin:6px 0 10px}
-  .pill{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:18px;padding:12px;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,30,80,.06), var(--glow);transition:transform .18s, box-shadow .18s, border-color .18s, opacity .18s}
-  .pval{font-size:26px;font-weight:900}
-  .ptxt{font-size:12px;color:var(--mut)}
-  .pill.active{transform:translateY(-2px) scale(1.02);border-color:rgba(80,255,170,.55);box-shadow:0 0 22px rgba(40,255,170,.28), inset 0 0 0 1px rgba(40,255,170,.32)}
-  .pill.lock{opacity:.45;filter:grayscale(.35);border-color:rgba(255,255,255,.12);box-shadow:none}
-  /* Inputs/result */
-  .section{background:linear-gradient(180deg,#160e14,#110c11);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow)}
-  .label{font-size:13px;color:var(--mut);margin:4px 2px 6px}
-  .in{width:100%;border:1px solid var(--border);background:#0b090c;color:#fff;padding:14px;border-radius:14px;font-size:18px;outline:none;box-shadow:inset 0 0 18px rgba(255,10,60,.06), 0 0 14px rgba(255,40,100,.12)}
-  .in:focus{border-color:#ff6aa1;box-shadow:0 0 0 3px rgba(255,60,110,.18), var(--glow)}
-  .warn{margin-top:8px;font-size:12px;color:#ff7b94;display:none}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-  .box{background:linear-gradient(180deg,#1a1218,#120e13);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--glow)}
-  .box h5{margin:0 0 4px;font-size:12px;color:var(--mut)}
-  .rateOut{font-weight:900;font-size:20px}
-  .saveOut{font-weight:900;font-size:20px;color:#baffd6}
-  .saveBox{background:linear-gradient(180deg,#0f2117,#0a1a11);border-color:rgba(40,255,160,.28)}
-  /* Buttons */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;padding:14px 16px;font-weight:800;letter-spacing:.2px;cursor:pointer;user-select:none}
-  .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28);width:100%;margin-top:10px}
-  .btn[disabled]{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
-  /* Payment + socials */
-  .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.22);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16);margin-top:10px}
-  .gcash{display:flex;align-items:center;gap:10px;font-weight:800;background:rgba(24,119,242,.10);border:1px solid rgba(24,119,242,.35);padding:10px 12px;border-radius:12px;cursor:pointer}
-  .gcash svg{flex:0 0 22px}
-  .soc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-  .btn.fb{background:var(--blue);color:#fff}
-  .btn.dc{background:var(--discord);color:#fff}
-  /* Notice */
-  .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 18px rgba(0,0,0,.25)}
-  .notice h4{margin:0 0 6px;font-size:14px}
-  .notice p{margin:0;color:var(--mut);font-size:13px}
-  /* Footer owner */
-  .owner{margin-top:14px;display:flex;gap:10px;align-items:center;justify-content:center;padding:10px 12px;border-radius:14px;background:linear-gradient(180deg,#131218,#0d0c12);border:1px solid rgba(255,255,255,.12);box-shadow:0 0 18px rgba(0,0,0,.25);font-weight:800}
-  .owner a{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-  .ownerName{letter-spacing:.3px}
-  .metaBadge{width:22px;height:22px;display:inline-block;filter: drop-shadow(0 0 10px rgba(24,119,242,.45))}
-  /* Popup */
-  #buyPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
-  .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
+:root{
+  --red:#ff004d;
+  --bg:#0a070a;
+  --panel:#140d12;
+  --text:#fff;
+  --green:#2bd67b;
+  --blue:#1877f2;
+  --dc:#5865F2;
+}
+body{
+  background: radial-gradient(circle at center,#2b0010,#0a070a 65%);
+  margin:0;font-family:Poppins;color:var(--text);text-align:center;
+}
+.wrap{max-width:700px;margin:auto;padding:14px;}
+
+.logo{
+  width:160px;height:160px;border-radius:50%;
+  margin:0 auto 12px;position:relative;
+  display:grid;place-items:center;
+  background:radial-gradient(circle,#000 40%,#2b0010 100%);
+  box-shadow:0 0 60px rgba(255,0,70,.45);
+}
+.logo img{
+  width:72%;border-radius:50%;
+  filter:drop-shadow(0 0 14px rgba(255,0,90,.5));
+}
+
+.title{font-size:22px;font-weight:700;margin:6px 0 18px;}
+
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.card{background:var(--panel);padding:12px;border-radius:16px;border:1px solid rgba(255,80,120,.25);}
+.card div:first-child{font-weight:700;font-size:22px;}
+.card div:last-child{font-size:12px;opacity:.85;margin-top:4px;}
+
+.inputBox{background:var(--panel);padding:14px;border-radius:16px;margin-bottom:10px;}
+.inp{width:100%;padding:12px;border-radius:10px;border:none;background:#000;color:#fff;font-size:18px;text-align:center;}
+
+.rateSave{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+.box{background:var(--panel);padding:10px;border-radius:14px;font-size:16px;}
+.saveBox{background:#052d00;border:1px solid #27ff7c;}
+
+.buyBtn{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:var(--green);font-size:20px;font-weight:700;color:#000;margin:10px 0;
+}
+
+.payBox{background:var(--panel);padding:14px;border-radius:16px;margin-top:14px;}
+.gcash{padding:12px;border-radius:12px;font-weight:700;background:#111;border:1px solid var(--blue);color:#fff;}
+.socRow{display:flex;gap:10px;margin-top:12px;}
+.socBtn{flex:1;padding:12px;border-radius:12px;border:none;color:#fff;font-weight:700;}
+.fb{background:var(--blue);}
+.dc{background:var(--dc);}
+
+.notice{
+  margin-top:14px;background:#0c0b0d;padding:14px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);font-size:14px;line-height:1.4;
+}
+
+.owner{margin-top:18px;font-size:16px;display:flex;justify-content:center;gap:8px;align-items:center;opacity:.9;}
+.owner img{width:18px;height:18px;}
 </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
+<div class="wrap">
 
-    <div class="logoWrap">
-      <div class="logo">
-        <div class="ring"></div>
-        <img src="logo.png" alt="Logo">
-      </div>
-    </div>
+  <div class="logo"><img src="logo.png"></div>
 
-    <!-- Tiers -->
-    <div class="row prices">
-      <div id="pill80" class="pill">
-        <div class="pval">₱0.80</div>
-        <div class="ptxt">min 1000 💎</div>
-      </div>
-      <div id="pill75" class="pill">
-        <div class="pval">₱0.75</div>
-        <div class="ptxt">min 4000 💎</div>
-      </div>
-      <div id="pill70" class="pill">
-        <div class="pval">₱0.70</div>
-        <div class="ptxt">min 8000 💎</div>
-      </div>
-    </div>
+  <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
 
-    <!-- Inputs -->
-    <div class="section">
-      <div class="label">Enter Diamonds 💎</div>
-      <input id="dias" class="in" inputmode="numeric" autocomplete="off" placeholder="e.g. 1500">
-      <div class="label" style="margin-top:10px">ENTER PHP ₱</div>
-      <input id="phpIn" class="in" inputmode="decimal" autocomplete="off" placeholder="e.g. 500.00">
-      <div id="warn" class="warn">Minimum 1000 💎 required.</div>
+  <div class="prices">
+    <div class="card"><div>₱0.80</div><div>min 1000 💎</div></div>
+    <div class="card"><div>₱0.75</div><div>min 4000 💎</div></div>
+    <div class="card"><div>₱0.70</div><div>min 8000 💎</div></div>
+  </div>
 
-      <div class="grid2">
-        <div class="box">
-          <h5>Rate</h5>
-          <div id="rateOut" class="rateOut">—</div>
-        </div>
-        <div class="box saveBox">
-          <h5>Save</h5>
-          <div id="saveOut" class="saveOut">—</div>
-        </div>
-      </div>
-    </div>
+  <div class="inputBox">
+    <div>Enter Diamonds 💎</div>
+    <input id="dias" class="inp" placeholder="e.g. 1500">
+  </div>
 
-    <!-- Buy -->
-    <button id="buyBtn" class="btn buy" disabled>💎 Buy</button>
-    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
+  <div class="inputBox">
+    <div>ENTER PHP ₱</div>
+    <input id="php" class="inp" placeholder="e.g. 500.00">
+  </div>
 
-    <!-- Payment + socials -->
-    <div class="pay">
-      <div id="gcashRow" class="gcash" title="Tap to open GCash • number auto-copied">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="2.8" y="6" width="18.4" height="12" rx="3" fill="#1877f2"/>
-          <rect x="13.2" y="9" width="7" height="6" rx="1.4" fill="#0f5bd7"/>
-          <circle cx="17.2" cy="12" r="1.2" fill="#fff"/>
-          <text x="7.2" y="14.7" font-size="7.6" fill="#fff" font-family="Poppins, Arial" font-weight="700">₱</text>
-        </svg>
-        GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong>
-      </div>
+  <div class="rateSave">
+    <div class="box" id="rateBox">Rate —</div>
+    <div class="box saveBox" id="saveBox">Save —</div>
+  </div>
 
-      <div class="soc">
-        <button id="fbBtn" class="btn fb">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
-          </svg>
-          FB FEEDBACK
-        </button>
-        <button id="dcBtn" class="btn dc">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/>
-          </svg>
-          DISCORD FEEDBACK
-        </button>
-      </div>
-    </div>
+  <button class="buyBtn" id="buyBtn">💎 Buy</button>
 
-    <!-- Waiting Time Notice -->
-    <div class="notice">
-      <h4>⏳ Waiting Time Notice</h4>
-      <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
-    </div>
-
-    <!-- Owner -->
-    <div class="owner">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
-        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
-      </svg>
-      <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
-        <span class="ownerName">MOISES TRAJANO BITONIO</span>
-        <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs>
-          <circle cx="12" cy="12" r="10" fill="url(#g)"/>
-          <path d="M9.2 12.6l-1.7-1.7a1 1 0 10-1.4 1.4l2.4 2.4c.4.4 1 .4 1.4 0l6.1-6.1a1 1 0 10-1.4-1.4l-5.4 5.4z" fill="#fff"/>
-        </svg>
-      </a>
+  <div class="payBox">
+    <button class="gcash" id="gcashBtn">GCash • 09162466318 — MOISES B.</button>
+    <div class="socRow">
+      <button class="socBtn fb" id="fbBtn">📘 FACEBOOK FEEDBACK</button>
+      <button class="socBtn dc" id="dcBtn">🟣 DISCORD FEEDBACK</button>
     </div>
   </div>
 
-  <!-- BUY Popup -->
-  <div id="buyPopup">
-    <div class="cardPop">
-      <h3>Copied ✔</h3>
-      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
-      <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
-    </div>
+  <div class="notice">
+    ⏳ <b>Waiting Time Notice</b><br>
+    Processing time may vary depending on server demand.  
+    Some servers might experience longer wait times — pero <b>guaranteed matatanggap mo</b>.
   </div>
+
+  <div class="owner">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
+    <span>MOISES TRAJANO BITONIO</span>
+    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">
+  </div>
+
+</div>
 
 <script>
-  /* Links */
-  const FB_URL = 'https://www.facebook.com/share/1FWLHh32iE/';
-  const DC_URL = 'https://discord.gg/QkdVz5mh';
+// Tier rules
+function getRate(q){
+  if(q>=8000) return 0.70;
+  if(q>=4000) return 0.75;
+  if(q>=1000) return 0.80;
+  return null;
+}
 
-  /* Helpers */
-  const $ = id => document.getElementById(id);
-  const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
-  const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
-  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
-  const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+// Elements
+const dias = document.getElementById("dias");
+const php  = document.getElementById("php");
+const rateBox = document.getElementById("rateBox");
+const saveBox = document.getElementById("saveBox");
 
-  const MIN1=1000, MIN2=4000, MIN3=8000;
-  const T1=0.80, T2=0.75, T3=0.70;
+// Compute
+function calc(){
+  let d = parseInt(dias.value)||0;
+  let p = parseFloat(php.value)||0;
 
-  function getRate(q){
-    if(!q || q<MIN1) return null;
-    if(q<MIN2) return T1;
-    if(q<MIN3) return T2;
-    return T3;
+  if(d>0 && p===0){
+    let r=getRate(d);
+    if(r){php.value=(d*r).toFixed(2);}
+  }
+  if(p>0 && d===0){
+    let tryd = Math.floor(p/0.80);
+    let r=getRate(tryd);
+    dias.value = Math.floor(p/(r||0.80));
   }
 
-  function estimateFromPHP(p){
-    if(!p||p<=0) return 0;
-    let q = Math.floor(p/T1);
-    for(let i=0;i<4;i++){
-      const r = getRate(q) ?? T1;
-      q = Math.floor(p/r);
-    }
-    return q;
-  }
+  d=parseInt(dias.value)||0; r=getRate(d);
+  if(!r){rateBox.textContent="Rate —";saveBox.textContent="Save —";return;}
+  rateBox.textContent="Rate ₱"+r.toFixed(2)+" / dia";
 
-  function paintPills(q, r){
-    const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
-    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
-    if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
-    if(q<MIN2) p75.classList.add('lock');
-    if(q<MIN3) p70.classList.add('lock');
-    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
-  }
+  let base = d*0.80, total=d*r, save=base-total;
+  saveBox.textContent="Save ₱"+save.toFixed(2)+" ("+((save/base)*100).toFixed(1)+"%)";
+}
+dias.oninput=calc; php.oninput=calc;
 
-  const diasEl=$('dias'), phpEl=$('phpIn'), rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
-  let lastEdited=null; // 'd' or 'p'
-
-  function recalc(){
-    let q = toInt(diasEl.value);
-    let p = toNum(phpEl.value);
-
-    if(lastEdited==='p'){ // PHP -> dias
-      q = estimateFromPHP(p);
-      diasEl.value = q ? String(q) : '';
-    }else if(lastEdited==='d'){ // dias -> PHP
-      const r = getRate(q);
-      phpEl.value = (r && q) ? fmt(q*r) : '';
-    }else{
-      if(!q && p){ q = estimateFromPHP(p); diasEl.value = q?String(q):''; }
-      if(q && !p){ const r=getRate(q); phpEl.value = r?fmt(q*r):''; }
-    }
-
-    const r=getRate(q);
-    paintPills(q,r);
-
-    const ok = q>=MIN1 && !!r;
-    warn.style.display = ok ? 'none' : 'block';
-    buyBtn.disabled = !ok;
-
-    if(r && q){
-      rateOut.textContent = `₱${r.toFixed(2)} / dia`;
-      const base=q*T1, saveAmt=Math.max(0, base-(q*r));
-      const savePct=Math.max(0,(1-r/T1)*100);
-      saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
-    }else{
-      rateOut.textContent='—'; saveOut.textContent='—';
-    }
-  }
-
-  ['input','change','keyup'].forEach(ev=>{
-    diasEl.addEventListener(ev, ()=>{ lastEdited='d'; recalc(); }, {passive:true});
-    phpEl.addEventListener(ev,  ()=>{ lastEdited='p'; recalc(); }, {passive:true});
-  });
-  recalc();
-
-  // Buy: copy + popup
-  buyBtn.addEventListener('click', async ()=>{
-    let q = toInt(diasEl.value);
-    let p = toNum(phpEl.value);
-    if(!q && p) q = estimateFromPHP(p);
-    const r = getRate(q);
-    if(!r){ alert('Minimum 1000 💎 required.'); return; }
-    const total = p || (q*r);
-    const msg = `BUY ORDER
-Diamonds: ${q} 💎
+// Buy Copy
+document.getElementById("buyBtn").onclick=()=>{
+  calc();
+  let d=parseInt(dias.value)||0, r=getRate(d);
+  if(!r) return alert("Minimum 1000 💎");
+  let t=(d*r).toFixed(2);
+  navigator.clipboard.writeText(
+`BUY ORDER
+Diamonds: ${d} 💎
 Rate: ₱${r.toFixed(2)} / dia
-Total: ₱${fmt(total)}
-GCash: 09162466318 (MOISES B.)`;
-    try{ await navigator.clipboard.writeText(msg); }catch{}
-    document.getElementById('buyPopup').style.display='grid';
-  });
-  document.getElementById('closePop').onclick=()=>document.getElementById('buyPopup').style.display='none';
+Total: ₱${t}
+GCash: 09162466318 (MOISES B.)`);
+  alert("✔️ I-Paste mo ito sa Messenger ko.");
+};
 
-  // Social links (fixed)
-  document.getElementById('fbBtn').addEventListener('click', ()=> window.open(FB_URL,'_blank','noopener'));
-  document.getElementById('dcBtn').addEventListener('click', ()=> window.open(DC_URL,'_blank','noopener'));
+// GCash Express Send
+document.getElementById("gcashBtn").onclick=()=>{
+  window.location.href = "gcash://send?phone=09162466318";
+};
 
-  // GCash: copy number + try open app, else store page
-  (function(){
-    const MOBILE='09162466318', PKG='com.globe.gcash.android';
-    const PLAY='https://play.google.com/store/apps/details?id='+PKG, APPLE='https://apps.apple.com/app/id520020791';
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    function toast(t){
-      const d=document.createElement('div'); d.textContent=t;
-      Object.assign(d.style,{position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',background:'rgba(0,0,0,.85)',color:'#fff',padding:'10px 14px',borderRadius:'12px',fontWeight:'800',zIndex:9999});
-      document.body.appendChild(d); setTimeout(()=>d.remove(),1800);
-    }
-    async function copyNum(){ try{ await navigator.clipboard.writeText(MOBILE);}catch{} }
-    $('gcashRow').addEventListener('click', async ()=>{
-      await copyNum();
-      toast('Number copied. Opened GCash — go to Express Send and paste.');
-      const scheme='gcash://'; window.location.href=scheme;
-      setTimeout(()=>{ if(document.visibilityState==='visible'){ window.location.href = isIOS? APPLE : PLAY; } }, 1200);
-    });
-  })();
+// Links
+document.getElementById("fbBtn").onclick=()=>window.open("https://www.facebook.com/share/1FWLHh32iE/","_blank");
+document.getElementById("dcBtn").onclick=()=>window.open("https://discord.gg/QkdVz5mh","_blank");
 </script>
+
 </body>
 </html>
