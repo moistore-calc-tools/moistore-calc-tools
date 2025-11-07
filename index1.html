@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moistore Calc Tool</title>
+<style>
+body { font-family: Arial; padding: 15px; background: #111; color: #fff; }
+input, button { width:100%; padding:10px; margin-top:10px; border-radius:6px; border:none; }
+input { background:#222; color:#fff; }
+button { background:#00aaff; color:#fff; font-size:16px; font-weight:bold; }
+h2 { text-align:center; }
+</style>
+</head>
+<body>
+
+<h2>💎 Moistore Calc Tools</h2>
+
+<input id="dias" type="number" placeholder="Input Diamonds">
+
+<h3>Price Table (Editable)</h3>
+<input id="p800" type="number" value="800" placeholder="Normal 1-3000">
+<input id="p750" type="number" value="750" placeholder="Retail 4000-7000">
+<input id="p700" type="number" value="700" placeholder="Bulk 8000+">
+
+<h3>Supplier Cost</h3>
+<input id="rmb" type="number" value="80" placeholder="RMB per 1000">
+<input id="rate" type="number" value="8.4" placeholder="RMB to PHP rate">
+
+<button onclick="calc()">CALCULATE</button>
+
+<p id="output"></p>
+
+<script>
+function calc(){
+let d = Number(dias.value),
+n = Number(p800.value), r = Number(p750.value), b = Number(p700.value),
+s = Number(rmb.value) * Number(rate.value);
+
+let price = d >= 8000 ? b : d >= 4000 ? r : n;
+let sell = (d/1000) * price;
+let cost = (d/1000) * s;
+let profit = sell - cost;
+
+output.innerHTML =
+"Selling: " + sell.toFixed(2) + " PHP<br>" +
+"Supplier: " + cost.toFixed(2) + " PHP<br>" +
+"Profit: ✅ " + profit.toFixed(2) + " PHP";
+}
+</script>
+
+</body>
+</html>
