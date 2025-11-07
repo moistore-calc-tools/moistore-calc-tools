@@ -41,7 +41,43 @@
   @keyframes spark{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
 
   .wrap{max-width:760px;margin:auto;padding:16px 14px 120px}
-  .title{display:flex;gap:10px;justify-content:center;font-weight:800;font-size:22px;letter-spacing:.4px;margin:2px 0 8px;text-shadow:0 0 10px rgba(255,70,120,.25)}
+
+  /* Title (base) */
+  .title{display:flex;gap:10px;justify-content:center;font-weight:800;letter-spacing:.4px;margin:2px 0 8px;text-shadow:0 0 10px rgba(255,70,120,.25)}
+  /* Dancing title upgrade */
+  .danceTitle{
+    position:relative; display:flex; gap:2px; justify-content:center; flex-wrap:wrap;
+  }
+  .danceTitle .char{
+    display:inline-block;
+    font-size:clamp(18px, 6vw, 28px);
+    font-weight:900;
+    animation:jump 1.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.06s);
+    filter: drop-shadow(0 0 8px rgba(255,60,110,.25));
+    will-change: transform, text-shadow;
+  }
+  .danceTitle .char.glow{
+    text-shadow:
+      0 0 8px rgba(255,80,140,.35),
+      0 0 18px rgba(255,40,100,.22);
+  }
+  @keyframes jump{
+    0%,100%{ transform: translateY(0) scale(1); }
+    30%{    transform: translateY(-6px) scale(1.04); }
+    60%{    transform: translateY(0) scale(1); }
+  }
+  .danceTitle::after{
+    content:""; pointer-events:none; position:absolute; inset:0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+    transform:skewX(-20deg) translateX(-120%);
+    animation:shimmer 2.8s linear infinite;
+  }
+  @keyframes shimmer{ to{ transform:skewX(-20deg) translateX(120%); } }
+  @media (prefers-reduced-motion: reduce){
+    .danceTitle .char{ animation:none }
+    .danceTitle::after{ animation:none }
+  }
 
   /* Logo */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
@@ -188,9 +224,10 @@
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
+  <!-- Dancing Title -->
+  <div id="pageTitle" class="title danceTitle">LEGEND OF YMIR DIAMOND 💎</div>
 
+  <div class="wrap">
     <div class="logoWrap">
       <div class="logo" id="secretLogo">
         <div class="ring"></div>
@@ -337,4 +374,307 @@
           <strong id="t_id">—</strong>
           <span id="t_status" style="opacity:.9"></span>
         </div>
-       
+        <div style="display:grid;gap:6px;font-size:14px;color:#ccb9c1">
+          <div>Server: <span id="t_server" style="color:#fff"></span></div>
+          <div>Diamonds: <span id="t_qty" style="color:#fff"></span> 💎</div>
+          <div>Rate: <span id="t_rate" style="color:#fff"></span></div>
+          <div>Total: <span id="t_total" style="color:#fff"></span></div>
+          <div>Created: <span id="t_time" style="color:#fff"></span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1" onclick="onPaid()">Buyer: I Paid</button>
+          <!-- Delivered is secret: 6 taps on logo -->
+        </div>
+        <div class="hint" style="margin-top:6px">
+          Tip: Buyer taps <b>I Paid</b> after sending payment. (Local tracking only)
+        </div>
+      </div>
+      <div id="trackNone" class="hint" style="display:none;margin-top:8px">Walang record sa device na ’to. Note: Tracking works on the same phone/browser (local only).</div>
+    </div>
+  </div>
+
+  <!-- BUY Popup -->
+  <div id="buyPopup">
+    <div class="cardPop">
+      <h3>Copied ✔</h3>
+      <p id="buyMsg"><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+      <div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div>
+      <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeBuy()">OK</button>
+    </div>
+  </div>
+
+  <!-- GCash Copied Popup -->
+  <div id="gcashPopup">
+    <div class="cardPop">
+      <h3>GCash number copied ✔</h3>
+      <p><strong>09162466318 — MOISES B.</strong><br>Paste sa GCash Express Send.</p>
+      <button id="gcashOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeGCash()">OK</button>
+    </div>
+  </div>
+
+  <!-- GCash QR Popup -->
+  <div id="qrPopup">
+    <div class="cardPop">
+      <h3>GCash QR</h3>
+      <p>Scan to pay • <strong>MOISES B.</strong></p>
+      <img src="gcash-qr.png" alt="GCash QR" class="qrImg">
+      <div style="margin-top:12px">
+        <button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeQR()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GoTyme QR Popup -->
+  <div id="gyPopup">
+    <div class="cardPop">
+      <h3>GoTyme QR</h3>
+      <p>Scan to pay • <strong>MOISES BITONIO</strong><br><small>Acct: 014664932955</small></p>
+      <img src="gotyme-qr.png" alt="GoTyme QR" class="qrImg">
+      <div style="margin-top:12px">
+        <button class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeGoTymeQR()">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ===== Helpers ===== */
+const $ = id => document.getElementById(id);
+const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
+const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
+const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
+const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+
+const MIN1=1000, MIN2=4000, MIN3=8000;
+const T1=0.80, T2=0.75, T3=0.70;
+
+function getRate(q){
+  if(!q || q<MIN1) return null;
+  if(q<MIN2) return T1;
+  if(q<MIN3) return T2;
+  return T3;
+}
+function estimateFromPHP(p){
+  if(!p||p<=0) return 0;
+  let q = Math.floor(p/T1);
+  for(let i=0;i<4;i++){
+    const r = getRate(q) ?? T1;
+    q = Math.floor(p/r);
+  }
+  return q;
+}
+
+/* ===== Dynamic glows + compute ===== */
+let lastEdited=null;
+
+function paintPills(q, r){
+  const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
+  [p80,p75,p70].forEach(p=>p.classList.remove('flexGlow','popularGlow','flame','lock'));
+
+  if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
+  if(q<MIN2) p75.classList.add('lock');
+  if(q<MIN3) p70.classList.add('lock');
+
+  if (q>=MIN1 && q<MIN2){ p80.classList.add('flexGlow'); }
+  else if (q>=MIN2 && q<MIN3){ p75.classList.add('popularGlow'); }
+  else if (q>=MIN3){ p70.classList.add('flame'); }
+}
+
+function recalc(){
+  const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
+  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
+
+  let q = toInt(diasEl.value);
+  let p = toNum(phpEl.value);
+
+  if(lastEdited==='p'){
+    q = estimateFromPHP(p);
+    diasEl.value = q ? String(q) : '';
+  }else if(lastEdited==='d'){
+    const r = getRate(q);
+    phpEl.value = (r && q) ? fmt(q*r) : '';
+  }else{
+    if(!q && p){ q = estimateFromPHP(p); diasEl.value = q?String(q):''; }
+    if(q && !p){ const r=getRate(q); phpEl.value = r?fmt(q*r):''; }
+  }
+
+  const r=getRate(q);
+  paintPills(q,r);
+
+  const ok = q>=MIN1 && !!r;
+  const serverOK = (serverEl.value || '').trim().length>0;
+
+  warn.style.display = ok ? 'none' : 'block';
+  buyBtn.disabled = !(ok && serverOK);
+
+  if(r && q){
+    rateOut.textContent = `₱${r.toFixed(2)} / dia`;
+    const base=q*T1, saveAmt=Math.max(0, base-(q*r));
+    const savePct=Math.max(0,(1-r/T1)*100);
+    saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
+  }else{
+    rateOut.textContent='—'; saveOut.textContent='—';
+  }
+}
+
+/* Inputs */
+function onDiasInput(){ lastEdited='d'; recalc(); }
+function onPhpInput(){ lastEdited='p'; recalc(); }
+
+/* ===== Order store (local) ===== */
+const ORDERS_KEY = 'ymir_orders_v2';
+function loadOrders(){ try{ return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]'); }catch{ return []; } }
+function saveOrders(list){ try{ localStorage.setItem(ORDERS_KEY, JSON.stringify(list)); }catch(e){} }
+function genOrderId(){ const n = Math.floor(10000 + Math.random()*90000); return `MB-STORE-${n}`; }
+
+/* ===== Track ===== */
+function findOrder(id){
+  id = (id||'').trim().toUpperCase();
+  const list = loadOrders();
+  return list.find(o => String(o.id).toUpperCase() === id) || null;
+}
+function renderOrder(o){
+  const trackOut=$('trackOut'), trackNone=$('trackNone');
+  const t_id=$('t_id'), t_status=$('t_status'), t_server=$('t_server'), t_qty=$('t_qty'), t_rate=$('t_rate'), t_total=$('t_total'), t_time=$('t_time');
+  if(!o){ trackOut.style.display='none'; trackNone.style.display='block'; return; }
+  t_id.textContent = o.id;
+  t_status.textContent = `• ${o.status}`;
+  t_server.textContent = o.server;
+  t_qty.textContent = o.qty;
+  t_rate.textContent = `₱${o.rate.toFixed(2)} / dia`;
+  t_total.textContent = `₱${fmt(o.total)}`;
+  t_time.textContent = new Date(o.created).toLocaleString();
+  trackNone.style.display='none';
+  trackOut.style.display='block';
+}
+function updateStatus(id, status){
+  const list = loadOrders();
+  const idx = list.findIndex(o => o.id === id);
+  if(idx>=0){ list[idx].status = status; saveOrders(list); return list[idx]; }
+  return null;
+}
+function onTrack(){ renderOrder(findOrder($('trackIn').value)); }
+function onPaid(){
+  const id = $('t_id').textContent.trim();
+  if(!id){ toast("Walang active order."); return; }
+  const o = updateStatus(id,'Processing');
+  if(o){ renderOrder(o); toast("Payment marked: Processing ✅"); chime(); }
+}
+
+/* ===== Buy ===== */
+async function onBuyClick(){
+  const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
+  let q = toInt(diasEl.value);
+  let p = toNum(phpEl.value);
+  if(!q && p) q = estimateFromPHP(p);
+  const r = getRate(q);
+  if(!r){ alert('Minimum 1000 💎 required.'); return; }
+  const server = (serverEl.value || '').trim();
+  if(!server){ alert('Please enter your server (required).'); return; }
+
+  const total = p || (q*r);
+  const orderId = genOrderId();
+
+  const msg = `BUY ORDER
+Order ID: ${orderId}
+Server: ${server}
+Diamonds: ${q} 💎
+Rate: ₱${r.toFixed(2)} / dia
+Total: ₱${fmt(total)}
+GCash: 09162466318 (MOISES B.)
+GoTyme: 014664932955 (MOISES BITONIO)`;
+
+  const orders = loadOrders();
+  const newOrder = { id: orderId, server, qty: q, rate: r, total, status: 'Pending Payment', created: Date.now() };
+  orders.unshift(newOrder);
+  saveOrders(orders);
+
+  try{ await navigator.clipboard.writeText(msg); }catch(e){}
+
+  $('buyOrderId').textContent = `Order ID: ${orderId}`;
+  openBuy();
+
+  $('trackIn').value = orderId;
+  renderOrder(newOrder);
+  document.querySelector('.track').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ===== Popups ===== */
+function openBuy(){ $('buyPopup').style.display='grid'; }
+function closeBuy(){ $('buyPopup').style.display='none'; }
+function onGCashRowClick(e){
+  if (e.target && e.target.closest('#showQR')) return;
+  const MOBILE='09162466318';
+  navigator.clipboard && navigator.clipboard.writeText(MOBILE).catch(()=>{});
+  $('gcashPopup').style.display='grid';
+}
+function closeGCash(){ $('gcashPopup').style.display='none'; }
+function openQR(e){ e && e.stopPropagation(); $('qrPopup').style.display='grid'; }
+function closeQR(){ $('qrPopup').style.display='none'; }
+
+/* GoTyme handlers */
+function onGoTymeRowClick(e){
+  if (e.target && e.target.closest('#showGY')) return;
+  const NUM='014664932955 — MOISES BITONIO';
+  navigator.clipboard && navigator.clipboard.writeText(NUM).catch(()=>{});
+  toast('GoTyme number copied ✔');
+}
+function openGoTymeQR(ev){ ev && ev.stopPropagation(); document.getElementById('gyPopup').style.display='grid'; }
+function closeGoTymeQR(){ document.getElementById('gyPopup').style.display='none'; }
+
+/* Secret Delivered: 6 taps on logo */
+(function secretLogoDeliver(){
+  const logo = $('secretLogo'); if(!logo) return;
+  let taps = 0, resetTimer = null;
+  logo.addEventListener("click", ()=>{
+    taps++;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(()=>{ taps = 0; }, 1500);
+    if(taps >= 6){
+      taps = 0;
+      const id = $('t_id')?.textContent?.trim();
+      if(!id){ toast("Wala pang active order."); return; }
+      const order = updateStatus(id, "Delivered");
+      if(order){ renderOrder(order); chime(); toast("✅ Order marked as Delivered"); }
+    }
+  });
+})();
+
+/* Toast + chime */
+function toast(msg){
+  const t=document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style,{position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',background:'rgba(0,0,0,.85)',color:'#fff',padding:'10px 14px',borderRadius:'12px',fontWeight:'800',zIndex:10000,boxShadow:'0 10px 30px rgba(0,0,0,.35)'});
+  document.body.appendChild(t); setTimeout(()=>t.remove(),1800);
+}
+function chime(){
+  try{
+    const a = new (window.AudioContext||window.webkitAudioContext)(), o=a.createOscillator(), g=a.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(660,a.currentTime);
+    g.gain.setValueAtTime(0.0001,a.currentTime); g.gain.exponentialRampToValueAtTime(0.22,a.currentTime+0.02);
+    o.connect(g).connect(a.destination); o.start();
+    o.frequency.exponentialRampToValueAtTime(990, a.currentTime+0.18);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+0.28);
+    o.stop(a.currentTime+0.30);
+  }catch(e){}
+}
+
+/* Make the title dance: split into letters with staggered delays */
+(function(){
+  const el = document.getElementById('pageTitle');
+  if(!el) return;
+  const text = el.textContent;
+  el.textContent = '';
+  [...text].forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.className = 'char glow';
+    span.style.setProperty('--i', i.toString());
+    span.textContent = ch;
+    el.appendChild(span);
+  });
+})();
+
+/* Initial compute */
+document.addEventListener('DOMContentLoaded', ()=>{ try{ recalc(); }catch(_){ } });
+</script>
+</body>
+</html>
