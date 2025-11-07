@@ -4,129 +4,215 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Legend of Ymir – Diamond Price Calculator</title>
-
+<link rel="icon" href="./logo.png" />
 <style>
 :root{
-  --bg:#ffffff;
-  --text:#111111;
-  --accent:#cc0000;
-  --card:#f4f4f4;
-  --line:#dddddd;
+  --bg:#000000;
+  --card:#0f0f0f;
+  --line:#1f1f1f;
+  --text:#ffffff;
+  --muted:#cfcfcf;
+  --accent:#ff2b2b;
 }
+
+/* Base */
 *{box-sizing:border-box}
+html,body{height:100%}
 body{
-  margin:0;font-family:Arial, sans-serif;background:var(--bg);color:var(--text);
+  margin:0; font-family:system-ui,Arial,sans-serif; color:var(--text);
+  /* Deep black w/ animated dark-red glow (neon style) */
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(255,0,40,0.14), transparent 60%),
+    radial-gradient(700px 400px at -10% 110%, rgba(255,0,40,0.12), transparent 60%),
+    radial-gradient(800px 500px at 110% 120%, rgba(255,0,40,0.10), transparent 60%),
+    #000;
+  animation: glow 10s ease-in-out infinite alternate;
+  background-size: 100% 100%;
 }
-.wrap{
-  max-width:720px;margin:0 auto;padding:20px;
+@keyframes glow {
+  0% { filter: none; }
+  50% { filter: brightness(1.04); }
+  100% { filter: none; }
 }
-h1{
-  text-align:center;font-weight:800;color:var(--accent);
-  text-shadow:0px 0px 6px rgba(255,0,0,0.6);
-}
+
+.wrap{max-width:760px;margin:0 auto;padding:20px}
 .card{
-  background:var(--card);
-  border:1px solid var(--line);
-  padding:16px;border-radius:14px;margin-top:14px;
+  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px;
+  box-shadow:0 0 30px rgba(255,0,0,0.12) inset, 0 0 10px rgba(255,0,0,0.10);
 }
+
+/* Logo + title */
+.logo-wrap{
+  display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:6px; margin-bottom:10px;
+}
+.logo{
+  width:120px; height:120px; object-fit:cover; border-radius:50%;
+  /* extra glow para match sa neon circle */
+  box-shadow:
+    0 0 0 4px rgba(255,0,80,0.45),
+    0 0 22px rgba(255,0,80,0.65),
+    0 0 60px rgba(255,0,40,0.45);
+}
+.title{
+  text-align:center; font-size:24px; font-weight:900; letter-spacing:.2px;
+  background:linear-gradient(90deg,#fff,#ffd6d6,#fff);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow: 0 0 10px rgba(255,0,60,0.45), 0 0 22px rgba(255,0,60,0.25);
+  animation: shine 4.5s linear infinite;
+}
+@keyframes shine{
+  0%{ filter: drop-shadow(0 0 0 rgba(255,0,0,.8)); }
+  50%{ filter: drop-shadow(0 0 10px rgba(255,0,0,.95)); }
+  100%{ filter: drop-shadow(0 0 0 rgba(255,0,0,.8)); }
+}
+
+/* UI */
 .grid{display:grid;gap:12px}
 .kpi{
-  padding:14px;text-align:center;background:white;border:1px solid var(--line);
-  border-radius:12px;
+  background:#111; border:1px solid var(--line); border-radius:14px; padding:14px; text-align:center;
+  box-shadow:0 0 12px rgba(255,0,0,0.16);
 }
-.kpi .label{font-size:13px;color:#555}
-.kpi .val{font-size:22px;font-weight:800;color:var(--accent)}
+.kpi .label{font-size:12px; color:var(--muted)}
+.kpi .val{font-size:22px; font-weight:800; color:#fff; text-shadow:0 0 8px rgba(255,0,0,.6), 0 0 18px rgba(255,0,0,.22)}
 
+.note{font-size:13px; color:var(--muted)}
 input{
-  width:100%;padding:14px;font-size:18px;border:1px solid var(--line);
-  border-radius:12px;outline:none;background:white;color:var(--text);
+  width:100%; padding:14px; font-size:18px; border-radius:12px; outline:none;
+  background:#0c0c0c; color:#fff; border:1px solid var(--line);
+  box-shadow:0 0 10px rgba(255,0,0,0.08) inset;
 }
 pre{
-  background:white;border:1px solid var(--line);padding:12px;border-radius:12px;
-  white-space:pre-wrap;font-size:15px;
+  background:#0c0c0c; border:1px solid var(--line); padding:12px; border-radius:12px; margin:0;
+  font-size:18px; color:#fff; text-align:center;
+  text-shadow:0 0 8px rgba(255,0,0,.5);
 }
 button{
-  margin-top:8px;width:100%;padding:12px;font-weight:700;border:0;border-radius:12px;
-  background:var(--accent);color:white;font-size:16px;cursor:pointer;
+  width:100%; padding:12px 16px; border:0; border-radius:12px; font-weight:800; font-size:16px;
+  background:var(--accent); color:#fff; cursor:pointer;
+  box-shadow:0 0 14px rgba(255,0,0,0.55);
 }
-button:hover{filter:brightness(1.1)}
+button:hover{filter:brightness(1.08)}
+
+.pay{
+  display:flex; align-items:center; gap:12px; font-weight:700;
+  background:#101010; padding:12px; border-radius:12px; border:1px solid var(--line);
+  box-shadow:0 0 10px rgba(255,0,0,.18) inset;
+}
+.pay .tag{
+  background:#b40000; color:#fff; padding:6px 10px; border-radius:999px; font-size:12px;
+  box-shadow:0 0 10px rgba(255,0,0,0.45);
+}
 </style>
 </head>
 
 <body>
 <div class="wrap">
-  <h1>💎 Legend of Ymir – Diamond Price Calculator</h1>
 
+  <!-- Logo + Title -->
+  <div class="logo-wrap">
+    <img src="./logo.png" alt="Logo" class="logo" />
+    <div class="title">Legend of Ymir – Diamond Price Calculator</div>
+  </div>
+
+  <!-- Locked price table -->
   <section class="card">
-    <div style="font-size:13px;color:#888;">Price Table (Locked)</div>
+    <div class="note" style="text-shadow:0 0 6px rgba(255,0,0,.5);">Price Table (Locked)</div>
     <div class="grid" style="grid-template-columns:repeat(3,1fr); margin-top:8px">
-      <div class="kpi"><div class="label">1–3000</div>    <div class="val" id="r3000">—</div></div>
-      <div class="kpi"><div class="label">4000–7000</div> <div class="val" id="r7000">—</div></div>
-      <div class="kpi"><div class="label">8000+</div>     <div class="val" id="r8000">—</div></div>
+      <div class="kpi"><div class="label">1–3000</div><div class="val" id="r3000">—</div></div>
+      <div class="kpi"><div class="label">4000–7000</div><div class="val" id="r7000">—</div></div>
+      <div class="kpi"><div class="label">8000+</div><div class="val" id="r8000">—</div></div>
     </div>
-    <div style="font-size:13px;color:#555;margin-top:6px">Minimum: <span id="min">—</span> dias</div>
+    <div class="note" style="margin-top:6px">Minimum: <span id="min">—</span> dias</div>
   </section>
 
-  <section class="card">
-    <label style="font-size:14px;color:#555;">Enter Diamonds</label>
-    <input id="qty" type="number" placeholder="e.g. 1500" oninput="calc()" />
+  <!-- Quantity -->
+  <section class="card" style="margin-top:12px">
+    <label class="note" style="text-shadow:0 0 6px rgba(255,0,0,.45)">Enter Diamonds</label>
+    <input id="qty" type="number" placeholder="e.g. 1500" inputmode="numeric" oninput="calc()" />
   </section>
 
-  <section class="card">
-    <div class="grid" style="grid-template-columns:1fr 1fr;">
-      <div class="kpi"><div class="label">Tier Rate</div><div class="val" id="rate">—</div></div>
-      <div class="kpi"><div class="label">Total Price</div><div class="val" id="sell">—</div></div>
+  <!-- Results -->
+  <section class="card" style="margin-top:12px">
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div class="kpi">
+        <div class="label">Tier Rate</div>
+        <div class="val" id="rate">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Total Price</div>
+        <div class="val" id="sell">—</div>
+      </div>
     </div>
   </section>
 
-  <section class="card">
-    <div style="font-size:13px;color:#555;">Copy Message</div>
-    <pre id="out">/calc —\nSell: — PHP</pre>
-    <button onclick="copyOut()">Copy</button>
+  <!-- Copy: AMOUNT ONLY -->
+  <section class="card" style="margin-top:12px">
+    <div class="note">Copy Amount</div>
+    <pre id="out">—</pre>
+    <button onclick="copyOut()" style="margin-top:10px">Copy</button>
   </section>
 
+  <!-- Payment method -->
+  <section class="card" style="margin-top:12px">
+    <div class="note">Payment Method</div>
+    <div class="pay" style="margin-top:8px">
+      <span class="tag">GCash</span>
+      <div>09162466318 — <strong>MOISES B.</strong></div>
+    </div>
+  </section>
 </div>
 
 <script>
-let CFG = { min:500, price_3000:0.80, price_7000:0.75, price_8000:0.70 };
+  // Defaults (if config.json not reachable)
+  let CFG = { min:500, price_3000:0.80, price_7000:0.75, price_8000:0.70 };
 
-async function loadConfig(){
-  try{
-    const res = await fetch('./config.json', { cache:'no-store' });
-    if(res.ok){
-      CFG = await res.json();
-    }
-  }catch(e){}
-  document.getElementById('r3000').textContent = CFG.price_3000.toFixed(2)+" PHP";
-  document.getElementById('r7000').textContent = CFG.price_7000.toFixed(2)+" PHP";
-  document.getElementById('r8000').textContent = CFG.price_8000.toFixed(2)+" PHP";
-  document.getElementById('min').textContent  = CFG.min;
-  calc();
-}
+  async function loadConfig(){
+    try{
+      const res = await fetch('./config.json', { cache:'no-store' });
+      if(res.ok){
+        const data = await res.json();
+        if(typeof data.min === 'number') CFG.min = data.min;
+        if(typeof data.price_3000 === 'number') CFG.price_3000 = data.price_3000;
+        if(typeof data.price_7000 === 'number') CFG.price_7000 = data.price_7000;
+        if(typeof data.price_8000 === 'number') CFG.price_8000 = data.price_8000;
+      }
+    }catch(e){/* keep defaults */}
+    // show tiers
+    document.getElementById('r3000').textContent = CFG.price_3000.toFixed(2) + " PHP";
+    document.getElementById('r7000').textContent = CFG.price_7000.toFixed(2) + " PHP";
+    document.getElementById('r8000').textContent = CFG.price_8000.toFixed(2) + " PHP";
+    document.getElementById('min').textContent   = CFG.min;
+    calc();
+  }
 
-function rate(q){
-  if(q < CFG.min) return 0;
-  if(q <= 3000) return CFG.price_3000;
-  if(q <= 7000) return CFG.price_7000;
-  return CFG.price_8000;
-}
+  function tierRate(q){
+    if(q < CFG.min) return 0;
+    if(q <= 3000) return CFG.price_3000;
+    if(q <= 7000) return CFG.price_7000;
+    return CFG.price_8000;
+  }
+  const nf = n => n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 
-function calc(){
-  const q = Number(document.getElementById('qty').value||0);
-  const r = rate(q);
-  const total = r ? r*q : 0;
-  document.getElementById('rate').textContent = r ? r.toFixed(2)+" PHP" : "MIN "+CFG.min;
-  document.getElementById('sell').textContent = r ? total.toFixed(2)+" PHP" : "—";
-  document.getElementById('out').textContent = `/calc ${q}\nSell: ${r?total.toFixed(2):"—"} PHP`;
-}
+  function calc(){
+    const q = Number(document.getElementById('qty').value || 0);
+    const r = tierRate(q);
+    const total = r ? r * q : 0;
 
-async function copyOut(){
-  try{
-    await navigator.clipboard.writeText(document.getElementById('out').textContent);
-    alert("Copied ✅");
-  }catch{}
-}
-loadConfig();
+    document.getElementById('rate').textContent = r ? r.toFixed(2) + ' PHP' : 'MIN ' + CFG.min;
+    document.getElementById('sell').textContent = r ? nf(total) + ' PHP' : '—';
+
+    // Copy area: amount only
+    document.getElementById('out').textContent = r ? nf(total) + ' PHP' : '—';
+  }
+
+  async function copyOut(){
+    try{
+      await navigator.clipboard.writeText(document.getElementById('out').textContent);
+      alert('Copied ✅');
+    }catch{ alert('Copy failed. Long-press to select & copy.'); }
+  }
+
+  loadConfig();
 </script>
 </body>
 </html>
