@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moistore Calc Tools</title>
+<style>
+  body{font-family:Arial,system-ui,sans-serif;background:#0b1220;color:#fff;margin:0;padding:16px}
+  h2{margin:8px 0 4px}
+  input{width:100%;padding:14px;border-radius:10px;background:#111a2a;color:#fff;border:1px solid #29334d;font-size:18px}
+  .big{font-size:22px;font-weight:700;margin-top:12px}
+  .note{color:#9bb0d3;font-size:14px;margin-top:6px}
+</style>
+</head>
+<body>
+<h2>💎 Moistore Calc Tools</h2>
+<p class="note">Minimum order: 500 dias</p>
+<input id="qty" type="number" placeholder="Enter dias..." oninput="calc()">
+<p id="sell" class="big"></p>
+<p id="supplier" class="big"></p>
+<p id="rmb" class="note"></p>
+<p id="profit" class="big"></p>
+<script>
+function calc(){
+ let q=parseFloat(document.getElementById("qty").value);
+ if(!q||q<500){document.getElementById("sell").innerText="MIN 500";return;}
+ let rate=q<=3000?0.80:q<=7000?0.75:0.70;
+ let sell=q*rate, rmb=(q/1000)*80, sup=rmb*8.4, p=sell-sup;
+ document.getElementById("sell").innerText="Sell: "+sell.toFixed(2)+" PHP";
+ document.getElementById("supplier").innerText="Supplier: "+sup.toFixed(2)+" PHP";
+ document.getElementById("rmb").innerText="RMB: "+rmb.toFixed(2);
+ document.getElementById("profit").innerText="Profit: "+p.toFixed(2)+" PHP";
+}
+</script>
+</body>
+</html>
