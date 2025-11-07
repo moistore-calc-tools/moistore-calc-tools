@@ -14,6 +14,7 @@
     --ring: conic-gradient(#ff2b63,#ff6ea0,#ff2b63);
     --glow-soft: 0 0 16px rgba(255,40,100,.22);
     --glow-strong: 0 0 26px rgba(255,40,100,.35);
+    --chip:#222027;
   }
   *{box-sizing:border-box}
   html,body{margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--ink);min-height:100%}
@@ -40,7 +41,7 @@
   }
   @keyframes spark{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
 
-  .wrap{max-width:760px;margin:auto;padding:16px 14px 100px}
+  .wrap{max-width:760px;margin:auto;padding:16px 14px 120px}
   .title{display:flex;gap:10px;justify-content:center;font-weight:800;font-size:22px;letter-spacing:.4px;margin:2px 0 8px;text-shadow:0 0 10px rgba(255,70,120,.25)}
 
   /* Logo */
@@ -117,6 +118,10 @@
     box-shadow:0 0 16px rgba(0,0,0,.25); font-weight:700
   }
   .thanks span{color:#b0ffd4;text-shadow:0 0 10px rgba(33,208,114,.28)}
+
+  /* Track Order panel */
+  .track{margin-top:14px;background:linear-gradient(180deg,#151218,#100f13);border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:14px;box-shadow:0 0 16px rgba(0,0,0,.25)}
+  .chip{display:inline-flex;gap:8px;align-items:center;background:var(--chip);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:12px}
 
   /* Popups */
   #buyPopup, #gcashPopup, #qrPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
@@ -220,7 +225,7 @@
       <div class="soc">
         <a class="btnlink fb" href="https://www.facebook.com/share/p/17MiaRJ24J/" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
+            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
           </svg>
           FACEBOOK FEEDBACK
         </a>
@@ -239,6 +244,33 @@
       <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
     </div>
 
+    <!-- Track Order -->
+    <div class="track">
+      <div class="label" style="margin-bottom:6px">Track Order</div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:10px">
+        <input id="trackIn" class="in" placeholder="Enter Order ID (e.g., MB-STORE-12345)" autocomplete="off">
+        <button id="trackBtn" class="btn" style="background:#27252c;color:#fff">Check</button>
+      </div>
+      <div id="trackOut" style="margin-top:10px;display:none">
+        <div class="chip" style="margin-bottom:8px">
+          <strong id="t_id">—</strong>
+          <span id="t_status" style="opacity:.9"></span>
+        </div>
+        <div style="display:grid;gap:6px;font-size:14px;color:var(--mut)">
+          <div>Server: <span id="t_server" style="color:#fff"></span></div>
+          <div>Diamonds: <span id="t_qty" style="color:#fff"></span> 💎</div>
+          <div>Rate: <span id="t_rate" style="color:#fff"></span></div>
+          <div>Total: <span id="t_total" style="color:#fff"></span></div>
+          <div>Created: <span id="t_time" style="color:#fff"></span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1">I Paid</button>
+          <button id="btnDelivered" class="btn" style="background:#28406f;color:#eaf1ff">Delivered</button>
+        </div>
+      </div>
+      <div id="trackNone" class="hint" style="display:none;margin-top:8px">Walang record sa device na ’to. Note: Tracking works on the same phone/browser (local only).</div>
+    </div>
+
     <!-- Thank you -->
     <div class="thanks">
       Thanks, boss! <span>GGWP</span> sa tiwala. Kung may tanong ka o gusto mo ng bulk rate, ping mo lang ako — ready lagi. 🔥
@@ -249,7 +281,8 @@
   <div id="buyPopup">
     <div class="cardPop">
       <h3>Copied ✔</h3>
-      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+      <p id="buyMsg"><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+      <div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div>
       <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
     </div>
   </div>
@@ -283,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
   const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
   const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+  const nowStr = () => new Date().toLocaleString();
 
   const MIN1=1000, MIN2=4000, MIN3=8000;
   const T1=0.80, T2=0.75, T3=0.70;
@@ -361,8 +395,24 @@ document.addEventListener('DOMContentLoaded', () => {
   serverEl.addEventListener('input', recalc);
   recalc();
 
-  /* Buy (copy + popup) */
-  buyBtn.addEventListener('click', async ()=>{
+  /* ====== Order Store (local only) ====== */
+  const ORDERS_KEY = 'ymir_orders_v2';
+  function loadOrders(){
+    try{ return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]'); }catch{ return []; }
+  }
+  function saveOrders(list){
+    try{ localStorage.setItem(ORDERS_KEY, JSON.stringify(list)); }catch(e){}
+  }
+  function genOrderId(){
+    const n = Math.floor(10000 + Math.random()*90000);
+    return `MB-STORE-${n}`;
+  }
+
+  /* Buy (copy + popup + store) */
+  const buyPopup = $('buyPopup');
+  const buyOrderIdEl = $('buyOrderId');
+
+  $('buyBtn').addEventListener('click', async ()=>{
     let q = toInt(diasEl.value);
     let p = toNum(phpEl.value);
     if(!q && p) q = estimateFromPHP(p);
@@ -373,16 +423,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!server){ alert('Please enter your server (required).'); return; }
 
     const total = p || (q*r);
+    const orderId = genOrderId();
+
     const msg = `BUY ORDER
+Order ID: ${orderId}
 Server: ${server}
 Diamonds: ${q} 💎
 Rate: ₱${r.toFixed(2)} / dia
 Total: ₱${fmt(total)}
 GCash: 09162466318 (MOISES B.)`;
+
+    // Save order
+    const orders = loadOrders();
+    orders.unshift({
+      id: orderId, server, qty: q, rate: r, total,
+      status: 'Pending Payment',
+      created: Date.now()
+    });
+    saveOrders(orders);
+
     try{ await navigator.clipboard.writeText(msg); }catch(e){ console.warn('Clipboard write failed', e); }
-    $('buyPopup').style.display='grid';
+    buyOrderIdEl.textContent = `Order ID: ${orderId}`;
+    buyPopup.style.display='grid';
   });
-  $('closePop').addEventListener('click', ()=> $('buyPopup').style.display='none');
+  $('closePop').addEventListener('click', ()=> buyPopup.style.display='none');
 
   /* GCash (copy only + popup) */
   (function(){
@@ -406,6 +470,50 @@ GCash: 09162466318 (MOISES B.)`;
     showQR.addEventListener('click', (e)=>{ e.stopPropagation(); qrPop.style.display='grid'; });
     qrOk.addEventListener('click', ()=> qrPop.style.display='none');
   })();
+
+  /* ====== Track Order ====== */
+  const trackIn=$('trackIn'), trackBtn=$('trackBtn'), trackOut=$('trackOut'), trackNone=$('trackNone');
+  const t_id=$('t_id'), t_status=$('t_status'), t_server=$('t_server'), t_qty=$('t_qty'), t_rate=$('t_rate'), t_total=$('t_total'), t_time=$('t_time');
+  const btnPaid=$('btnPaid'), btnDelivered=$('btnDelivered');
+
+  function findOrder(id){
+    id = (id||'').trim().toUpperCase();
+    const list = loadOrders();
+    return list.find(o => String(o.id).toUpperCase() === id) || null;
+  }
+  function renderOrder(o){
+    if(!o){ trackOut.style.display='none'; trackNone.style.display='block'; return; }
+    t_id.textContent = o.id;
+    t_status.textContent = `• ${o.status}`;
+    t_server.textContent = o.server;
+    t_qty.textContent = o.qty;
+    t_rate.textContent = `₱${o.rate.toFixed(2)} / dia`;
+    t_total.textContent = `₱${fmt(o.total)}`;
+    t_time.textContent = new Date(o.created).toLocaleString();
+    trackNone.style.display='none';
+    trackOut.style.display='block';
+  }
+  function updateStatus(id, status){
+    const list = loadOrders();
+    const idx = list.findIndex(o => o.id === id);
+    if(idx>=0){ list[idx].status = status; saveOrders(list); return list[idx]; }
+    return null;
+  }
+
+  trackBtn.addEventListener('click', ()=> renderOrder(findOrder(trackIn.value)));
+  trackIn.addEventListener('keyup', (e)=>{ if(e.key==='Enter') trackBtn.click(); });
+
+  btnPaid.addEventListener('click', ()=>{
+    const id = t_id.textContent.trim();
+    const o = updateStatus(id, 'Processing');
+    if(o) renderOrder(o);
+  });
+  btnDelivered.addEventListener('click', ()=>{
+    const id = t_id.textContent.trim();
+    const o = updateStatus(id, 'Delivered');
+    if(o) renderOrder(o);
+  });
+
 });
 </script>
 </body>
