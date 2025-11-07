@@ -1,36 +1,159 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
+<title>Legend of Ymir – Diamond Pricing</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moistore Calc Tools</title>
 <style>
-  body{font-family:Arial,system-ui,sans-serif;background:#0b1220;color:#fff;margin:0;padding:16px}
-  h2{margin:8px 0 4px}
-  input{width:100%;padding:14px;border-radius:10px;background:#111a2a;color:#fff;border:1px solid #29334d;font-size:18px}
-  .big{font-size:22px;font-weight:700;margin-top:12px}
-  .note{color:#9bb0d3;font-size:14px;margin-top:6px}
+body {
+    background: radial-gradient(circle at top, #4e0015, #000000);
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+img.logo {
+    width: 140px;
+    margin-top: 25px;
+    animation: glow 3s infinite alternate;
+}
+@keyframes glow {
+    from { filter: drop-shadow(0 0 8px #ff0044); }
+    to { filter: drop-shadow(0 0 22px #ff0044); }
+}
+.container {
+    margin-top: 10px;
+    padding: 12px;
+}
+.box {
+    background: rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 10px;
+}
+input {
+    width: 90%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #111;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+}
+.btn {
+    padding: 12px 22px;
+    border-radius: 12px;
+    border: none;
+    margin-top: 8px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.buy {
+    background: #007bff;
+    color: white;
+}
+.buy:active { background:#005fcc; }
+
+.gcash-box {
+    background: rgba(0,80,255,0.30);
+    padding: 12px;
+    border-radius: 15px;
+    margin-top: 14px;
+    font-size: 18px;
+}
+
+.link-buttons button {
+    margin: 5px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+}
+.fb { background:#1877F2; color:white; }
+.dc { background:#5865F2; color:white; }
+
+.success-box {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(0,255,50,0.18);
+    border-radius: 12px;
+}
 </style>
 </head>
 <body>
-<h2>💎 Moistore Calc Tools</h2>
-<p class="note">Minimum order: 500 dias</p>
-<input id="qty" type="number" placeholder="Enter dias..." oninput="calc()">
-<p id="sell" class="big"></p>
-<p id="supplier" class="big"></p>
-<p id="rmb" class="note"></p>
-<p id="profit" class="big"></p>
+
+<img src="logo.png" class="logo">
+
+<h2>Legend of Ymir – Diamond Pricing</h2>
+<p>Enter diamonds or PHP. Bigger orders unlock better rates.</p>
+
+<div class="container">
+
+<div class="box">
+<b>Price / dia</b><br>
+₱0.80 | ₱0.75 | ₱0.70
+</div>
+
+<input id="dias" placeholder="Enter Diamonds" oninput="calc()">
+<input id="php" placeholder="ENTER PHP" oninput="calc()">
+
+<div class="box">
+<p id="rateText">Applied Rate: —</p>
+</div>
+
+<button class="btn buy" onclick="copyBuy()">💎 Buy</button>
+
+<div class="gcash-box">
+GCash: <b>09162466318 – MOISES B.</b>
+</div>
+
+<p style="margin-top:10px;font-size:14px;opacity:0.8;">
+Click **BUY 💎** → auto copy message → **Paste sa Messenger ko.**
+</p>
+
+<div class="link-buttons">
+<button class="fb" onclick="window.open('https://www.facebook.com/share/p/1DB1da3qMn/', '_blank')">📘 Facebook</button>
+<button class="dc" onclick="window.open('https://discord.gg/QkdVz5mh', '_blank')">💠 Discord</button>
+</div>
+
+<div class="success-box">
+Transactions Completed: <span id="count">0</span>
+</div>
+
+</div>
+
 <script>
+let count = localStorage.getItem("ymirCount") || 0;
+document.getElementById("count").innerText = count;
+
 function calc(){
- let q=parseFloat(document.getElementById("qty").value);
- if(!q||q<500){document.getElementById("sell").innerText="MIN 500";return;}
- let rate=q<=3000?0.80:q<=7000?0.75:0.70;
- let sell=q*rate, rmb=(q/1000)*80, sup=rmb*8.4, p=sell-sup;
- document.getElementById("sell").innerText="Sell: "+sell.toFixed(2)+" PHP";
- document.getElementById("supplier").innerText="Supplier: "+sup.toFixed(2)+" PHP";
- document.getElementById("rmb").innerText="RMB: "+rmb.toFixed(2);
- document.getElementById("profit").innerText="Profit: "+p.toFixed(2)+" PHP";
+    let d = Number(dias.value);
+    let p = Number(php.value);
+    let rate = 0;
+
+    if(d > 0){
+        rate = d >= 8000 ? 0.70 : d >= 4000 ? 0.75 : 0.80;
+        php.value = (d * rate).toFixed(2);
+    } else if(p > 0){
+        rate = p >= 5600 ? 0.70 : p >= 3000 ? 0.75 : 0.80;
+        dias.value = Math.floor(p / rate);
+    }
+    rateText.innerText = "Applied Rate: ₱" + rate.toFixed(2) + " / dia";
+}
+
+function copyBuy(){
+    let d = dias.value;
+    let p = php.value;
+    let text = `LEGEND OF YMIR ORDER:\nDiamonds: ${d}\nAmount: ₱${p}\nGCash: 09162466318 - MOISES B.`;
+    navigator.clipboard.writeText(text);
+    count++;
+    localStorage.setItem("ymirCount", count);
+    document.getElementById("count").innerText = count;
+    alert("✅ Order details copied!\nPaste sa Messenger ko.");
 }
 </script>
+
 </body>
 </html>
