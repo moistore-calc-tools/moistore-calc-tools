@@ -19,7 +19,7 @@
   *{box-sizing:border-box}
   html,body{margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#080507;min-height:100%}
 
-  /* DRAGON FORGE animated background: molten red + gold shimmer */
+  /* DRAGON FORGE animated background */
   body::before{
     content:"";position:fixed; inset:-20% -20%; z-index:-3; pointer-events:none;
     background:
@@ -80,6 +80,7 @@
   .row{display:grid;gap:12px}
   .prices{display:grid;grid-template-columns:repeat(3,1fr);margin:6px 0 10px}
   .pill{
+    position:relative;
     background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.00));
     border:1px solid rgba(247,197,72,.35); border-radius:18px; padding:12px; text-align:center;
     box-shadow:inset 0 0 0 1px rgba(247,197,72,.14), var(--glow);
@@ -94,10 +95,43 @@
   }
   .pill.lock{opacity:.45;filter:grayscale(.25);border-color:rgba(247,197,72,.18);box-shadow:none}
 
+  /* Sparkle overlay for higher tiers */
+  .pill.sparkle::after{
+    content:"";
+    position:absolute; inset:0; border-radius:18px; pointer-events:none;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,.75) 0 1.2px, transparent 1.3px),
+      radial-gradient(circle at 70% 40%, rgba(255,255,255,.70) 0 1.1px, transparent 1.2px),
+      radial-gradient(circle at 40% 70%, rgba(255,255,255,.80) 0 1.3px, transparent 1.4px),
+      radial-gradient(circle at 85% 65%, rgba(255,255,255,.65) 0 1.0px, transparent 1.1px);
+    mix-blend-mode:screen; opacity:.9; filter:drop-shadow(0 0 6px rgba(247,197,72,.65));
+    animation:sparkleMove 2.6s linear infinite;
+  }
+  @keyframes sparkleMove{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-2px)}
+    100%{transform:translateY(0)}
+  }
+
   /* Section + inputs */
   .section{
+    position:relative;
     background:linear-gradient(180deg,#140e13,#0f0a0d);border:1px solid rgba(247,197,72,.32);border-radius:18px;padding:14px;box-shadow:var(--glow)
   }
+  /* subtle shimmer toggled on higher tiers via body class */
+  body.tier-75 .section::after,
+  body.tier-70 .section::after{
+    content:""; position:absolute; inset:0; border-radius:18px; pointer-events:none;
+    background:linear-gradient(120deg, rgba(247,197,72,.10), transparent 40%, rgba(247,197,72,.08) 60%, transparent 90%);
+    animation:shimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes shimmer{
+    0%{opacity:.0; transform:translateX(-2%);}
+    35%{opacity:.25;}
+    70%{opacity:.0; transform:translateX(2%);}
+    100%{opacity:.0;}
+  }
+
   .label{font-size:13px;color:var(--mut);margin:4px 2px 6px}
   .in{
     width:100%;border:1px solid rgba(247,197,72,.35);background:#0b090c;color:#fff;padding:14px;border-radius:14px;font-size:18px;outline:none;
@@ -158,6 +192,7 @@
   }
   .cardPop h3{margin:0 0 8px;color:var(--gold2)}
   .cardPop .btn{background:linear-gradient(180deg,#2b2622,#1c1916);color:#fff;border:1px solid rgba(247,197,72,.25)}
+
   @media (max-width:540px){ .grid2{grid-template-columns:1fr} }
 </style>
 </head>
@@ -237,12 +272,10 @@
 
       <div class="soc">
         <a class="btnlink fb" href="https://www.facebook.com/share/p/17MiaRJ24J/" target="_blank" rel="noopener">
-          <!-- simple F icon -->
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/></svg>
           FACEBOOK FEEDBACK
         </a>
         <a class="btnlink dc" href="https://discord.gg/QkdVz5mh" target="_blank" rel="noopener">
-          <!-- simple controller icon -->
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/></svg>
           DISCORD FEEDBACK
         </a>
@@ -269,7 +302,7 @@
   <div id="gcashPopup">
     <div class="cardPop">
       <h3>GCash number copied ✔</h3>
-      <p><strong>09162466318 — MOISES B.</strong><br>Paste sa GCash Express Send.</p>
+      <p><strong>09162466318 — MOISEES B.</strong><br>Paste sa GCash Express Send.</p>
       <button id="gcashOk" class="btn" style="width:160px;margin:auto">OK</button>
     </div>
   </div>
@@ -300,13 +333,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return q;
   }
+
+  function setTierBodyClass(r){
+    document.body.classList.remove('tier-80','tier-75','tier-70');
+    if(r===T1) document.body.classList.add('tier-80');
+    else if(r===T2) document.body.classList.add('tier-75');
+    else if(r===T3) document.body.classList.add('tier-70');
+  }
+
   function paintPills(q, r){
     const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
-    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
-    if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
+    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock','sparkle'));
+    if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); setTierBodyClass(null); return; }
     if(q<MIN2) p75.classList.add('lock');
     if(q<MIN3) p70.classList.add('lock');
-    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
+
+    if(r===T1){ p80.classList.add('active'); }
+    else if(r===T2){ p75.classList.add('active','sparkle'); }
+    else if(r===T3){ p70.classList.add('active','sparkle'); }
+
+    setTierBodyClass(r);
   }
 
   const diasEl=$('dias'), phpEl=$('phpIn'), rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
