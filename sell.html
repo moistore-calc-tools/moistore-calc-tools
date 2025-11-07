@@ -22,60 +22,34 @@ body{
   animation:glow 10s ease-in-out infinite alternate;
 }
 @keyframes glow{0%{filter:none}50%{filter:brightness(1.04)}100%{filter:none}}
-
 .wrap{max-width:760px;margin:0 auto;padding:20px}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;
-  box-shadow:0 0 30px rgba(255,0,0,.12) inset,0 0 10px rgba(255,0,0,.10);
-}
-
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 0 30px rgba(255,0,0,.12) inset,0 0 10px rgba(255,0,0,.10);}
 /* header */
 .logo-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 10px}
-.logo{
-  width:120px;height:120px;object-fit:cover;border-radius:50%;
-  box-shadow:0 0 0 4px rgba(255,0,80,.45),0 0 22px rgba(255,0,80,.65),0 0 60px rgba(255,0,40,.45);
-}
-.title{
-  text-align:center;font-size:24px;font-weight:900;letter-spacing:.2px;
-  background:linear-gradient(90deg,#fff,#ffd6d6,#fff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 10px rgba(255,0,60,.45),0 0 22px rgba(255,0,60,.25);
-  animation:shine 4.5s linear infinite;
-}
+.logo{width:120px;height:120px;object-fit:cover;border-radius:50%;box-shadow:0 0 0 4px rgba(255,0,80,.45),0 0 22px rgba(255,0,80,.65),0 0 60px rgba(255,0,40,.45);}
+.title{text-align:center;font-size:24px;font-weight:900;letter-spacing:.2px;background:linear-gradient(90deg,#fff,#ffd6d6,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 10px rgba(255,0,60,.45),0 0 22px rgba(255,0,60,.25);animation:shine 4.5s linear infinite}
 @keyframes shine{0%{filter:drop-shadow(0 0 0 rgba(255,0,0,.8))}50%{filter:drop-shadow(0 0 10px rgba(255,0,0,.95))}100%{filter:drop-shadow(0 0 0 rgba(255,0,0,.8))}}
-.subtitle{
-  text-align:center;font-size:13px;color:var(--muted);margin-top:4px
-}
-
-/* UI blocks */
+.subtitle{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
 .grid{display:grid;gap:12px}
-.kpi{
-  background:#111;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;
-  box-shadow:0 0 12px rgba(255,0,0,.16);
-}
+.kpi{background:#111;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;box-shadow:0 0 12px rgba(255,0,0,.16);}
 .kpi .label{font-size:12px;color:var(--muted)}
 .kpi .val{font-size:22px;font-weight:800;color:#fff;text-shadow:0 0 8px rgba(255,0,0,.6),0 0 18px rgba(255,0,0,.22)}
-
 .note{font-size:13px;color:var(--muted)}
-input{
-  width:100%;padding:14px;font-size:18px;border-radius:12px;outline:none;
-  background:#0c0c0c;color:#fff;border:1px solid var(--line);
-  box-shadow:0 0 10px rgba(255,0,0,.08) inset;
-}
+input{width:100%;padding:14px;font-size:18px;border-radius:12px;outline:none;background:#0c0c0c;color:#fff;border:1px solid var(--line);box-shadow:0 0 10px rgba(255,0,0,.08) inset}
 
 /* payment card (blue) */
-.pay{
-  display:flex;align-items:center;gap:12px;font-weight:700;
-  background:#0e1524;border:1px solid #1e2b45;border-radius:12px;padding:12px;
-  box-shadow:0 0 16px rgba(42,140,255,.25) inset, 0 0 10px rgba(42,140,255,.25);
-}
-.pay .tag{
-  background:var(--blue);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;
-  box-shadow:0 0 12px rgba(42,140,255,.65);
-}
+.pay{display:flex;align-items:center;gap:12px;font-weight:700;background:#0e1524;border:1px solid #1e2b45;border-radius:12px;padding:12px;box-shadow:0 0 16px rgba(42,140,255,.25) inset, 0 0 10px rgba(42,140,255,.25)}
+.pay .tag{background:var(--blue);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;box-shadow:0 0 12px rgba(42,140,255,.65);}
+
+/* count button */
+.count-row{display:flex;align-items:center;gap:12px}
+.count-btn{padding:10px 12px;border-radius:10px;background:#1f1f1f;border:1px solid var(--line);cursor:pointer}
+.count-btn.success{background:linear-gradient(90deg,#0b7b2b,#0fb44e);color:#fff}
+
+/* small helpers */
+.small-muted{font-size:12px;color:var(--muted)}
 </style>
 </head>
-
 <body>
 <div class="wrap">
 
@@ -83,12 +57,10 @@ input{
   <div class="logo-wrap">
     <img src="./logo.png" alt="Logo" class="logo" />
     <div class="title">Legend of Ymir — Diamond Pricing</div>
-    <div class="subtitle">
-      Enter your diamonds to instantly see the total. Prices adjust by quantity — larger orders unlock better rates.
-    </div>
+    <div class="subtitle">Enter diamonds or PHP to see totals. Prices adjust by quantity — larger orders unlock better rates.</div>
   </div>
 
-  <!-- Diamond price (locked) -->
+  <!-- Price tiers (read-only) -->
   <section class="card">
     <div class="note" style="text-shadow:0 0 6px rgba(255,0,0,.5);">Diamond Price 💎 (Locked)</div>
     <div class="grid" style="grid-template-columns:repeat(3,1fr); margin-top:8px">
@@ -96,23 +68,26 @@ input{
       <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r7000">—</div></div>
       <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r8000">—</div></div>
     </div>
-    <!-- intentionally no explicit minimum number shown -->
     <div class="note" style="margin-top:6px">Minimum applies on orders.</div>
   </section>
 
-  <!-- Quantity -->
+  <!-- Inputs: diamonds and php -->
   <section class="card" style="margin-top:12px">
-    <label class="note" style="text-shadow:0 0 6px rgba(255,0,0,.45)">Enter Diamonds</label>
-    <input id="qty" type="number" placeholder="e.g. 1500" inputmode="numeric" oninput="calc()" />
+    <div class="grid" style="grid-template-columns:1fr">
+      <div>
+        <label class="note">Enter Diamonds</label>
+        <input id="qty" type="number" placeholder="e.g. 1500" inputmode="numeric" />
+      </div>
+      <div>
+        <label class="note" style="margin-top:8px">Or Enter PHP amount</label>
+        <input id="phpAmount" type="number" placeholder="e.g. 500.00" inputmode="decimal" />
+      </div>
+    </div>
   </section>
 
-  <!-- Results -->
+  <!-- Result: total only -->
   <section class="card" style="margin-top:12px">
-    <div class="grid" style="grid-template-columns:1fr 1fr">
-      <div class="kpi">
-        <div class="label">Tier Rate</div>
-        <div class="val" id="rate">—</div>
-      </div>
+    <div class="grid" style="grid-template-columns:1fr">
       <div class="kpi">
         <div class="label">Total Amount</div>
         <div class="val" id="sell">—</div>
@@ -121,7 +96,7 @@ input{
     <div class="note" style="margin-top:8px">Tip: The more diamonds you buy, the better the discount.</div>
   </section>
 
-  <!-- Payment (blue) — replaces the old amount/copy section -->
+  <!-- Payment (blue) -->
   <section class="card" style="margin-top:12px">
     <div class="note">Payment</div>
     <div class="pay" style="margin-top:8px">
@@ -130,49 +105,227 @@ input{
     </div>
   </section>
 
+  <!-- Unique-device counter -->
+  <section class="card" style="margin-top:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div class="small-muted">Device-based Success Count</div>
+        <div style="font-size:18px;font-weight:800;margin-top:6px" id="countDisplay">—</div>
+      </div>
+      <div class="count-row">
+        <button id="successBtn" class="count-btn">✅ Mark Success</button>
+      </div>
+    </div>
+    <div class="small-muted" style="margin-top:8px">Only one success count per device/browser. Global count requires optional setup (CountAPI).</div>
+  </section>
+
 </div>
 
 <script>
-  // Defaults (if config.json not reachable)
-  let CFG = { min:500, price_3000:0.80, price_7000:0.75, price_8000:0.70 };
+/*
+  Functionality:
+  - Two-way calc: diamonds -> php and php -> diamonds
+  - Reads prices from ./config.json if present
+  - Unique-device counter:
+      * local-only: stored & shown in localStorage (so device counts once)
+      * global: optional CountAPI usage (see config.json fields: count_namespace, count_key)
+      * If CountAPI keys provided, script will GET the current value and will call /hit only once per device
+*/
 
-  async function loadConfig(){
-    try{
-      const res = await fetch('./config.json', { cache:'no-store' });
-      if(res.ok){
-        const data = await res.json();
-        if(typeof data.min === 'number') CFG.min = data.min;
-        if(typeof data.price_3000 === 'number') CFG.price_3000 = data.price_3000;
-        if(typeof data.price_7000 === 'number') CFG.price_7000 = data.price_7000;
-        if(typeof data.price_8000 === 'number') CFG.price_8000 = data.price_8000;
-      }
-    }catch(e){/* keep defaults */}
-    // show per-dia prices (₱)
-    document.getElementById('r3000').textContent = '₱' + CFG.price_3000.toFixed(2);
-    document.getElementById('r7000').textContent = '₱' + CFG.price_7000.toFixed(2);
-    document.getElementById('r8000').textContent = '₱' + CFG.price_8000.toFixed(2);
-    calc();
-  }
+// default config
+let CFG = {
+  min: 500,
+  price_3000: 0.80,
+  price_7000: 0.75,
+  price_8000: 0.70,
+  // optional for global counting with CountAPI
+  count_namespace: null,
+  count_key: null
+};
 
-  function tierRate(q){
-    // keep logic but we no longer display the exact minimum number
-    if(q < CFG.min) return 0;
-    if(q <= 3000) return CFG.price_3000;
-    if(q <= 7000) return CFG.price_7000;
-    return CFG.price_8000;
-  }
-  const peso = n => '₱' + n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+// helpers
+const $ = id => document.getElementById(id);
+const peso = n => '₱' + Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  function calc(){
-    const q = Number(document.getElementById('qty').value || 0);
+async function loadConfig(){
+  try{
+    const res = await fetch('./config.json',{cache:'no-store'});
+    if(res.ok){
+      const j = await res.json();
+      Object.assign(CFG, j);
+    }
+  }catch(e){}
+  // show prices
+  $('r3000').textContent = '₱' + CFG.price_3000.toFixed(2);
+  $('r7000').textContent = '₱' + CFG.price_7000.toFixed(2);
+  $('r8000').textContent = '₱' + CFG.price_8000.toFixed(2);
+  syncInputs(); // update display
+  initCounter();
+}
+
+// determine tier per qty
+function tierRate(q){
+  if(q < CFG.min) return 0;
+  if(q <= 3000) return CFG.price_3000;
+  if(q <= 7000) return CFG.price_7000;
+  return CFG.price_8000;
+}
+
+// two-way calculation logic
+let internalChange = false;
+function syncInputs(){
+  const q = Number($('qty').value || 0);
+  const php = Number($('phpAmount').value || 0);
+
+  // if qty changed recently -> calculate php
+  if(!internalChange && $('qty') === document.activeElement){
     const r = tierRate(q);
     const total = r ? r * q : 0;
-
-    document.getElementById('rate').textContent = r ? ('₱' + r.toFixed(2)) : '—';
-    document.getElementById('sell').textContent = r ? peso(total) : '—';
+    $('sell').textContent = r ? peso(total) : '—';
+    // update php field but mark internalChange to avoid loop
+    internalChange = true;
+    $('phpAmount').value = r ? total.toFixed(2) : '';
+    internalChange = false;
+    return;
   }
 
-  loadConfig();
+  // if php changed recently -> calculate diamonds using current tier decision:
+  if(!internalChange && $('phpAmount') === document.activeElement){
+    // find effective diamonds you can buy at current tiers.
+    // strategy: iterate tiers descending to compute max diamonds purchasable.
+    const valuePHP = php;
+    if(valuePHP <= 0){
+      $('sell').textContent = '—';
+      return;
+    }
+    // find approximate diamonds by using lowest applicable rate (conservative)
+    // We'll compute best-case: loop consider three ranges.
+    // Simple method: determine tier by checking diamonds rounding.
+    // Start with highest tier (cheapest per dia)
+    const tryTier = (rate) => Math.floor(valuePHP / rate);
+    // prefer to show a reasonable diamonds number using tier boundaries:
+    let d = tryTier(CFG.price_8000);
+    if(d >= 8000) {
+      // okay
+    } else if(d >= 4000) {
+      // maybe 7000 tier
+      d = tryTier(CFG.price_7000);
+      if(d > 7999) d = 7999;
+    } else {
+      d = tryTier(CFG.price_3000);
+    }
+    // set qty field and compute sell display
+    internalChange = true;
+    $('qty').value = d > 0 ? d : '';
+    internalChange = false;
+    // compute total (based on selected qty)
+    const r = tierRate(d);
+    $('sell').textContent = r ? peso(r * d) : '—';
+    return;
+  }
+
+  // fallback: no active input — compute from qty if present
+  const r = tierRate(q);
+  const total = r ? r * q : 0;
+  $('sell').textContent = r ? peso(total) : '—';
+  if(!internalChange) {
+    internalChange = true;
+    $('phpAmount').value = r ? total.toFixed(2) : '';
+    internalChange = false;
+  }
+}
+
+// attach events
+$('qty').addEventListener('input', syncInputs);
+$('phpAmount').addEventListener('input', syncInputs);
+
+// ----------------- Unique-device counter -----------------
+const LOCAL_COUNT_KEY = 'moistore_success_counted'; // flag per device
+const LOCAL_TOTAL_KEY = 'moistore_local_total'; // local stored total (just for UI)
+
+function getLocalTotal(){
+  const t = Number(localStorage.getItem(LOCAL_TOTAL_KEY) || 0);
+  return t;
+}
+function setLocalTotal(n){
+  localStorage.setItem(LOCAL_TOTAL_KEY, String(n));
+}
+function hasDeviceCounted(){
+  return localStorage.getItem(LOCAL_COUNT_KEY) === '1';
+}
+function markDeviceCounted(){
+  localStorage.setItem(LOCAL_COUNT_KEY, '1');
+}
+
+// display count: try global (CountAPI) or local
+async function initCounter(){
+  // first show local total (will be meaningful even without CountAPI)
+  let local = getLocalTotal();
+  $('countDisplay').textContent = local || 0;
+
+  // if config has count_namespace + count_key, fetch CountAPI current value
+  if(CFG.count_namespace && CFG.count_key){
+    try{
+      const urlGet = `https://api.countapi.xyz/get/${encodeURIComponent(CFG.count_namespace)}/${encodeURIComponent(CFG.count_key)}`;
+      const resp = await fetch(urlGet);
+      if(resp.ok){
+        const j = await resp.json();
+        if(typeof j.value === 'number'){
+          $('countDisplay').textContent = j.value;
+          // also update local stored to match (optional)
+          setLocalTotal(j.value);
+        }
+      }
+    }catch(e){
+      // ignore, keep local
+    }
+  }
+}
+
+// button click — count once per device
+$('successBtn').addEventListener('click', async function(){
+  if(hasDeviceCounted()){
+    alert('This device already marked success.');
+    return;
+  }
+
+  // Mark locally
+  markDeviceCounted();
+
+  // increment local total
+  let local = getLocalTotal() || 0;
+  local = local + 1;
+  setLocalTotal(local);
+  $('countDisplay').textContent = local;
+
+  // If CountAPI config is set, send a hit (only once per device)
+  if(CFG.count_namespace && CFG.count_key){
+    try{
+      const hitUrl = `https://api.countapi.xyz/hit/${encodeURIComponent(CFG.count_namespace)}/${encodeURIComponent(CFG.count_key)}`;
+      await fetch(hitUrl); // no need to read response here
+      // fetch updated value and display
+      const urlGet = `https://api.countapi.xyz/get/${encodeURIComponent(CFG.count_namespace)}/${encodeURIComponent(CFG.count_key)}`;
+      const resp = await fetch(urlGet);
+      if(resp.ok){
+        const j = await resp.json();
+        if(typeof j.value === 'number'){
+          $('countDisplay').textContent = j.value;
+          setLocalTotal(j.value);
+        }
+      }
+    }catch(e){
+      // if CountAPI failed, it's ok — local counter remains
+      console.error('CountAPI error', e);
+    }
+  }
+
+  // visual feedback
+  const btn = $('successBtn');
+  btn.classList.add('success');
+  btn.textContent = '✅ Success counted';
+});
+/* end counter */
+loadConfig();
 </script>
 </body>
 </html>
