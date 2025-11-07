@@ -15,9 +15,10 @@
   }
   *{box-sizing:border-box}
 
-  html,body{height:100%;margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0609}
+  html,body{height:100%;margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0609;overflow-x:hidden}
+  /* Animated dark red background (under sparkles) */
   body::before{
-    content:"";position:fixed;inset:-10% -10%;z-index:-1;pointer-events:none;
+    content:"";position:fixed;inset:-10% -10%;z-index:-2;pointer-events:none;
     background:
       radial-gradient(40% 30% at 15% 8%, rgba(255,0,80,.12), transparent 60%),
       radial-gradient(35% 25% at 85% 0%, rgba(200,0,60,.08), transparent 65%),
@@ -26,8 +27,13 @@
     animation:bgFloat 14s ease-in-out infinite alternate;
   }
   @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(1%,-1%,0) scale(1.02)}100%{transform:translate3d(-1%,1%,0) scale(1.03)}}
-  .wrap{max-width:760px;margin:auto;padding:14px 14px 64px}
 
+  /* Sparkle canvas layer */
+  #sparkleCanvas{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; /* behind content, above bg */
+  }
+
+  .wrap{max-width:760px;margin:auto;padding:14px 14px 64px; position:relative; z-index:1;}
   .title{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:20px;letter-spacing:.4px;margin:2px 0 8px}
 
   /* LOGO (subtle ring, bigger image) */
@@ -53,6 +59,7 @@
   .in{width:100%;border:1px solid var(--border);background:#0b090c;color:#fff;padding:14px;border-radius:14px;font-size:18px;outline:none;box-shadow:inset 0 0 18px rgba(255,10,60,.06), 0 0 14px rgba(255,40,100,.12)}
   .in:focus{border-color:#ff6aa1;box-shadow:0 0 0 3px rgba(255,60,110,.18), var(--glow)}
   .warn{margin-top:8px;font-size:12px;color:#ff7b94;display:none}
+
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
   .box{background:linear-gradient(180deg,#1a1218,#120e13);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--glow)}
   .box h5{margin:0 0 4px;font-size:12px;color:var(--mut)}
@@ -65,8 +72,10 @@
   .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28)}
   .btn:active{transform:translateY(1px)}
   .btn[disabled]{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
+  .btn .ripple{position:absolute;border-radius:999px;transform:scale(0);background:rgba(255,255,255,.55);animation:rip .6s linear}
+  @keyframes rip{to{transform:scale(9);opacity:0}}
 
-  /* Payment + socials */
+  /* Payment + socials (with icons) */
   .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.22);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16)}
   .gcash{display:flex;align-items:center;gap:10px;font-weight:800;background:rgba(24,119,242,.10);border:1px solid rgba(24,119,242,.35);padding:10px 12px;border-radius:12px}
   .soc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
@@ -86,6 +95,9 @@
 </style>
 </head>
 <body>
+  <!-- Sparkle canvas -->
+  <canvas id="sparkleCanvas"></canvas>
+
   <div class="wrap">
     <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
 
@@ -137,9 +149,10 @@
     <button id="buyBtn" class="btn buy" style="width:100%;margin-top:10px" disabled>💎 Buy</button>
     <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
 
-    <!-- Payment + socials -->
+    <!-- Payment + socials (icons) -->
     <div class="pay" style="margin-top:10px">
       <div class="gcash">
+        <!-- Wallet + ₱ icon -->
         <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
           <rect x="2.8" y="6" width="18.4" height="12" rx="3" fill="#1877f2"/>
           <rect x="13.2" y="9" width="7" height="6" rx="1.4" fill="#0f5bd7"/>
@@ -148,9 +161,21 @@
         </svg>
         GCash • <strong>09162466318 — MOISES B.</strong>
       </div>
+
       <div class="soc">
-        <button id="fbBtn" class="btn fb">Facebook Page</button>
-        <button id="dcBtn" class="btn dc">Discord Server</button>
+        <button id="fbBtn" class="btn fb">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
+          </svg>
+          Facebook Page
+        </button>
+
+        <button id="dcBtn" class="btn dc">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+            <path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/>
+          </svg>
+          Discord Server
+        </button>
       </div>
     </div>
 
@@ -199,10 +224,8 @@
     const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
     [p80,p75,p70].forEach(p=>{p.classList.remove('active','lock')});
     if(q<MIN1000){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
-    // lock by thresholds
     if(q<MIN4000) p75.classList.add('lock');
     if(q<MIN8000) p70.classList.add('lock');
-    // highlight current
     if(r===T1) p80.classList.add('active');
     else if(r===T2) p75.classList.add('active');
     else if(r===T3) p70.classList.add('active');
@@ -231,35 +254,40 @@
     const r = rate(q);
     paintPills(q, r);
 
-    // warning + buy disable
     const ok = q>=MIN1000;
     $('warn').style.display = ok ? 'none' : 'block';
     $('buyBtn').disabled = !ok;
 
-    // outputs
     let rateTxt='—', saveTxt='—';
     if(q && r){
       rateTxt = `₱${r.toFixed(2)} / dia`;
       const base=q*T1, saveAmt=Math.max(0, base - (q*r));
-      const savePct=Math.max(0,(1-r/T1)*100);
+      const savePct=Math.max(0,(1 - r/T1)*100);
       saveTxt = `${savePct.toFixed(2)}% • ₱${F(saveAmt)}`;
     }
     $('rateOut').textContent = rateTxt;
     $('saveOut').textContent = saveTxt;
 
-    // smooth animation when tier changes
     if(r !== lastRate && r){
       const target = r===T1 ? $('pill80') : r===T2 ? $('pill75') : $('pill70');
-      target.classList.remove('active'); // restart
-      // force reflow
-      void target.offsetWidth;
-      target.classList.add('active');
+      target.classList.remove('active'); void target.offsetWidth; target.classList.add('active');
       lastRate = r;
     }
   }
   compute();
 
-  // BUY: copy + popup
+  /* Button ripple */
+  function ripple(e){
+    const r=document.createElement('span'); r.className='ripple';
+    const rect=e.currentTarget.getBoundingClientRect();
+    r.style.width=r.style.height=Math.max(rect.width,rect.height)+'px';
+    r.style.left=(e.clientX-rect.left - rect.width/2)+'px';
+    r.style.top=(e.clientY-rect.top - rect.height/2)+'px';
+    e.currentTarget.appendChild(r); setTimeout(()=>r.remove(),600);
+  }
+  document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',ripple,{passive:true}));
+
+  /* Buy: copy + popup */
   $('buyBtn').addEventListener('click', async ()=>{
     let q = int($('dias').value);
     let p = num($('phpIn').value);
@@ -267,18 +295,20 @@
     const r = rate(q);
     if (!r){ alert('Minimum 1000 💎 required.'); return; }
     const total = p || (q*r);
+
     const msg =
 `BUY ORDER
 Diamonds: ${q} 💎
 Rate: ₱${r.toFixed(2)} / dia
 Total: ₱${F(total)}
 GCash: 09162466318 (MOISES B.)`;
+
     try{ await navigator.clipboard.writeText(msg); }catch{}
     $('buyPopup').style.display='grid';
   });
   $('closePop').onclick = ()=> $('buyPopup').style.display='none';
 
-  // Completed + local counter
+  /* Completed + local counter */
   const DONE_KEY='ymir_done', COUNT_KEY='ymir_tx_count';
   function setCounts(){
     const c = parseInt(localStorage.getItem(COUNT_KEY)||'0');
@@ -295,9 +325,76 @@ GCash: 09162466318 (MOISES B.)`;
     setCounts();
   });
 
-  // Socials
+  /* Socials */
   $('fbBtn').onclick = ()=> open('https://www.facebook.com/share/p/1DB1da3qMn/','_blank');
   $('dcBtn').onclick = ()=> open('https://discord.gg/QkdVz5mh','_blank');
+
+  /* ===== Sparkle engine (ultra-light) ===== */
+  (function(){
+    const cvs = $('sparkleCanvas'), c = cvs.getContext('2d');
+    let W=0,H=0, dpr=1, stars=[];
+    const MAX = 48;              // particle count (mobile-safe)
+    const SPEED = 0.12;          // drift speed
+    const TWINKLE = 0.025;       // twinkle speed
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      W = cvs.width = Math.floor(innerWidth * dpr);
+      H = cvs.height = Math.floor(innerHeight * dpr);
+      cvs.style.width = innerWidth+'px';
+      cvs.style.height = innerHeight+'px';
+      if(stars.length===0){ init(); } // first load
+    }
+
+    function rnd(a,b){ return a + Math.random()*(b-a); }
+
+    function init(){
+      stars = [];
+      for(let i=0;i<MAX;i++){
+        stars.push({
+          x: rnd(0,W), y: rnd(0,H*1.0),
+          r: rnd(0.6, 1.8)*dpr,         // radius
+          a: Math.random()*Math.PI*2,   // twinkle phase
+          o: rnd(0.35,0.9),             // base opacity
+          vx: rnd(-SPEED,SPEED)*dpr*0.6,
+          vy: rnd(-SPEED,SPEED)*dpr*0.6
+        });
+      }
+    }
+
+    let rafId=null;
+    function frame(){
+      c.clearRect(0,0,W,H);
+      c.globalCompositeOperation='lighter';
+      for(const s of stars){
+        s.a += TWINKLE;
+        s.x += s.vx; s.y += s.vy;
+        if(s.x<-10 || s.x>W+10) s.vx*=-1;
+        if(s.y<-10 || s.y>H+10) s.vy*=-1;
+
+        const pulse = (Math.sin(s.a)+1)/2; // 0..1
+        const alpha = (s.o*0.5 + pulse*0.5)*0.9;
+
+        // red-ish sparkle
+        const grd = c.createRadialGradient(s.x,s.y,0, s.x,s.y,s.r*3);
+        grd.addColorStop(0, `rgba(255,90,140,${alpha})`);
+        grd.addColorStop(0.6, `rgba(255,40,100,${alpha*0.45})`);
+        grd.addColorStop(1, `rgba(255,0,80,0)`);
+        c.fillStyle = grd;
+        c.beginPath(); c.arc(s.x,s.y,s.r*3,0,Math.PI*2); c.fill();
+      }
+      rafId = requestAnimationFrame(frame);
+    }
+
+    // Pause when hidden to save battery
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ if(rafId){ cancelAnimationFrame(rafId); rafId=null; } }
+      else { if(!rafId){ rafId = requestAnimationFrame(frame); } }
+    });
+
+    window.addEventListener('resize', ()=>{ resize(); });
+    resize(); init(); rafId = requestAnimationFrame(frame);
+  })();
 </script>
 </body>
 </html>
