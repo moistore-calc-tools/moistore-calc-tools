@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Legend of Ymir — Diamond Pricing</title>
 <link rel="icon" href="./logo.png" />
-
 <style>
 :root{
   --bg:#000; --card:#0f0f0f; --line:#1a1a1a; --text:#fff; --muted:#cfcfcf;
-  --red:#ff2b2b; --blue:#2a8cff; --space:12px; --radius:16px;
+  --red:#ff2b2b; --blue:#2a8cff; --purple:#6c4bff;
+  --space:12px; --radius:16px;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -25,25 +25,19 @@ body{
 @keyframes bgpulse{0%{filter:none}50%{filter:brightness(1.04)}100%{filter:none}}
 .wrap{max-width:640px;margin:0 auto;padding:14px}
 
-/* -------- Header + Animated Floating Glow -------- */
+/* Header + Animated glow */
 .hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 10px;position:relative}
-.logoWrap{
-  position:relative;width:128px;height:128px;display:grid;place-items:center;margin-top:8px;
-  animation:floaty 4.5s ease-in-out infinite;
-}
+.logoWrap{position:relative;width:128px;height:128px;display:grid;place-items:center;margin-top:8px;animation:floaty 4.5s ease-in-out infinite}
 @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 .logoWrap::before{
-  content:""; position:absolute; inset:-10px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(255,0,80,.45), transparent 60%);
-  filter:blur(22px);
-  animation:ringPulse 3.5s ease-in-out infinite;
+  content:"";position:absolute;inset:-10px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%, rgba(255,0,80,.45), transparent 60%);
+  filter:blur(22px);animation:ringPulse 3.5s ease-in-out infinite;
 }
 @keyframes ringPulse{
-  0%{opacity:.55; box-shadow:0 0 32px rgba(255,0,80,.55), inset 0 0 22px rgba(255,0,40,.25)}
-  50%{opacity:.9;  box-shadow:0 0 60px rgba(255,0,80,.85), inset 0 0 40px rgba(255,0,40,.35)}
-  100%{opacity:.55; box-shadow:0 0 32px rgba(255,0,80,.55), inset 0 0 22px rgba(255,0,40,.25)}
+  0%{opacity:.55;box-shadow:0 0 32px rgba(255,0,80,.55), inset 0 0 22px rgba(255,0,40,.25)}
+  50%{opacity:.9;box-shadow:0 0 60px rgba(255,0,80,.85), inset 0 0 40px rgba(255,0,40,.35)}
+  100%{opacity:.55;box-shadow:0 0 32px rgba(255,0,80,.55), inset 0 0 22px rgba(255,0,40,.25)}
 }
 .logo{
   width:128px;height:128px;object-fit:cover;border-radius:50%;
@@ -76,28 +70,36 @@ input{
   background:#0c0c0c;color:#fff;border:1px solid var(--line);box-shadow:0 0 10px rgba(255,0,0,.08) inset;
 }
 
-/* applied rate display */
-.rateCard{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* Applied rate row + quick actions (Share + FB + Discord) */
+.rateRow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ratePack{display:flex;align-items:flex-start;gap:12px}
 .rateTag{
   padding:10px 14px;border-radius:12px;background:#150408;border:1px solid #3a0c14;
   font-weight:900;font-size:20px;letter-spacing:.3px;box-shadow:0 0 18px rgba(255,0,0,.18) inset,0 0 10px rgba(255,0,0,.18);
 }
 .rateInfo{font-size:12px;color:var(--muted)}
 
-/* payment blue */
+.quick{display:flex;gap:8px;align-items:center}
+.btn{
+  padding:10px 12px;border-radius:12px;background:#1f1f1f;border:1px solid var(--line);color:#fff;cursor:pointer;
+  white-space:nowrap;display:inline-flex;align-items:center;gap:6px;font-weight:700
+}
+.btn.shareBlue{background:linear-gradient(90deg,#0061ff,#0091ff);border:none}
+.iconBtn{padding:8px 10px;border-radius:999px;font-weight:800;border:1px solid var(--line)}
+.iconBtn.fb{background:#1b439c;border:none}
+.iconBtn.dc{background:#5b60ff;border:none}
+
+/* payment */
 .pay{display:flex;align-items:center;gap:12px;font-weight:700;background:#0e1524;border:1px solid #1e2b45;border-radius:12px;padding:12px;box-shadow:0 0 16px rgba(42,140,255,.25) inset,0 0 10px rgba(42,140,255,.25)}
 .pay .tag{background:var(--blue);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;box-shadow:0 0 12px rgba(42,140,255,.65);}
 
-/* actions */
+/* actions (recorded) */
 .row{display:flex;gap:10px;flex-wrap:wrap}
-.btn{
-  padding:11px 14px;border-radius:12px;background:#1f1f1f;border:1px solid var(--line);color:#fff;cursor:pointer;
-}
-.btn.success{background:linear-gradient(90deg,#0b7b2b,#0fb44e)}
-.btn.share{background:linear-gradient(90deg,#0061ff,#0091ff)}
 .small{font-size:12px;color:var(--muted)}
 .counter{display:flex;align-items:center;gap:10px}
 .counter .num{font-size:18px;font-weight:900}
+.btn.rec{background:#1f1f1f}
+.btn.rec.success{background:linear-gradient(90deg,#0b7b2b,#0fb44e)}
 </style>
 </head>
 <body>
@@ -133,14 +135,22 @@ input{
     </div>
   </section>
 
-  <!-- Applied Rate (no total amount) -->
+  <!-- Applied rate + Share + Socials -->
   <section class="card">
-    <div class="rateCard">
-      <div>
-        <div class="small">Applied Tier Rate</div>
-        <div class="rateTag" id="appliedRate">—</div>
+    <div class="rateRow">
+      <div class="ratePack">
+        <div>
+          <div class="small">Applied Tier Rate</div>
+          <div class="rateTag" id="appliedRate">—</div>
+        </div>
+        <div class="rateInfo" id="rateInfoText">Enter at least 500 dias or equivalent PHP.</div>
       </div>
-      <div class="rateInfo" id="rateInfoText">Enter at least 500 dias or equivalent PHP.</div>
+
+      <div class="quick">
+        <button id="shareBtn" class="btn shareBlue">🛒 Buy &amp; Share</button>
+        <a class="iconBtn fb" href="https://www.facebook.com/share/p/1DB1da3qMn/" target="_blank" rel="noopener">📘</a>
+        <a class="iconBtn dc" href="https://discord.gg/QkdVz5mh" target="_blank" rel="noopener">🟣</a>
+      </div>
     </div>
   </section>
 
@@ -152,17 +162,14 @@ input{
     </div>
   </section>
 
-  <!-- Actions: success + share -->
+  <!-- Recorded counter -->
   <section class="card">
     <div class="row" style="justify-content:space-between;align-items:center">
       <div class="counter">
         <div class="small">Transactions Completed</div>
         <div class="num" id="countDisplay">0</div>
       </div>
-      <div class="row">
-        <button id="successBtn" class="btn">✅ Recorded?</button>
-        <button id="shareBtn" class="btn share">📤 Share</button>
-      </div>
+      <button id="successBtn" class="btn rec">✅ Recorded?</button>
     </div>
   </section>
 
@@ -179,7 +186,6 @@ const TIERS = [
 
 /* ======== DOM helpers ======== */
 const $ = id => document.getElementById(id);
-const peso = n => '₱' + Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 
 /* ======== Tier logic ======== */
 function getRateByQty(q){
@@ -188,8 +194,6 @@ function getRateByQty(q){
   if(q <= 7000) return TIERS[1];
   return TIERS[2];
 }
-
-/* highlight active chip */
 function highlight(rate){
   ['chip80','chip75','chip70'].forEach(id => $(id).classList.remove('active'));
   if(!rate) return;
@@ -211,7 +215,6 @@ function sync(){
     $('appliedRate').textContent = `₱${tier.rate.toFixed(2)} / dia`;
     $('rateInfoText').textContent = `${tier.name} tier detected for ${q.toLocaleString()} dias.`;
     highlight(tier);
-    // update PHP equivalent
     internal = true; $('phpAmount').value = (tier.rate * q).toFixed(2); internal = false;
     return;
   }
@@ -219,16 +222,8 @@ function sync(){
   // user typed PHP
   if(!internal && $('phpAmount') === document.activeElement){
     if(p <= 0){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
-    // optimistic → recalc into proper tier
     let d = Math.floor(p / TIERS[2].rate);
-    if(d >= 8000){
-      // bulk ok
-    } else if(d >= 4000){
-      d = Math.floor(p / TIERS[1].rate);
-      if(d > 7999) d = 7999;
-    } else {
-      d = Math.floor(p / TIERS[0].rate);
-    }
+    if(d >= 8000){} else if(d >= 4000){ d = Math.floor(p / TIERS[1].rate); if(d > 7999) d = 7999; } else { d = Math.floor(p / TIERS[0].rate); }
     internal = true; $('qty').value = d>0?d:''; internal = false;
     const tier = getRateByQty(d);
     if(!tier){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
@@ -238,7 +233,7 @@ function sync(){
     return;
   }
 
-  // default refresh
+  // refresh
   const tier = getRateByQty(q);
   if(!tier){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
   $('appliedRate').textContent = `₱${tier.rate.toFixed(2)} / dia`;
@@ -249,18 +244,14 @@ function sync(){
 $('qty').addEventListener('input', sync);
 $('phpAmount').addEventListener('input', sync);
 
-/* ======== CHIME (soft) ======== */
+/* ======== Chime ======== */
 function playChime(){
   try{
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    // two quick sine notes for "✨"
     const now = ctx.currentTime;
-    const notes = [880, 1320]; // A5, E6
-    notes.forEach((f,i)=>{
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = f;
-      o.connect(g); g.connect(ctx.destination);
+    [880,1320].forEach((f,i)=>{
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(ctx.destination);
       const t0 = now + i*0.08;
       g.gain.setValueAtTime(0, t0);
       g.gain.linearRampToValueAtTime(0.18, t0+0.02);
@@ -270,64 +261,45 @@ function playChime(){
   }catch(e){}
 }
 
-/* ======== Device-based success counter (no spam) ======== */
-const K_FLAG='ymir_success_flag'; // 1 per device
-const K_TOTAL='ymir_success_total'; // local total (UI only)
+/* ======== Counter (1 per device) ======== */
+const K_FLAG='ymir_success_flag', K_TOTAL='ymir_success_total';
 const getLocal=()=>Number(localStorage.getItem(K_TOTAL)||0);
 const setLocal=n=>localStorage.setItem(K_TOTAL,String(n));
 const hasCounted=()=>localStorage.getItem(K_FLAG)==='1';
 const markCounted=()=>localStorage.setItem(K_FLAG,'1');
 
 function initCounter(){
-  $('countDisplay').textContent = getLocal();
-  if(hasCounted()){
-    const b=$('successBtn'); b.classList.add('success'); b.textContent='✅ Recorded';
-  }
+  $('countDisplay').textContent=getLocal();
+  if(hasCounted()){ const b=$('successBtn'); b.classList.add('rec','success'); b.textContent='✅ Recorded'; }
 }
 $('successBtn').addEventListener('click', ()=>{
   if(hasCounted()) return;
   markCounted();
   const n=getLocal()+1; setLocal(n);
   $('countDisplay').textContent=n;
-
-  // soft chime + vibration
-  playChime();
-  if(navigator.vibrate) navigator.vibrate([20,40]);
-
-  const b=$('successBtn'); b.classList.add('success'); b.textContent='✅ Recorded';
+  playChime(); if(navigator.vibrate) navigator.vibrate([20,40]);
+  const b=$('successBtn'); b.classList.add('rec','success'); b.textContent='✅ Recorded';
 });
 
-/* ======== SHARE (Web Share → Messenger → Copy) ======== */
+/* ======== Share (blue button) ======== */
 function composeShareText(){
-  const q = Number($('qty').value||0);
-  const p = Number($('phpAmount').value||0);
+  const q = Number(($('qty').value||0));
+  const p = Number(($('phpAmount').value||0));
   const rateTxt = $('appliedRate').textContent || '—';
-  const parts = [];
-  if(q) parts.push(`Diamonds: ${q.toLocaleString()} 💎`);
-  if(p) parts.push(`Amount: ${peso(p)}`);
-  parts.push(`Rate: ${rateTxt}`);
-  parts.push(`Pay via GCash: 09162466318 (MOISES B.)`);
-  parts.push(`Legend of Ymir — Diamond Pricing`);
-  return parts.join('\n');
+  const lines = [];
+  if(q) lines.push(`Diamonds: ${q.toLocaleString()} 💎`);
+  if(p) lines.push(`Amount: ₱${p.toFixed(2)}`);
+  lines.push(`Rate: ${rateTxt}`);
+  lines.push(`Pay via GCash: 09162466318 (MOISES B.)`);
+  lines.push(`Legend of Ymir — Diamond Pricing`);
+  return lines.join('\n');
 }
-
 $('shareBtn').addEventListener('click', async ()=>{
   const text = composeShareText();
-  // Web Share API
-  if(navigator.share){
-    try{ await navigator.share({title:'Diamond Pricing', text}); return; }catch(e){}
-  }
-  // Messenger fallback (m.me deep link)
+  if(navigator.share){ try{ await navigator.share({title:'Diamond Pricing',text}); return; }catch(e){} }
   const url = 'https://m.me/?text=' + encodeURIComponent(text);
-  const w = window.open(url, '_blank');
-  if(w) return;
-  // Last fallback: copy to clipboard
-  try{
-    await navigator.clipboard.writeText(text);
-    alert('Copied! Paste to Messenger.');
-  }catch(e){
-    alert(text);
-  }
+  const w = window.open(url,'_blank'); if(w) return;
+  try{ await navigator.clipboard.writeText(text); alert('Copied! Paste to Messenger.'); }catch(e){ alert(text); }
 });
 
 /* boot */
