@@ -7,101 +7,63 @@
 <link rel="icon" href="./logo.png" />
 <style>
 :root{
-  --bg:#000000;
-  --card:#0f0f0f;
-  --line:#1f1f1f;
-  --text:#ffffff;
-  --muted:#cfcfcf;
-  --accent:#ff2b2b;
+  --bg:#000000; --card:#0f0f0f; --line:#1f1f1f;
+  --text:#ffffff; --muted:#cfcfcf; --accent:#ff2b2b;
 }
-
-/* Base */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0; font-family:system-ui,Arial,sans-serif; color:var(--text);
-  /* Deep black w/ animated dark-red glow (neon style) */
   background:
     radial-gradient(900px 500px at 50% -10%, rgba(255,0,40,0.14), transparent 60%),
     radial-gradient(700px 400px at -10% 110%, rgba(255,0,40,0.12), transparent 60%),
     radial-gradient(800px 500px at 110% 120%, rgba(255,0,40,0.10), transparent 60%),
     #000;
   animation: glow 10s ease-in-out infinite alternate;
-  background-size: 100% 100%;
 }
-@keyframes glow {
-  0% { filter: none; }
-  50% { filter: brightness(1.04); }
-  100% { filter: none; }
-}
-
+@keyframes glow { 0%{filter:none} 50%{filter:brightness(1.04)} 100%{filter:none} }
 .wrap{max-width:760px;margin:0 auto;padding:20px}
 .card{
   background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px;
   box-shadow:0 0 30px rgba(255,0,0,0.12) inset, 0 0 10px rgba(255,0,0,0.10);
 }
-
-/* Logo + title */
-.logo-wrap{
-  display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:6px; margin-bottom:10px;
-}
+.logo-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 10px}
 .logo{
-  width:120px; height:120px; object-fit:cover; border-radius:50%;
-  /* extra glow para match sa neon circle */
-  box-shadow:
-    0 0 0 4px rgba(255,0,80,0.45),
-    0 0 22px rgba(255,0,80,0.65),
-    0 0 60px rgba(255,0,40,0.45);
+  width:120px;height:120px;object-fit:cover;border-radius:50%;
+  box-shadow:0 0 0 4px rgba(255,0,80,.45),0 0 22px rgba(255,0,80,.65),0 0 60px rgba(255,0,40,.45);
 }
 .title{
-  text-align:center; font-size:24px; font-weight:900; letter-spacing:.2px;
+  text-align:center;font-size:24px;font-weight:900;letter-spacing:.2px;
   background:linear-gradient(90deg,#fff,#ffd6d6,#fff);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  text-shadow: 0 0 10px rgba(255,0,60,0.45), 0 0 22px rgba(255,0,60,0.25);
-  animation: shine 4.5s linear infinite;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 10px rgba(255,0,60,.45),0 0 22px rgba(255,0,60,.25);
+  animation:shine 4.5s linear infinite;
 }
-@keyframes shine{
-  0%{ filter: drop-shadow(0 0 0 rgba(255,0,0,.8)); }
-  50%{ filter: drop-shadow(0 0 10px rgba(255,0,0,.95)); }
-  100%{ filter: drop-shadow(0 0 0 rgba(255,0,0,.8)); }
-}
-
-/* UI */
+@keyframes shine{0%{filter:drop-shadow(0 0 0 rgba(255,0,0,.8))}50%{filter:drop-shadow(0 0 10px rgba(255,0,0,.95))}100%{filter:drop-shadow(0 0 0 rgba(255,0,0,.8))}}
 .grid{display:grid;gap:12px}
 .kpi{
-  background:#111; border:1px solid var(--line); border-radius:14px; padding:14px; text-align:center;
-  box-shadow:0 0 12px rgba(255,0,0,0.16);
+  background:#111;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;
+  box-shadow:0 0 12px rgba(255,0,0,.16);
 }
-.kpi .label{font-size:12px; color:var(--muted)}
-.kpi .val{font-size:22px; font-weight:800; color:#fff; text-shadow:0 0 8px rgba(255,0,0,.6), 0 0 18px rgba(255,0,0,.22)}
-
-.note{font-size:13px; color:var(--muted)}
+.kpi .label{font-size:12px;color:var(--muted)}
+.kpi .val{font-size:22px;font-weight:800;color:#fff;text-shadow:0 0 8px rgba(255,0,0,.6),0 0 18px rgba(255,0,0,.22)}
+.note{font-size:13px;color:var(--muted)}
 input{
-  width:100%; padding:14px; font-size:18px; border-radius:12px; outline:none;
-  background:#0c0c0c; color:#fff; border:1px solid var(--line);
-  box-shadow:0 0 10px rgba(255,0,0,0.08) inset;
+  width:100%;padding:14px;font-size:18px;border-radius:12px;outline:none;
+  background:#0c0c0c;color:#fff;border:1px solid var(--line);
+  box-shadow:0 0 10px rgba(255,0,0,.08) inset;
 }
 pre{
-  background:#0c0c0c; border:1px solid var(--line); padding:12px; border-radius:12px; margin:0;
-  font-size:18px; color:#fff; text-align:center;
-  text-shadow:0 0 8px rgba(255,0,0,.5);
+  background:#0c0c0c;border:1px solid var(--line);padding:12px;border-radius:12px;margin:0;
+  font-size:18px;color:#fff;text-align:center;text-shadow:0 0 8px rgba(255,0,0,.5);
 }
 button{
-  width:100%; padding:12px 16px; border:0; border-radius:12px; font-weight:800; font-size:16px;
-  background:var(--accent); color:#fff; cursor:pointer;
-  box-shadow:0 0 14px rgba(255,0,0,0.55);
+  width:100%;padding:12px 16px;border:0;border-radius:12px;font-weight:800;font-size:16px;
+  background:var(--accent);color:#fff;cursor:pointer;box-shadow:0 0 14px rgba(255,0,0,.55)
 }
 button:hover{filter:brightness(1.08)}
-
-.pay{
-  display:flex; align-items:center; gap:12px; font-weight:700;
-  background:#101010; padding:12px; border-radius:12px; border:1px solid var(--line);
-  box-shadow:0 0 10px rgba(255,0,0,.18) inset;
-}
-.pay .tag{
-  background:#b40000; color:#fff; padding:6px 10px; border-radius:999px; font-size:12px;
-  box-shadow:0 0 10px rgba(255,0,0,0.45);
-}
+.pay{display:flex;align-items:center;gap:12px;font-weight:700;background:#101010;padding:12px;border-radius:12px;border:1px solid var(--line);box-shadow:0 0 10px rgba(255,0,0,.18) inset}
+.pay .tag{background:#b40000;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;box-shadow:0 0 10px rgba(255,0,0,.45)}
 </style>
 </head>
 
@@ -114,13 +76,13 @@ button:hover{filter:brightness(1.08)}
     <div class="title">Legend of Ymir – Diamond Price Calculator</div>
   </div>
 
-  <!-- Locked price table -->
+  <!-- Diamond Price (locked) -->
   <section class="card">
-    <div class="note" style="text-shadow:0 0 6px rgba(255,0,0,.5);">Price Table (Locked)</div>
+    <div class="note" style="text-shadow:0 0 6px rgba(255,0,0,.5);">Diamond Price 💎 (Locked)</div>
     <div class="grid" style="grid-template-columns:repeat(3,1fr); margin-top:8px">
-      <div class="kpi"><div class="label">1–3000</div><div class="val" id="r3000">—</div></div>
-      <div class="kpi"><div class="label">4000–7000</div><div class="val" id="r7000">—</div></div>
-      <div class="kpi"><div class="label">8000+</div><div class="val" id="r8000">—</div></div>
+      <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r3000">—</div></div>
+      <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r7000">—</div></div>
+      <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r8000">—</div></div>
     </div>
     <div class="note" style="margin-top:6px">Minimum: <span id="min">—</span> dias</div>
   </section>
@@ -139,15 +101,14 @@ button:hover{filter:brightness(1.08)}
         <div class="val" id="rate">—</div>
       </div>
       <div class="kpi">
-        <div class="label">Total Price</div>
+        <div class="label">Total Amount</div>
         <div class="val" id="sell">—</div>
       </div>
     </div>
   </section>
 
-  <!-- Copy: AMOUNT ONLY -->
+  <!-- Copy: AMOUNT ONLY with ₱ -->
   <section class="card" style="margin-top:12px">
-    <div class="note">Copy Amount</div>
     <pre id="out">—</pre>
     <button onclick="copyOut()" style="margin-top:10px">Copy</button>
   </section>
@@ -177,10 +138,10 @@ button:hover{filter:brightness(1.08)}
         if(typeof data.price_8000 === 'number') CFG.price_8000 = data.price_8000;
       }
     }catch(e){/* keep defaults */}
-    // show tiers
-    document.getElementById('r3000').textContent = CFG.price_3000.toFixed(2) + " PHP";
-    document.getElementById('r7000').textContent = CFG.price_7000.toFixed(2) + " PHP";
-    document.getElementById('r8000').textContent = CFG.price_8000.toFixed(2) + " PHP";
+    // show per-dia prices (₱ only, no ranges)
+    document.getElementById('r3000').textContent = '₱' + CFG.price_3000.toFixed(2);
+    document.getElementById('r7000').textContent = '₱' + CFG.price_7000.toFixed(2);
+    document.getElementById('r8000').textContent = '₱' + CFG.price_8000.toFixed(2);
     document.getElementById('min').textContent   = CFG.min;
     calc();
   }
@@ -191,18 +152,16 @@ button:hover{filter:brightness(1.08)}
     if(q <= 7000) return CFG.price_7000;
     return CFG.price_8000;
   }
-  const nf = n => n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const peso = n => '₱' + n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 
   function calc(){
     const q = Number(document.getElementById('qty').value || 0);
     const r = tierRate(q);
     const total = r ? r * q : 0;
 
-    document.getElementById('rate').textContent = r ? r.toFixed(2) + ' PHP' : 'MIN ' + CFG.min;
-    document.getElementById('sell').textContent = r ? nf(total) + ' PHP' : '—';
-
-    // Copy area: amount only
-    document.getElementById('out').textContent = r ? nf(total) + ' PHP' : '—';
+    document.getElementById('rate').textContent = r ? ('₱' + r.toFixed(2)) : ('MIN ' + CFG.min);
+    document.getElementById('sell').textContent = r ? peso(total) : '—';
+    document.getElementById('out').textContent  = r ? peso(total) : '—'; // Copy amount only with ₱
   }
 
   async function copyOut(){
