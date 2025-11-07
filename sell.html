@@ -63,8 +63,7 @@
   .pill.active.t1{border-color:rgba(60,255,170,.6); box-shadow:0 0 24px rgba(60,255,170,.35), inset 0 0 0 1px rgba(60,255,170,.35)}
   .pill.active.t2{border-color:rgba(255,214,77,.8); box-shadow:0 0 26px rgba(255,214,77,.45), inset 0 0 0 1px rgba(255,214,77,.45)}
   .pill.active.t3{border-color:rgba(255,70,110,.9); box-shadow:0 0 28px rgba(255,70,110,.55), inset 0 0 0 1px rgba(255,70,110,.55)}
-
-  /* BEST DEAL badge + flame for 0.70 — only when active */
+  /* BEST DEAL for 0.70 (only when active) */
   #pill70 .badge{
     position:absolute; top:-10px; right:10px; padding:4px 8px;
     font-size:10px; font-weight:900; color:#fff; background:#ff3a73; border-radius:999px;
@@ -74,7 +73,6 @@
   #pill70 .flare{position:absolute;inset:-20% -20%; background: conic-gradient(from 0deg, rgba(255,110,110,.0) 40%, rgba(255,120,120,.4) 55%, rgba(255,210,180,.0) 70%); filter:blur(16px); animation:flareSpin 2s linear infinite; display:none}
   @keyframes flareSpin{to{transform:rotate(360deg)}}
   #pill70.active .flare{display:block}
-  /* flicker glow */
   #pill70::before{
     content:""; position:absolute; inset:-8px; border-radius:18px; pointer-events:none;
     background:radial-gradient(60% 50% at 50% 0%, rgba(255,160,0,0), transparent 60%),
@@ -123,7 +121,7 @@
   .dc{background:var(--discord);color:#fff}
 
   /* Track Order */
-  .track{margin-top:12px;background:linear-gradient(180deg,#151219,#100f14);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px;box-shadow:0 0 18px rgba(0,0,0,.25)}
+  .track{margin-top:16px;background:linear-gradient(180deg,#151219,#100f14);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px;box-shadow:0 0 18px rgba(0,0,0,.25)}
   .track .grid3{display:grid;grid-template-columns:1fr auto auto;gap:10px}
   .pillStat{display:inline-block;padding:8px 12px;border-radius:999px;font-weight:900;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06)}
   .sPending{color:#ffd64d;border-color:rgba(255,214,77,.45)}
@@ -161,8 +159,8 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
         <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
       </svg>
-      <a href="https://www.facebook.com/share/p/1FWLHh32iE/" target="_blank" rel="noopener">
-        <span class="ownerName">MOISES TRAJANO BITONIO</span>
+      <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
+        <span class="ownerName">MOISEES TRAJANO BITONIO</span>
         <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
           <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs>
           <circle cx="12" cy="12" r="10" fill="url(#g)"/>
@@ -230,7 +228,15 @@
       </div>
     </div>
 
-    <!-- Track Order -->
+    <!-- Waiting Time Notice (1st) -->
+    <div class="notice" style="margin-top:14px">
+      <p>⏳ Processing time may vary per server — pero <b>guaranteed</b> matatanggap mo ang order mo. Salamat sa tiwala!</p>
+    </div>
+
+    <!-- Thanks (2nd) -->
+    <div class="thanks"><span>Thanks for trusting us, <b>GG!</b> Keep your Receipt ID for tracking.</span></div>
+
+    <!-- Track Order (3rd, pinaka-baba) -->
     <div class="track">
       <div class="label">TRACK ORDER</div>
       <div class="grid3">
@@ -240,14 +246,6 @@
       </div>
       <div class="label" style="margin-top:10px">Status: <span id="statusOut" class="pillStat sPending">PENDING</span></div>
     </div>
-
-    <!-- Waiting notice -->
-    <div class="notice" style="margin-top:12px">
-      <p>⏳ Processing time varies per server, pero <b>guaranteed</b> na matatanggap mo ang order. Salamat sa tiwala!</p>
-    </div>
-
-    <!-- Thanks -->
-    <div class="thanks"><span>Thanks for trusting us, <b>GG!</b> Track via your Receipt ID anytime.</span></div>
   </div>
 
   <!-- Popups -->
@@ -309,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!q || q<MIN1) return;
     if(r===T1){ p80.classList.add('active','t1'); }
     if(r===T2){ p75.classList.add('active','t2'); }
-    if(r===T3){ p70.classList.add('active','t3'); } // badge + flame via CSS when active
+    if(r===T3){ p70.classList.add('active','t3'); } // BEST DEAL/fire via CSS when active
   }
 
   const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
@@ -386,6 +384,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = p || (q*r);
     const rid = genRID();
 
-    // save order locally
     const map = loadOrders();
-    map[rid] = { s
+    map[rid] = { status:'PENDING', server
