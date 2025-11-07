@@ -4,86 +4,154 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Moistore – Sell Calculator</title>
+
 <style>
-  :root { --bg:#0b1220; --card:#121a2a; --text:#e6eefc; --muted:#9bb0d3; --line:#1e2a44; --accent:#2563eb; }
-  *{box-sizing:border-box} body{margin:0;font-family:system-ui,Arial;background:var(--bg);color:var(--text)}
-  .wrap{max-width:680px;margin:0 auto;padding:20px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-  h1{font-size:22px;margin:0 0 8px}
-  .muted{color:var(--muted);font-size:13px}
-  input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0f172a;color:var(--text);font-size:18px}
-  .grid{display:grid;gap:12px}
-  .kpi{border:1px solid var(--line);border-radius:14px;padding:14px;background:#0f172a}
-  .kpi .label{font-size:12px;color:var(--muted)}
-  .kpi .val{font-size:22px;font-weight:700;margin-top:4px}
-  button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:white;font-weight:600}
-  pre{white-space:pre-wrap;background:#0f172a;border:1px solid var(--line);border-radius:12px;padding:12px;margin:0}
+:root {
+  --bg:#0b0000;
+  --card:#1b0000;
+  --text:#ffdddd;
+  --muted:#ff7c7c;
+  --line:#3a0000;
+  --accent:#ff2e2e;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Arial;
+  background:linear-gradient(135deg,#000000,#420000,#8b0000);
+  background-size:300% 300%;
+  animation:bgmove 8s infinite alternate;
+  color:var(--text);
+}
+@keyframes bgmove{
+  0%{background-position:0% 0%}
+  100%{background-position:100% 100%}
+}
+
+.wrap{max-width:680px;margin:0 auto;padding:20px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 0 25px rgba(255,0,0,0.25);
+}
+
+h1{text-align:center;font-size:24px;margin:0 0 10px;text-shadow:0 0 12px #ff0000;}
+
+.muted{color:var(--muted);font-size:13px}
+
+input{
+  width:100%;padding:12px;
+  border-radius:12px;border:1px solid var(--line);
+  background:#2a0000;color:var(--text);font-size:18px;
+}
+
+.grid{display:grid;gap:12px}
+
+.kpi{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  background:#140000;
+  box-shadow:0 0 10px rgba(255,0,0,0.2);
+}
+.kpi .label{font-size:12px;color:var(--muted)}
+.kpi .val{font-size:22px;font-weight:700;margin-top:4px}
+
+pre{
+  white-space:pre-wrap;
+  background:#140000;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  margin:0;
+  font-size:15px;
+}
+
+button{
+  padding:12px 16px;border:0;border-radius:12px;
+  background:var(--accent);color:white;font-weight:700;
+  width:100%;cursor:pointer;
+  box-shadow:0 0 12px #ff0000;
+}
+button:hover{filter:brightness(1.2);}
 </style>
+
 </head>
 <body>
 <div class="wrap">
-  <h1>💎 Moistore – Sell Calculator</h1>
 
-  <section class="card">
-    <div class="muted">Price Table (Editable)</div>
-    <div class="grid" style="margin-top:8px">
-      <div><input id="p3000" type="number" value="0.80" step="0.01" /><div class="muted">1–3000</div></div>
-      <div><input id="p7000" type="number" value="0.75" step="0.01" /><div class="muted">4000–7000</div></div>
-      <div><input id="p8000" type="number" value="0.70" step="0.01" /><div class="muted">8000+</div></div>
-    </div>
-  </section>
+<h1>💎 Moistore – Sell Calculator</h1>
 
-  <section class="card" style="margin-top:12px">
-    <label class="muted">Quantity (dias)</label>
-    <input id="qty" type="number" placeholder="e.g. 1200" oninput="calc()" />
-  </section>
+<section class="card">
+  <div class="muted">Price Table (Locked)</div>
+  <div class="grid" style="margin-top:8px;grid-template-columns:1fr 1fr 1fr">
+    <div class="kpi"><div class="label">1–3000</div><div class="val" id="r3000">—</div></div>
+    <div class="kpi"><div class="label">4000–7000</div><div class="val" id="r7000">—</div></div>
+    <div class="kpi"><div class="label">8000+</div><div class="val" id="r8000">—</div></div>
+  </div>
+  <div class="muted" style="margin-top:6px">Minimum: <span id="min">—</span> dias</div>
+</section>
 
-  <section class="card" style="margin-top:12px">
-    <div class="grid" style="grid-template-columns:1fr 1fr">
-      <div class="kpi">
-        <div class="label">Tier rate</div>
-        <div class="val" id="rate">—</div>
-      </div>
-      <div class="kpi">
-        <div class="label">Sell total</div>
-        <div class="val" id="sell">—</div>
-      </div>
-    </div>
-  </section>
+<section class="card" style="margin-top:12px">
+  <label class="muted">Enter Diamonds</label>
+  <input id="qty" type="number" placeholder="e.g. 1500" oninput="calc()" />
+</section>
 
-  <section class="card" style="margin-top:12px">
-    <div class="muted">Copy-ready</div>
-    <pre id="out">/calc —\nSell: — PHP</pre>
-    <button onclick="copyOut()" style="margin-top:10px">Copy</button>
-  </section>
+<section class="card" style="margin-top:12px">
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div class="kpi"><div class="label">Tier Rate</div><div class="val" id="rate">—</div></div>
+    <div class="kpi"><div class="label">Total Price</div><div class="val" id="sell">—</div></div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:12px">
+  <div class="muted">Copy Message</div>
+  <pre id="out">/calc —\nSell: — PHP</pre>
+  <button onclick="copyOut()">Copy</button>
+</section>
+
 </div>
 
 <script>
-  const nf=(n,d=2)=>isFinite(n)?n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}):"";
-  
-  function getRate(q){
-    let r3000 = Number(document.getElementById('p3000').value);
-    let r7000 = Number(document.getElementById('p7000').value);
-    let r8000 = Number(document.getElementById('p8000').value);
-    if(q<500) return 0;
-    if(q<=3000) return r3000;
-    if(q<=7000) return r7000;
-    return r8000;
-  }
+let CFG={min:500,price_3000:0.80,price_7000:0.75,price_8000:0.70};
 
-  function calc(){
-    const q = Number(document.getElementById('qty').value);
-    const r = getRate(q);
-    const sell = r*q;
-    document.getElementById('rate').textContent = r? r.toFixed(2)+" PHP/ea" : "MIN 500";
-    document.getElementById('sell').textContent = r? nf(sell)+" PHP" : "—";
-    document.getElementById('out').textContent = `/calc ${q||""}\nSell: ${r? nf(sell):"—"} PHP`;
-  }
+async function loadConfig(){
+  try{
+    const r=await fetch('./config.json',{cache:'no-store'});
+    if(r.ok){CFG=await r.json();}
+  }catch{}
+  document.getElementById('r3000').textContent=CFG.price_3000.toFixed(2)+' PHP';
+  document.getElementById('r7000').textContent=CFG.price_7000.toFixed(2)+' PHP';
+  document.getElementById('r8000').textContent=CFG.price_8000.toFixed(2)+' PHP';
+  document.getElementById('min').textContent=CFG.min;
+  calc();
+}
 
-  async function copyOut(){
-    try{ navigator.clipboard.writeText(document.getElementById('out').textContent); alert("Copied!"); }
-    catch{ alert("Copy failed. Hold press to copy manually."); }
-  }
+function rate(q){
+  if(q<CFG.min) return 0;
+  if(q<=3000) return CFG.price_3000;
+  if(q<=7000) return CFG.price_7000;
+  return CFG.price_8000;
+}
+
+function calc(){
+  const q=Number(qty.value||0);
+  const r=rate(q), total=r*q;
+  rateEl.textContent=r? r.toFixed(2)+' PHP' : 'MIN '+CFG.min;
+  sell.textContent=r? total.toLocaleString(undefined,{minimumFractionDigits:2})+' PHP': '—';
+  out.textContent=`/calc ${q||""}\nSell: ${r? total.toLocaleString(undefined,{minimumFractionDigits:2}):"—"} PHP`;
+}
+
+async function copyOut(){
+  try{await navigator.clipboard.writeText(out.textContent);alert("Copied ✅");}
+  catch{alert("Manual copy required.");}
+}
+
+loadConfig();
 </script>
+
 </body>
 </html>
