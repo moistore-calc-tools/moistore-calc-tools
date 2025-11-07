@@ -3,44 +3,44 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LEGEND OF YMIR DIAMOND 💎</title>
+<title>YMIR DIAMONDS 💎</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --txt:#fff7fb; --mut:#dbc9d0; --green:#21d072;
-    --blue:#1877f2; --discord:#5865f2;
+    --txt:#fff7fb; --mut:#d9c7ce;
+    --green:#22cf74; --yellow:#ffd64d; --red:#ff2b56;
+    --blue:#1877f2; --discord:#5865f2; --gotyme:#00d6e7;
+    --border: rgba(255,70,120,.20);
     --ring: conic-gradient(#ff1d5a,#ff5c90,#ff1d5a);
-    --border: rgba(255,80,120,.18);
-    --glow: 0 0 18px rgba(255,30,80,.35), 0 0 28px rgba(255,30,80,.14);
+    --glow: 0 0 18px rgba(255,30,80,.34), 0 0 28px rgba(255,30,80,.14);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#09060a;min-height:100%}
+  html,body{margin:0;background:#09060a;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;min-height:100%}
 
-  /* Animated dark-red background */
+  /* Animated deep red background */
   body::before{
-    content:"";position:fixed; inset:-20% -20%; z-index:-3; pointer-events:none;
+    content:"";position:fixed;inset:-20% -20%;z-index:-3;pointer-events:none;
     background:
-      radial-gradient(40% 30% at 20% 10%, rgba(255,0,80,.14), transparent 60%),
+      radial-gradient(40% 30% at 20% 10%, rgba(255,0,80,.16), transparent 60%),
       radial-gradient(35% 25% at 80% 0%, rgba(200,0,60,.10), transparent 65%),
       radial-gradient(55% 35% at 50% 110%, rgba(255,30,100,.10), transparent 70%),
       radial-gradient(60% 45% at 10% 90%, rgba(140,0,50,.08), transparent 70%);
-    filter: blur(10px) saturate(115%);
+    filter: blur(12px) saturate(115%);
     animation:bgFloat 16s ease-in-out infinite alternate;
   }
-  @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(1.2%,-1%,0) scale(1.02)}100%{transform:translate3d(-1%,1.2%,0) scale(1.03)}}
-  body::after{
-    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(255,90,140,.25) 0 1px, transparent 2px),
-      radial-gradient(circle at 60% 10%, rgba(255,70,120,.18) 0 1px, transparent 2px),
-      radial-gradient(circle at 80% 65%, rgba(255,60,110,.22) 0 1px, transparent 2px),
-      radial-gradient(circle at 35% 80%, rgba(255,80,130,.20) 0 1px, transparent 2px);
-    background-repeat:no-repeat; animation:spark 10s linear infinite; opacity:.65; filter:blur(.2px);
-  }
-  @keyframes spark{0%{transform:translateY(0)}100%{transform:translateY(-10px)}}
+  @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(1%,-1%,0) scale(1.02)}100%{transform:translate3d(-1%,1%,0) scale(1.03)}}
 
-  .wrap{max-width:760px;margin:auto;padding:16px 14px 90px}
-  .title{display:flex;gap:10px;justify-content:center;font-weight:800;font-size:22px;letter-spacing:.4px;margin:2px 0 8px}
+  .wrap{max-width:760px;margin:auto;padding:16px 14px 100px}
+
+  /* Title with creeping neon */
+  .title{
+    font-weight:900;letter-spacing:.6px;margin:6px 0 8px;text-align:center;
+    font-size:22px; line-height:1.15;
+    background: linear-gradient(90deg,#ff6aa1 0%,#ffd6ea 20%,#ff6aa1 40%,#ff2566 60%,#ffd6ea 80%,#ff6aa1 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:shine 6s linear infinite; filter:drop-shadow(0 0 10px rgba(255,70,140,.35));
+  }
+  @keyframes shine{0%{background-position:0%}100%{background-position:200%}}
 
   /* Logo */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
@@ -56,63 +56,73 @@
   .metaBadge{width:22px;height:22px;display:inline-block;filter: drop-shadow(0 0 10px rgba(24,119,242,.45))}
 
   /* Tiers */
-  .row{display:grid;gap:12px}
-  .prices{display:grid;grid-template-columns:repeat(3,1fr);margin:6px 0 10px}
-  .pill{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:18px;padding:12px;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,30,80,.06), var(--glow);transition:transform .18s, box-shadow .18s, border-color .18s, opacity .18s}
+  .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 12px}
+  .pill{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:18px;padding:12px;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,30,80,.06), var(--glow);transition:transform .18s, box-shadow .18s, border-color .18s, opacity .18s; position:relative; overflow:hidden}
   .pval{font-size:26px;font-weight:900}
   .ptxt{font-size:12px;color:var(--mut)}
-  .pill.active{transform:translateY(-2px) scale(1.02);border-color:rgba(80,255,170,.55);box-shadow:0 0 22px rgba(40,255,170,.28), inset 0 0 0 1px rgba(40,255,170,.32)}
-  .pill.lock{opacity:.45;filter:grayscale(.35);border-color:rgba(255,255,255,.12);box-shadow:none}
+
+  /* Active glows */
+  .pill.active.t1{border-color:rgba(60,255,170,.6); box-shadow:0 0 24px rgba(60,255,170,.35), inset 0 0 0 1px rgba(60,255,170,.35)}
+  .pill.active.t2{border-color:rgba(255,214,77,.8); box-shadow:0 0 26px rgba(255,214,77,.45), inset 0 0 0 1px rgba(255,214,77,.45)}
+  .pill.active.t3{border-color:rgba(255,70,110,.9); box-shadow:0 0 28px rgba(255,70,110,.55), inset 0 0 0 1px rgba(255,70,110,.55)}
+
+  /* Best deal flare (only when 0.70 reached) */
+  .flare{position:absolute;inset:-20% -20%; background: conic-gradient(from 0deg, rgba(255,110,110,.0) 40%, rgba(255,120,120,.4) 55%, rgba(255,210,180,.0) 70%); filter:blur(16px); animation:flareSpin 2s linear infinite; display:none}
+  @keyframes flareSpin{to{transform:rotate(360deg)}}
+  .pill.active.t3 .flare{display:block}
 
   /* Inputs/result */
   .section{background:linear-gradient(180deg,#160e14,#110c11);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow)}
   .label{font-size:13px;color:var(--mut);margin:4px 2px 6px}
   .in{width:100%;border:1px solid var(--border);background:#0b090c;color:#fff;padding:14px;border-radius:14px;font-size:18px;outline:none;box-shadow:inset 0 0 18px rgba(255,10,60,.06), 0 0 14px rgba(255,40,100,.12)}
   .in:focus{border-color:#ff6aa1;box-shadow:0 0 0 3px rgba(255,60,110,.18), var(--glow)}
-  .warn{margin-top:8px;font-size:12px;color:#ff7b94;display:none}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
   .box{background:linear-gradient(180deg,#1a1218,#120e13);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--glow)}
   .box h5{margin:0 0 4px;font-size:12px;color:var(--mut)}
   .rateOut{font-weight:900;font-size:20px}
   .saveOut{font-weight:900;font-size:20px;color:#baffd6}
   .saveBox{background:linear-gradient(180deg,#0f2117,#0a1a11);border-color:rgba(40,255,160,.28)}
+  .warn{margin-top:8px;font-size:12px;color:#ff8aa0;display:none}
 
   /* Buttons */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;padding:14px 16px;font-weight:800;letter-spacing:.2px;cursor:pointer;user-select:none}
   .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28);width:100%;margin-top:10px}
+  .btn[disabled]{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
 
-  /* Payment + socials */
-  .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.22);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16);margin-top:10px}
-  .gcashRow{
-    display:flex;align-items:center;gap:10px;font-weight:800;
-    background:rgba(24,119,242,.10);border:1px solid rgba(24,119,242,.35);
-    padding:10px 12px;border-radius:12px;cursor:pointer;max-width:560px;margin:8px auto 10px;
-    box-shadow: 0 10px 28px rgba(24,119,242,.12);
-  }
-  .gcashIcon{
-    width:24px;height:24px;border-radius:999px;
-    background:#1877f2;display:grid;place-items:center;
-    box-shadow:0 0 12px rgba(24,119,242,.35), inset 0 0 10px rgba(255,255,255,.15);
-    font-weight:900;color:#fff;letter-spacing:.2px;user-select:none;
-  }
+  /* Payments */
+  .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.22);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16);margin-top:12px}
+  .payRow{display:flex;align-items:center;gap:10px;font-weight:800;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:10px 12px;border-radius:12px}
+  .gcash{background:rgba(24,119,242,.10);border-color:rgba(24,119,242,.35)}
+  .gotyme{background:rgba(0,214,231,.10);border-color:rgba(0,214,231,.45)}
+  .pIcon{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;color:#000;font-weight:900}
+  .pIcon.g{background:#1877f2;color:#fff}
+  .pIcon.go{background:var(--gotyme);color:#00353a;font-family:Arial Black,Arial,sans-serif}
+  .qrBtn{margin-left:auto;background:#22242a;color:#fff;border-radius:10px;padding:10px 14px;border:none;font-weight:800;cursor:pointer}
+  .copyable{cursor:pointer}
+
   .soc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
   .btnlink{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:14px 16px;font-weight:800;letter-spacing:.2px;text-decoration:none}
   .fb{background:var(--blue);color:#fff}
   .dc{background:var(--discord);color:#fff}
 
-  /* Notice */
+  /* Notices / popups */
   .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 18px rgba(0,0,0,.25)}
-  .notice h4{margin:0 0 6px;font-size:14px}
   .notice p{margin:0;color:var(--mut);font-size:13px}
 
-  /* Popups */
-  #buyPopup, #gcashPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
+  #buyPopup,#copyPopup,#qrModal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
   .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
+  .cardPop img{max-width:min(82vw,440px);width:100%;height:auto;border-radius:12px}
+
+  /* Thank you */
+  .thanks{margin:14px auto 0;max-width:760px;text-align:center;font-weight:800;letter-spacing:.2px}
+  .thanks span{display:inline-block;padding:10px 14px;border-radius:12px;background:radial-gradient(80% 120% at 50% 0, rgba(40,255,170,.12), rgba(255,0,100,.10)); box-shadow:0 0 22px rgba(255,70,120,.16)}
+  .thanks span b{animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{text-shadow:0 0 0 rgba(255,255,255,0)}50%{text-shadow:0 0 12px rgba(255,255,255,.8)}}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
+    <div class="title">YMIR DIAMONDS 💎</div>
 
     <div class="logoWrap">
       <div class="logo">
@@ -121,7 +131,7 @@
       </div>
     </div>
 
-    <!-- Owner (under logo) -->
+    <!-- Owner strip -->
     <div class="owner">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
         <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
@@ -136,20 +146,11 @@
       </a>
     </div>
 
-    <!-- Tiers (VISIBLE) -->
-    <div class="row prices">
-      <div id="pill80" class="pill">
-        <div class="pval">₱0.80</div>
-        <div class="ptxt">min 1000 💎</div>
-      </div>
-      <div id="pill75" class="pill">
-        <div class="pval">₱0.75</div>
-        <div class="ptxt">min 4000 💎</div>
-      </div>
-      <div id="pill70" class="pill">
-        <div class="pval">₱0.70</div>
-        <div class="ptxt">min 8000 💎</div>
-      </div>
+    <!-- Tiers -->
+    <div class="prices">
+      <div id="pill80" class="pill"><div class="pval">₱0.80</div><div class="ptxt">min 1000 💎</div></div>
+      <div id="pill75" class="pill"><div class="pval">₱0.75</div><div class="ptxt">min 4000 💎</div></div>
+      <div id="pill70" class="pill"><div class="flare"></div><div class="pval">₱0.70</div><div class="ptxt">min 8000 💎</div></div>
     </div>
 
     <!-- Inputs -->
@@ -158,7 +159,9 @@
       <input id="dias" class="in" inputmode="numeric" autocomplete="off" placeholder="e.g. 1500">
       <div class="label" style="margin-top:10px">ENTER PHP ₱</div>
       <input id="phpIn" class="in" inputmode="decimal" autocomplete="off" placeholder="e.g. 500.00">
-      <div id="warn" class="warn">Minimum 1000 💎 required.</div>
+      <div class="label" style="margin-top:10px">Server (required) 🌐</div>
+      <input id="serverIn" class="in" autocomplete="off" placeholder="e.g. Asia 22 or HOF1">
+      <div id="warn" class="warn">Minimum 1000 💎 required and Server is needed.</div>
 
       <div class="grid2">
         <div class="box">
@@ -173,67 +176,75 @@
     </div>
 
     <!-- Buy -->
-    <button id="buyBtn" type="button" class="btn buy">💎 Buy</button>
+    <button id="buyBtn" type="button" class="btn buy" disabled>💎 Buy</button>
     <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
 
-    <!-- Payment + Socials -->
+    <!-- Payments -->
     <div class="pay">
-      <!-- GCash (copy only) -->
-      <div id="gcashRow" class="gcashRow" title="Tap to copy">
-        <div class="gcashIcon">G</div>
-        GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong>
+      <div class="payRow gcash">
+        <div class="pIcon g">G</div>
+        <div id="gcashCopy" class="copyable">GCash • <strong>09162466318 — MOISES B.</strong></div>
+        <button class="qrBtn" id="gcashQR">Show QR</button>
+      </div>
+
+      <div style="height:10px"></div>
+
+      <div class="payRow gotyme">
+        <div class="pIcon go">GO</div>
+        <div id="goCopy" class="copyable">GoTyme • <strong>014664932955 — MOISES BITONIO</strong></div>
+        <button class="qrBtn" id="goQR">Show QR</button>
       </div>
 
       <div class="soc">
         <a class="btnlink fb" href="https://www.facebook.com/share/p/17MiaRJ24J/" target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/></svg>
           FACEBOOK FEEDBACK
         </a>
         <a class="btnlink dc" href="https://discord.gg/QkdVz5mh" target="_blank" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/></svg>
           DISCORD FEEDBACK
         </a>
       </div>
     </div>
 
-    <!-- Waiting Time Notice -->
+    <!-- Waiting notice -->
     <div class="notice">
-      <h4>⏳ Waiting Time Notice</h4>
-      <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
+      <p>⏳ Processing time varies per server, pero <b>guaranteed</b> na matatanggap mo ang order. Salamat sa tiwala!</p>
     </div>
+
+    <!-- Thanks -->
+    <div class="thanks"><span>Thanks for trusting us, <b>GG!</b> For updates, just use Track Order or chat me anytime.</span></div>
   </div>
 
-  <!-- BUY Popup -->
-  <div id="buyPopup">
-    <div class="cardPop">
-      <h3>Copied ✔</h3>
-      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
-      <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
-    </div>
-  </div>
+  <!-- Popups -->
+  <div id="buyPopup"><div class="cardPop">
+    <h3>Copied ✔</h3>
+    <p><b>I-PASTE MO ITO SA MESSENGER KO.</b><br>Open Messenger then paste the order message.</p>
+    <button class="btn" id="buyOk" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
+  </div></div>
 
-  <!-- GCash Copied Popup -->
-  <div id="gcashPopup">
-    <div class="cardPop">
-      <h3>GCash number copied ✔</h3>
-      <p><strong>09162466318 — MOISES B.</strong><br>Paste sa GCash Express Send.</p>
-      <button id="gcashOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
-    </div>
-  </div>
+  <div id="copyPopup"><div class="cardPop">
+    <h3>Copied ✔</h3>
+    <p id="copyMsg">Copied to clipboard.</p>
+    <button class="btn" id="copyOk" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
+  </div></div>
+
+  <div id="qrModal"><div class="cardPop">
+    <h3 id="qrTitle">QR</h3>
+    <img id="qrImg" src="" alt="QR">
+    <button class="btn" id="qrOk" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
+  </div></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  /* Helpers */
+  /* Shortcuts */
   const $ = id => document.getElementById(id);
   const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
   const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
   const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
-  const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+  const fmt  = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
 
+  /* Tier rules */
   const MIN1=1000, MIN2=4000, MIN3=8000;
   const T1=0.80, T2=0.75, T3=0.70;
 
@@ -244,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return T3;
   }
 
+  /* Estimate diamonds from PHP by iterating to lock correct tier */
   function estimateFromPHP(p){
     if(!p||p<=0) return 0;
     let q = Math.floor(p/T1);
@@ -254,18 +266,26 @@ document.addEventListener('DOMContentLoaded', () => {
     return q;
   }
 
+  /* Paint tiers */
   function paintPills(q, r){
     const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
-    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
-    if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
-    if(q<MIN2) p75.classList.add('lock');
-    if(q<MIN3) p70.classList.add('lock');
-    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
+    [p80,p75,p70].forEach(p=>p.classList.remove('active','t1','t2','t3'));
+    if(!q || q<MIN1) return;
+    if(r===T1){ p80.classList.add('active','t1'); }
+    if(r===T2){ p75.classList.add('active','t2'); }
+    if(r===T3){ p70.classList.add('active','t3'); } // flare shows via CSS only when active
   }
 
-  const diasEl=$('dias'), phpEl=$('phpIn'), rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
+  /* Elements */
+  const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
+  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
 
   let lastEdited=null;
+
+  function validServer(){
+    return serverEl.value.trim().length>0;
+  }
+
   function recalc(){
     let q = toInt(diasEl.value);
     let p = toNum(phpEl.value);
@@ -284,8 +304,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const r=getRate(q);
     paintPills(q,r);
 
-    const ok = q>=MIN1 && !!r;
+    const ok = q>=MIN1 && !!r && validServer();
     warn.style.display = ok ? 'none' : 'block';
+    buyBtn.disabled = !ok;
 
     if(r && q){
       rateOut.textContent = `₱${r.toFixed(2)} / dia`;
@@ -300,38 +321,62 @@ document.addEventListener('DOMContentLoaded', () => {
   ['input','change','keyup'].forEach(ev=>{
     diasEl.addEventListener(ev, ()=>{ lastEdited='d'; recalc(); });
     phpEl.addEventListener(ev,  ()=>{ lastEdited='p'; recalc(); });
+    serverEl.addEventListener(ev, recalc);
   });
   recalc();
 
-  // Buy (copy + popup)
-  buyBtn.addEventListener('click', async ()=>{
+  /* Buy: copy receipt + popup */
+  $('buyBtn').addEventListener('click', async ()=>{
     let q = toInt(diasEl.value);
     let p = toNum(phpEl.value);
     if(!q && p) q = estimateFromPHP(p);
     const r = getRate(q);
-    if(!r){ alert('Minimum 1000 💎 required.'); return; }
+    if(!r || !validServer()){ recalc(); return; }
     const total = p || (q*r);
     const msg = `BUY ORDER
 Diamonds: ${q} 💎
 Rate: ₱${r.toFixed(2)} / dia
 Total: ₱${fmt(total)}
+Server: ${serverEl.value.trim()}
 GCash: 09162466318 (MOISES B.)`;
-    try{ await navigator.clipboard.writeText(msg); }catch(e){ console.warn('Clipboard write failed', e); }
+    try{ await navigator.clipboard.writeText(msg); }catch{}
     $('buyPopup').style.display='grid';
   });
-  $('closePop').addEventListener('click', ()=> $('buyPopup').style.display='none');
+  $('buyOk').onclick=()=>{$('buyPopup').style.display='none';};
 
-  // GCash (copy only + popup)
-  (function(){
-    const MOBILE='09162466318';
-    const row = $('gcashRow');
-    const pop = $('gcashPopup');
-    const ok  = $('gcashOk');
+  /* Copy helpers */
+  function showCopy(text){
+    $('copyMsg').textContent = text;
+    $('copyPopup').style.display='grid';
+  }
+  $('copyOk').onclick=()=>{$('copyPopup').style.display='none';};
 
-    async function copyNum(){ try{ await navigator.clipboard.writeText(MOBILE);}catch(e){ console.warn('Clipboard write failed', e); } }
-    row.addEventListener('click', async ()=>{ await copyNum(); pop.style.display='grid'; });
-    ok.addEventListener('click', ()=> pop.style.display='none');
-  })();
+  // GCash copy
+  $('gcashCopy').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText('09162466318'); }catch{}
+    showCopy('GCash number copied. Paste in Express Send.');
+  });
+
+  // GoTyme copy
+  $('goCopy').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText('014664932955'); }catch{}
+    showCopy('GoTyme account copied. Paste in Send Money.');
+  });
+
+  // QR viewer
+  const qrModal=$('qrModal'), qrImg=$('qrImg'), qrTitle=$('qrTitle');
+  $('qrOk').onclick=()=>{ qrModal.style.display='none'; };
+
+  $('gcashQR').onclick=()=>{
+    qrTitle.textContent='GCash QR';
+    qrImg.src='gcash-qr.png';   // make sure this file exists in your repo
+    qrModal.style.display='grid';
+  };
+  $('goQR').onclick=()=>{
+    qrTitle.textContent='GoTyme QR';
+    qrImg.src='gotyme-qr.png';  // optional: add this file if you want QR for GoTyme
+    qrModal.style.display='grid';
+  };
 });
 </script>
 </body>
