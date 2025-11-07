@@ -84,4 +84,341 @@
   .dc{background:var(--discord);color:#fff}
 
   /* Notice */
-  .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px
+  .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 18px rgba(0,0,0,.25)}
+  .notice h4{margin:0 0 6px;font-size:14px}
+  .notice p{margin:0;color:var(--mut);font-size:13px}
+
+  /* Footer owner with Meta Verified badge + FB icon */
+  .owner{
+    margin-top:14px; display:flex; gap:10px; align-items:center; justify-content:center;
+    padding:10px 12px; border-radius:14px;
+    background:linear-gradient(180deg,#131218,#0d0c12);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 0 18px rgba(0,0,0,.25);
+    font-weight:800;
+  }
+  .owner a{color:#fff; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
+  .ownerName{letter-spacing:.3px}
+  .metaBadge{ width:22px; height:22px; display:inline-block; filter: drop-shadow(0 0 10px rgba(24,119,242,.45)); }
+</style>
+</head>
+<body>
+  <!-- Sparkles -->
+  <canvas id="sparkleCanvas"></canvas>
+
+  <div class="wrap">
+    <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
+
+    <!-- LOGO -->
+    <div class="logoWrap">
+      <div class="logo">
+        <div class="ring"></div>
+        <img src="logo.png" alt="Logo">
+      </div>
+    </div>
+
+    <!-- Price pills (with mins) -->
+    <div class="row prices">
+      <div id="pill80" class="pill">
+        <div class="pval">₱0.80</div>
+        <div class="ptxt">min 1000 💎</div>
+      </div>
+      <div id="pill75" class="pill">
+        <div class="pval">₱0.75</div>
+        <div class="ptxt">min 4000 💎</div>
+      </div>
+      <div id="pill70" class="pill">
+        <div class="pval">₱0.70</div>
+        <div class="ptxt">min 8000 💎</div>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="section">
+      <div class="label">Enter Diamonds 💎</div>
+      <input id="dias" class="in" inputmode="numeric" placeholder="e.g. 1500">
+      <div class="label" style="margin-top:10px">ENTER PHP ₱</div>
+      <input id="phpIn" class="in" inputmode="decimal" placeholder="e.g. 500.00">
+      <div id="warn" class="warn">Minimum 1000 💎 required.</div>
+
+      <div class="grid2">
+        <div class="box">
+          <h5>Rate</h5>
+          <div id="rateOut" class="rateOut">—</div>
+        </div>
+        <div class="box saveBox">
+          <h5>Save</h5>
+          <div id="saveOut" class="saveOut">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buy -->
+    <button id="buyBtn" class="btn buy" style="width:100%;margin-top:10px" disabled>💎 Buy</button>
+    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
+
+    <!-- Payment + socials (icons) -->
+    <div class="pay" style="margin-top:10px">
+      <div id="gcashRow" class="gcash" title="Tap to open GCash • number auto-copied">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2.8" y="6" width="18.4" height="12" rx="3" fill="#1877f2"/>
+          <rect x="13.2" y="9" width="7" height="6" rx="1.4" fill="#0f5bd7"/>
+          <circle cx="17.2" cy="12" r="1.2" fill="#fff"/>
+          <text x="7.2" y="14.7" font-size="7.6" fill="#fff" font-family="Poppins, Arial" font-weight="700">₱</text>
+        </svg>
+        GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong>
+      </div>
+
+      <div class="soc">
+        <button id="fbBtn" class="btn fb">
+          <!-- FB icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
+          </svg>
+          FB FEEDBACK
+        </button>
+
+        <button id="dcBtn" class="btn dc">
+          <!-- Discord icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+            <path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/>
+          </svg>
+          DISCORD FEEDBACK
+        </button>
+      </div>
+    </div>
+
+    <!-- Waiting Time Notice -->
+    <div class="notice">
+      <h4>⏳ Waiting Time Notice</h4>
+      <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
+    </div>
+
+    <!-- Owner + Meta Verified: FB icon + clickable name + meta badge -->
+    <div class="owner">
+      <!-- FB icon -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
+        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
+      </svg>
+      <!-- Clickable name + meta badge -->
+      <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
+        <span class="ownerName">MOISES TRAJANO BITONIO</span>
+        <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs>
+          <circle cx="12" cy="12" r="10" fill="url(#g)"/>
+          <path d="M9.2 12.6l-1.7-1.7a1 1 0 10-1.4 1.4l2.4 2.4c.4.4 1 .4 1.4 0l6.1-6.1a1 1 0 10-1.4-1.4l-5.4 5.4z" fill="#fff"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- BUY Popup -->
+  <div id="buyPopup" class="popup" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50">
+    <div class="cardPop" style="width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center">
+      <h3>Copied ✔</h3>
+      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+      <button id="closePop" class="close" style="background:#272327;color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800">OK</button>
+    </div>
+  </div>
+
+<script>
+  /* ===== Links ===== */
+  const FB_URL = 'https://www.facebook.com/share/1FWLHh32iE/'; // FB FEEDBACK
+  const DC_URL = 'https://discord.gg/QkdVz5mh';                // DISCORD FEEDBACK
+
+  /* ===== Helpers ===== */
+  const $ = id => document.getElementById(id);
+  const cleanNum = v => (typeof v === 'string' ? v.replace(/[,\s₱]/g,'') : v);
+  const num = v => {
+    const s = String(cleanNum(v)).match(/-?\d+(?:\.\d+)?/);
+    return s ? parseFloat(s[0]) : 0;
+  };
+  const int = v => {
+    const s = String(cleanNum(v)).match(/\d+/);
+    return s ? parseInt(s[0],10) : 0;
+  };
+  const F = n => {
+    if (n == null || isNaN(n)) return '';
+    return Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+  };
+
+  const MIN1000 = 1000, MIN4000 = 4000, MIN8000 = 8000;
+  const T1=0.80, T2=0.75, T3=0.70;
+
+  function rate(q){
+    if(!q || q<MIN1000) return null;
+    if(q<MIN4000) return T1;
+    if(q<MIN8000) return T2;
+    return T3;
+  }
+
+  // Estimate diamonds from PHP with tier refinement
+  function estFromPhp(php){
+    if (!php || php<=0) return 0;
+    let q = Math.max(0, Math.floor(php / T1));
+    for (let i=0;i<4;i++){
+      const r = rate(q) ?? T1;
+      q = Math.max(0, Math.floor(php / r));
+    }
+    return q;
+  }
+
+  // Tier pills
+  function paintPills(q, r){
+    const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
+    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
+    if(!q || q<MIN1000){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
+    if(q<MIN4000) p75.classList.add('lock');
+    if(q<MIN8000) p70.classList.add('lock');
+    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
+  }
+
+  let lastInput = null, lastRate = null;
+  const diasEl = $('dias'), phpEl = $('phpIn'), warnEl = $('warn');
+
+  // Extra listeners for mobile keyboards (input + keyup + change)
+  ['input','keyup','change'].forEach(evt=>{
+    diasEl.addEventListener(evt, ()=>{ lastInput='d'; compute(true); }, {passive:true});
+    phpEl.addEventListener(evt,  ()=>{ lastInput='p'; compute(true); }, {passive:true});
+  });
+
+  function compute(sync=true){
+    let q = int(diasEl.value);
+    let p = num(phpEl.value);
+
+    if(lastInput==='p'){            // User typing PHP → compute dias
+      q = estFromPhp(p);
+      if(sync) diasEl.value = q ? String(q) : '';
+    }else if(lastInput==='d'){      // User typing dias → compute PHP
+      const rNow = rate(q);
+      const total = rNow ? q*rNow : 0;
+      if(sync) phpEl.value = total ? F(total) : '';
+    }else{                          // Initial / unknown → try fill
+      if(!q && p){ q = estFromPhp(p); if(sync) diasEl.value = q?String(q):''; }
+      if(q && !p){ const rNow = rate(q); if(sync && rNow) phpEl.value = F(q*rNow); }
+    }
+
+    const r = rate(q);
+    paintPills(q, r);
+
+    const ok = q>=MIN1000 && !!r;
+    warnEl.style.display = ok ? 'none' : 'block';
+    $('buyBtn').disabled = !ok;
+
+    let rateTxt='—', saveTxt='—';
+    if(q && r){
+      rateTxt = `₱${r.toFixed(2)} / dia`;
+      const base=q*T1, saveAmt=Math.max(0, base - (q*r));
+      const savePct=Math.max(0,(1 - r/T1)*100);
+      saveTxt = `${savePct.toFixed(2)}% • ₱${F(saveAmt)}`;
+    }
+    $('rateOut').textContent = rateTxt;
+    $('saveOut').textContent = saveTxt;
+
+    if(r && r !== lastRate){
+      const target = r===T1 ? $('pill80') : r===T2 ? $('pill75') : $('pill70');
+      target.classList.remove('active'); void target.offsetWidth; target.classList.add('active');
+      lastRate = r;
+    }
+  }
+  // Kick once
+  compute(false);
+
+  /* Button ripple */
+  function ripple(e){
+    const r=document.createElement('span'); r.className='ripple';
+    const rect=e.currentTarget.getBoundingClientRect();
+    r.style.width=r.style.height=Math.max(rect.width,rect.height)+'px';
+    r.style.left=(e.clientX-rect.left - rect.width/2)+'px';
+    r.style.top=(e.clientY-rect.top - rect.height/2)+'px';
+    e.currentTarget.appendChild(r); setTimeout(()=>r.remove(),600);
+  }
+  document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',ripple,{passive:true}));
+
+  /* Buy: copy + popup */
+  $('buyBtn').addEventListener('click', async ()=>{
+    let q = int(diasEl.value);
+    let p = num(phpEl.value);
+    if (!q && p) q = estFromPhp(p);
+    const r = rate(q);
+    if (!r){ alert('Minimum 1000 💎 required.'); return; }
+    const total = p || (q*r);
+
+    const msg =
+`BUY ORDER
+Diamonds: ${q} 💎
+Rate: ₱${r.toFixed(2)} / dia
+Total: ₱${F(total)}
+GCash: 09162466318 (MOISES B.)`;
+
+    try{ await navigator.clipboard.writeText(msg); }catch{}
+    document.getElementById('buyPopup').style.display='grid';
+  });
+  document.getElementById('closePop').onclick = ()=> document.getElementById('buyPopup').style.display='none';
+
+  /* Social buttons — open links in new tab */
+  $('fbBtn').addEventListener('click', ()=> window.open(FB_URL, '_blank', 'noopener'));
+  $('dcBtn').addEventListener('click', ()=> window.open(DC_URL, '_blank', 'noopener'));
+
+  /* ===== GCash tap: copy number + try open app + fallback store ===== */
+  (function(){
+    const GCASH_MOBILE = '09162466318';
+    const PKG = 'com.globe.gcash.android';
+    const PLAY = 'https://play.google.com/store/apps/details?id=' + PKG;
+    const APPLE = 'https://apps.apple.com/app/id520020791';
+
+    function isIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+    function toast(msg){
+      const t=document.createElement('div');
+      t.textContent=msg;
+      Object.assign(t.style,{position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',background:'rgba(0,0,0,.85)',color:'#fff',padding:'10px 14px',borderRadius:'12px',fontWeight:'800',zIndex:9999});
+      document.body.appendChild(t); setTimeout(()=>t.remove(),1800);
+    }
+
+    async function copyNum(){
+      try{ await navigator.clipboard.writeText(GCASH_MOBILE); }catch(e){}
+    }
+
+    async function openGcash(){
+      await copyNum();
+      const scheme = 'gcash://';
+      const start = Date.now();
+      window.location.href = scheme;
+      setTimeout(()=>{
+        if (document.visibilityState === 'visible') {
+          window.location.href = isIOS() ? APPLE : PLAY;
+        }
+      }, 1200);
+      toast('Number copied. Opened GCash — go to Express Send and paste.');
+    }
+
+    $('gcashRow').addEventListener('click', openGcash);
+  })();
+
+  /* ===== Sparkle engine (light) ===== */
+  (function(){
+    const cvs = document.getElementById('sparkleCanvas'), c = cvs.getContext('2d');
+    let W=0,H=0, dpr=1, stars=[];
+    const MAX = 48, SPEED = 0.12, TWINKLE = 0.025;
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      W = cvs.width = Math.floor(innerWidth * dpr);
+      H = cvs.height = Math.floor(innerHeight * dpr);
+      cvs.style.width = innerWidth+'px'; cvs.style.height = innerHeight+'px';
+      if(stars.length===0) init();
+    }
+    function rnd(a,b){ return a + Math.random()*(b-a); }
+    function init(){
+      stars=[]; for(let i=0;i<MAX;i++){
+        stars.push({x:rnd(0,W),y:rnd(0,H*1.0),r:rnd(0.6,1.8)*dpr,a:Math.random()*Math.PI*2,o:rnd(0.35,0.9),vx:rnd(-SPEED,SPEED)*dpr*0.6,vy:rnd(-SPEED,SPEED)*dpr*0.6});
+      }
+    }
+    let rafId=null;
+    function frame(){
+      c.clearRect(0,0,W,H);
+      c.globalCompositeOperation='lighter';
+      const s1=getComputedStyle(document.documentElement).getPropertyValue('--spark1').trim();
+      const s2=getComputedStyle(document.documentElement).getPropertyValue('--spark2').trim();
+      for(const s of stars){
+        s.a += TWINKLE; s.x += s.vx; s.y += s.vy;
+        if(s.x<-10 || s.x>W+10) s.vx*=-1; if(s.y<-10 || s.y>H+10) s
