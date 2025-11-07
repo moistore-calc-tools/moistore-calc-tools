@@ -41,23 +41,22 @@
 
   .wrap{max-width:760px;margin:auto;padding:16px 14px 120px}
 
-  /* ===== Title: rotating glow (no bounce) ===== */
+  /* ===== Title with rotating glow (no bounce) ===== */
   .title{
     display:flex;gap:2px;justify-content:center;flex-wrap:wrap;
     font-weight:900;letter-spacing:.4px;margin:2px 0 8px;
   }
   .titleGlow .char{
-    position:relative;
     display:inline-block;
     font-size:clamp(18px, 6vw, 28px);
-    text-shadow:0 0 6px rgba(255,80,140,.25), 0 0 14px rgba(255,40,100,.18);
+    text-shadow:0 0 6px rgba(255,80,140,.25),0 0 14px rgba(255,40,100,.18);
     filter:hue-rotate(0deg);
     animation:rotHue 6s linear infinite;
-    animation-delay: calc(var(--i) * 0.06s);
-    will-change: filter, text-shadow;
+    animation-delay:calc(var(--i)*0.06s);
+    will-change:filter,text-shadow;
   }
   @keyframes rotHue{to{filter:hue-rotate(360deg)}}
-  @media (prefers-reduced-motion:reduce){ .titleGlow .char{animation:none} }
+  @media (prefers-reduced-motion:reduce){.titleGlow .char{animation:none}}
 
   /* Logo */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
@@ -80,14 +79,10 @@
   .ptxt{font-size:12px;color:#ccb9c1}
   .pill.lock{opacity:.55;filter:grayscale(.25);border-color:rgba(255,255,255,.10);box-shadow:none}
 
-  /* Glow animations */
-  .flexGlow{ /* 0.80 */
+  /* Glow animations per tier */
+  .flexGlow{ /* 0.80 emerald pulse */
     border-color:rgba(80,255,160,.7)!important;
-    box-shadow:
-      0 0 26px rgba(80,255,170,.45),
-      0 0 70px rgba(40,255,140,.22),
-      inset 0 0 18px rgba(80,255,160,.22),
-      inset 0 0 2px rgba(200,255,220,.75);
+    box-shadow:0 0 26px rgba(80,255,170,.45),0 0 70px rgba(40,255,140,.22),inset 0 0 18px rgba(80,255,160,.22),inset 0 0 2px rgba(200,255,220,.75);
     transform:translateY(-2px) scale(1.04);
     animation:flexPulse 2.2s ease-in-out infinite;
   }
@@ -96,13 +91,9 @@
     50%{box-shadow:0 0 34px rgba(120,255,200,.75),0 0 95px rgba(50,255,170,.32)}
     100%{box-shadow:0 0 20px rgba(80,255,170,.45),0 0 60px rgba(40,255,140,.22)}
   }
-  .popularGlow{ /* 0.75 */
+  .popularGlow{ /* 0.75 golden ember */
     border-color:rgba(255,220,100,.8)!important;
-    box-shadow:
-      0 0 22px rgba(255,225,90,.45),
-      0 0 58px rgba(255,210,40,.28),
-      inset 0 0 16px rgba(255,200,60,.22),
-      inset 0 0 2px rgba(255,245,190,.75);
+    box-shadow:0 0 22px rgba(255,225,90,.45),0 0 58px rgba(255,210,40,.28),inset 0 0 16px rgba(255,200,60,.22),inset 0 0 2px rgba(255,245,190,.75);
     transform:translateY(-2px) scale(1.04);
     animation:emberPulse 2.1s ease-in-out infinite;
   }
@@ -111,13 +102,9 @@
     50%{box-shadow:0 0 32px rgba(255,235,130,.70),0 0 90px rgba(255,205,70,.35)}
     100%{box-shadow:0 0 20px rgba(255,225,90,.45),0 0 52px rgba(255,200,60,.25)}
   }
-  .flame{ /* 0.70 */
+  .flame{ /* 0.70 fiery best */
     border-color:rgba(255,130,20,.85)!important;
-    box-shadow:
-      0 0 26px rgba(255,120,0,.42),
-      0 0 70px rgba(255,60,0,.25),
-      inset 0 0 18px rgba(255,140,60,.28),
-      inset 0 0 2px rgba(255,200,160,.7);
+    box-shadow:0 0 26px rgba(255,120,0,.42),0 0 70px rgba(255,60,0,.25),inset 0 0 18px rgba(255,140,60,.28),inset 0 0 2px rgba(255,200,160,.7);
     animation:flamePulse 1.5s ease-in-out infinite;
   }
   @keyframes flamePulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
@@ -133,10 +120,8 @@
     border-radius:999px; padding:6px 8px;
     font-size:11px; font-weight:900;
     background:linear-gradient(180deg,#ffb66a,#ff7b2c);
-    color:#2b1200;
-    border:1px solid rgba(255,255,255,.35);
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
-    opacity:.98;
+    color:#2b1200; border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 8px 20px rgba(0,0,0,.25); opacity:.98;
   }
 
   /* Card / Inputs */
@@ -183,12 +168,21 @@
   .notice h4{margin:0 0 6px;font-size:14px}
   .notice p{margin:0;color:#ccb9c1;font-size:13px}
 
-  /* Thank you */
-  .thanksCard{margin-top:14px;padding:14px;border-radius:14px;background:linear-gradient(180deg,#141219,#0f0d12);border:1px solid rgba(255,255,255,.12);box-shadow:0 0 16px rgba(0,0,0,.25)}
-  .thanksCard h4{margin:0 0 6px;font-size:14px}
-  .thanksCard p{margin:0;color:#ccb9c1;font-size:13px;line-height:1.5}
-  .sparkle{background:linear-gradient(90deg, rgba(255,255,255,.0), rgba(255,255,255,.18), rgba(255,255,255,.0));-webkit-background-clip:text;background-clip:text;color:transparent;animation:spark 2.2s linear infinite}
-  @keyframes spark{0%{background-position:-200px 0}100%{background-position:200px 0}}
+  /* Thank you – short, glowy */
+  .thanksCard{
+    margin-top:14px;padding:14px;border-radius:14px;
+    background:linear-gradient(180deg,#141219,#0f0d12);
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 0 16px rgba(0,0,0,.25);
+  }
+  .tyLine{
+    font-size:16px;font-weight:900;letter-spacing:.3px;text-align:center;margin:0 0 6px;
+    color:#ffffff;
+    text-shadow:0 0 10px rgba(255,70,120,.35), 0 0 20px rgba(255,40,100,.25);
+    filter:hue-rotate(0deg);
+    animation:tyGlow 5.5s linear infinite;
+  }
+  @keyframes tyGlow{to{filter:hue-rotate(360deg)}}
+  .tyTip{margin:0;color:#ccb9c1;font-size:13px;text-align:center}
 
   /* Track */
   .track{margin-top:14px;background:linear-gradient(180deg,#151218,#100f13);border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:14px;box-shadow:0 0 16px rgba(0,0,0,.25)}
@@ -203,7 +197,7 @@
 </style>
 </head>
 <body>
-  <!-- Title with rotating glow -->
+  <!-- Title -->
   <div id="pageTitle" class="title titleGlow">LEGEND OF YMIR DIAMOND 💎</div>
 
   <div class="wrap">
@@ -216,16 +210,10 @@
 
     <!-- Owner -->
     <div class="owner">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
-        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
-      </svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/></svg>
       <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
-        <span class="ownerName">MOISEES TRAJANO BITONIO</span>
-        <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs>
-          <circle cx="12" cy="12" r="10" fill="url(#g)"/>
-          <path d="M9.2 12.6l-1.7-1.7a1 1 0 10-1.4 1.4l2.4 2.4c.4.4 1 .4 1.4 0l6.1-6.1a1 1 0 10-1.4-1.4l-5.4 5.4z" fill="#fff"/>
-        </svg>
+        <span class="ownerName">MOISES TRAJANO BITONIO</span>
+        <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="url(#g)"/><path d="M9.2 12.6l-1.7-1.7a1 1 0 10-1.4 1.4l2.4 2.4c.4.4 1 .4 1.4 0l6.1-6.1a1 1 0 10-1.4-1.4l-5.4 5.4z" fill="#fff"/></svg>
       </a>
     </div>
 
@@ -279,42 +267,26 @@
     <!-- Payment + Socials -->
     <div class="pay">
       <div id="gcashRow" class="gcashRow" title="Tap to copy number" onclick="onGCashRowClick(event)">
-        <div class="gcashLeft">
-          <div class="gcashIcon">G</div>
-          GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong>
-        </div>
+        <div class="gcashLeft"><div class="gcashIcon">G</div>GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong></div>
         <button id="showQR" type="button" class="qrBtn" title="Show GCash QR" onclick="openQR(event)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#cfe4ff" aria-hidden="true">
-            <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm6 6h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm12-12h4v4h-4V3z"/>
-          </svg>
-          Show QR
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#cfe4ff" aria-hidden="true"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm6 6h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm12-12h4v4h-4V3z"/></svg>Show QR
         </button>
       </div>
 
       <div id="gotymeRow" class="gotymeRow" title="Tap to copy number" onclick="onGoTymeRowClick(event)">
-        <div class="gotymeLeft">
-          <div class="gotymeIcon">GT</div>
-          GoTyme • <strong id="gotymeNumber">014664932955 — MOISES BITONIO</strong>
-        </div>
+        <div class="gotymeLeft"><div class="gotymeIcon">GT</div>GoTyme • <strong id="gotymeNumber">014664932955 — MOISES BITONIO</strong></div>
         <button id="showGY" type="button" class="gyBtn" title="Show GoTyme QR" onclick="openGoTymeQR(event)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#dff7ee" aria-hidden="true">
-            <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm6 6h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm12-12h4v4h-4V3z"/>
-          </svg>
-          Show QR
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#dff7ee" aria-hidden="true"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm6 6h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm12-12h4v4h-4V3z"/></svg>Show QR
         </button>
       </div>
 
       <div class="soc">
         <a class="btnlink fb" href="https://www.facebook.com/share/p/17MiaRJ24J/" target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/></svg>
           FACEBOOK FEEDBACK
         </a>
         <a class="btnlink dc" href="https://discord.gg/QkdVz5mh" target="_blank" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-            <path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/></svg>
           DISCORD FEEDBACK
         </a>
       </div>
@@ -326,12 +298,10 @@
       <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
     </div>
 
-    <!-- Thank You -->
+    <!-- Thank You (short) -->
     <div class="thanksCard">
-      <h4 class="sparkle">🙏 Salamat sa tiwala, boss!</h4>
-      <p>Na-receive na namin ang details mo. Kung may kulang o tanong, magre-reach out kami agad.
-      Habang naka-queue ang order, chill ka lang — <strong>guaranteed matatanggap mo</strong>. 💎🔥
-      <br><br><em>Tip:</em> Save mo yung <strong>Order ID</strong> para madali i-track dito anytime.</p>
+      <p class="tyLine">🙏 Thank you sa tiwala, boss! 💎</p>
+      <p class="tyTip">Tip: Save mo ang <strong>Order ID</strong> — pwede mong i-check sa “Track Order” anytime dito.</p>
     </div>
 
     <!-- Track Order -->
@@ -342,4 +312,183 @@
         <button id="trackBtn" class="btn" style="background:#27252c;color:#fff" onclick="onTrack()">Check</button>
       </div>
       <div id="trackOut" style="margin-top:10px;display:none">
-        <div class="chip" style="margin-bottom:8px"><strong id="t_id">—</strong><span id="t_status" style=
+        <div class="chip" style="margin-bottom:8px"><strong id="t_id">—</strong><span id="t_status" style="opacity:.9"></span></div>
+        <div style="display:grid;gap:6px;font-size:14px;color:#ccb9c1">
+          <div>Server: <span id="t_server" style="color:#fff"></span></div>
+          <div>Diamonds: <span id="t_qty" style="color:#fff"></span> 💎</div>
+          <div>Rate: <span id="t_rate" style="color:#fff"></span></div>
+          <div>Total: <span id="t_total" style="color:#fff"></span></div>
+          <div>Created: <span id="t_time" style="color:#fff"></span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1" onclick="onPaid()">Buyer: I Paid</button>
+        </div>
+        <div class="hint" style="margin-top:6px">Tip: Buyer taps <b>I Paid</b> after sending payment. (Local tracking only)</div>
+      </div>
+      <div id="trackNone" class="hint" style="display:none;margin-top:8px">Walang record sa device na ’to. Note: Tracking works on the same phone/browser (local only).</div>
+    </div>
+  </div>
+
+  <!-- BUY Popup -->
+  <div id="buyPopup"><div class="cardPop">
+    <h3>Copied ✔</h3>
+    <p id="buyMsg"><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+    <div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div>
+    <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeBuy()">OK</button>
+  </div></div>
+
+  <!-- GCash Copied Popup -->
+  <div id="gcashPopup"><div class="cardPop">
+    <h3>GCash number copied ✔</h3>
+    <p><strong>09162466318 — MOISES B.</strong><br>Paste sa GCash Express Send.</p>
+    <button id="gcashOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeGCash()">OK</button>
+  </div></div>
+
+  <!-- GCash QR Popup -->
+  <div id="qrPopup"><div class="cardPop">
+    <h3>GCash QR</h3>
+    <p>Scan to pay • <strong>MOISES B.</strong></p>
+    <img src="gcash-qr.png" alt="GCash QR" class="qrImg">
+    <div style="margin-top:12px"><button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeQR()">Close</button></div>
+  </div></div>
+
+  <!-- GoTyme QR Popup -->
+  <div id="gyPopup"><div class="cardPop">
+    <h3>GoTyme QR</h3>
+    <p>Scan to pay • <strong>MOISES BITONIO</strong><br><small>Acct: 014664932955</small></p>
+    <img src="gotyme-qr.png" alt="GoTyme QR" class="qrImg">
+    <div style="margin-top:12px"><button class="btn" style="background:#272327;color:#fff;width:160px;margin:auto" onclick="closeGoTymeQR()">Close</button></div>
+  </div></div>
+
+<script>
+/* Helpers */
+const $=id=>document.getElementById(id);
+const clean=v=>String(v??'').replace(/[^\d.]/g,'');
+const toInt=v=>{const m=clean(v).match(/^\d+/);return m?parseInt(m[0],10):0};
+const toNum=v=>{const m=clean(v).match(/^\d+(?:\.\d+)?/);return m?parseFloat(m[0]):0};
+const fmt=n=>Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+const MIN1=1000,MIN2=4000,MIN3=8000;
+const T1=0.80,T2=0.75,T3=0.70;
+
+function getRate(q){ if(!q||q<MIN1)return null; if(q<MIN2)return T1; if(q<MIN3)return T2; return T3; }
+function estimateFromPHP(p){ if(!p||p<=0)return 0; let q=Math.floor(p/T1); for(let i=0;i<4;i++){ const r=getRate(q)??T1; q=Math.floor(p/r);} return q; }
+
+/* Glow assignment */
+function paintPills(q,r){
+  const p80=$('pill80'),p75=$('pill75'),p70=$('pill70');
+  [p80,p75,p70].forEach(p=>p.classList.remove('flexGlow','popularGlow','flame','lock'));
+  if(!q||q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
+  if(q<MIN2) p75.classList.add('lock');
+  if(q<MIN3) p70.classList.add('lock');
+  if(q>=MIN1 && q<MIN2) p80.classList.add('flexGlow');
+  else if(q>=MIN2 && q<MIN3) p75.classList.add('popularGlow');
+  else if(q>=MIN3) p70.classList.add('flame');
+}
+
+/* Compute */
+let lastEdited=null;
+function recalc(){
+  const diasEl=$('dias'),phpEl=$('phpIn'),serverEl=$('serverIn');
+  const rateOut=$('rateOut'),saveOut=$('saveOut'),warn=$('warn'),buyBtn=$('buyBtn');
+
+  let q=toInt(diasEl.value), p=toNum(phpEl.value);
+  if(lastEdited==='p'){ q=estimateFromPHP(p); diasEl.value=q?String(q):''; }
+  else if(lastEdited==='d'){ const r=getRate(q); phpEl.value=(r&&q)?fmt(q*r):''; }
+  else { if(!q&&p){ q=estimateFromPHP(p); diasEl.value=q?String(q):''; } if(q&&!p){ const r=getRate(q); phpEl.value=r?fmt(q*r):''; } }
+
+  const r=getRate(q); paintPills(q,r);
+  const ok=q>=MIN1&&!!r, serverOK=(serverEl.value||'').trim().length>0;
+  warn.style.display=ok?'none':'block';
+  buyBtn.disabled=!(ok&&serverOK);
+
+  if(r&&q){
+    rateOut.textContent=`₱${r.toFixed(2)} / dia`;
+    const base=q*T1,saveAmt=Math.max(0,base-(q*r)),savePct=Math.max(0,(1-r/T1)*100);
+    saveOut.textContent=`${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
+  }else{ rateOut.textContent='—'; saveOut.textContent='—'; }
+}
+
+/* Inputs */
+function onDiasInput(){ lastEdited='d'; recalc(); }
+function onPhpInput(){ lastEdited='p'; recalc(); }
+
+/* Orders (local) */
+const ORDERS_KEY='ymir_orders_v2';
+const loadOrders=()=>{try{return JSON.parse(localStorage.getItem(ORDERS_KEY)||'[]')}catch{return[]}};
+const saveOrders=l=>{try{localStorage.setItem(ORDERS_KEY,JSON.stringify(l))}catch(e){}};
+const genOrderId=()=>`MB-STORE-${Math.floor(10000+Math.random()*90000)}`;
+
+/* Track */
+function findOrder(id){ id=(id||'').trim().toUpperCase(); return loadOrders().find(o=>String(o.id).toUpperCase()===id)||null; }
+function renderOrder(o){
+  const trackOut=$('trackOut'),trackNone=$('trackNone');
+  const t_id=$('t_id'),t_status=$('t_status'),t_server=$('t_server'),t_qty=$('t_qty'),t_rate=$('t_rate'),t_total=$('t_total'),t_time=$('t_time');
+  if(!o){ trackOut.style.display='none'; trackNone.style.display='block'; return; }
+  t_id.textContent=o.id; t_status.textContent=`• ${o.status}`; t_server.textContent=o.server;
+  t_qty.textContent=o.qty; t_rate.textContent=`₱${o.rate.toFixed(2)} / dia`; t_total.textContent=`₱${fmt(o.total)}`;
+  t_time.textContent=new Date(o.created).toLocaleString(); trackNone.style.display='none'; trackOut.style.display='block';
+}
+function updateStatus(id,status){ const list=loadOrders(); const i=list.findIndex(o=>o.id===id); if(i>=0){list[i].status=status; saveOrders(list); return list[i];} return null; }
+function onTrack(){ renderOrder(findOrder($('trackIn').value)); }
+function onPaid(){ const id=$('t_id').textContent.trim(); if(!id){toast("Walang active order.");return;} const o=updateStatus(id,'Processing'); if(o){ renderOrder(o); toast("Payment marked: Processing ✅"); chime(); } }
+
+/* Buy */
+async function onBuyClick(){
+  const diasEl=$('dias'),phpEl=$('phpIn'),serverEl=$('serverIn');
+  let q=toInt(diasEl.value), p=toNum(phpEl.value);
+  if(!q&&p) q=estimateFromPHP(p);
+  const r=getRate(q); if(!r){alert('Minimum 1000 💎 required.');return;}
+  const server=(serverEl.value||'').trim(); if(!server){alert('Please enter your server (required).');return;}
+  const total=p||(q*r); const orderId=genOrderId();
+  const msg=`BUY ORDER
+Order ID: ${orderId}
+Server: ${server}
+Diamonds: ${q} 💎
+Rate: ₱${r.toFixed(2)} / dia
+Total: ₱${fmt(total)}
+GCash: 09162466318 (MOISES B.)
+GoTyme: 014664932955 (MOISES BITONIO)`;
+  const orders=loadOrders(); const newOrder={id:orderId,server,qty:q,rate:r,total,status:'Pending Payment',created:Date.now()}; orders.unshift(newOrder); saveOrders(orders);
+  try{await navigator.clipboard.writeText(msg);}catch{}
+  $('buyOrderId').textContent=`Order ID: ${orderId}`; openBuy(); $('trackIn').value=orderId; renderOrder(newOrder); document.querySelector('.track').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* Popups */
+function openBuy(){ $('buyPopup').style.display='grid'; }
+function closeBuy(){ $('buyPopup').style.display='none'; }
+function onGCashRowClick(e){ if(e.target&&e.target.closest('#showQR'))return; const MOBILE='09162466318'; navigator.clipboard&&navigator.clipboard.writeText(MOBILE).catch(()=>{}); $('gcashPopup').style.display='grid'; }
+function closeGCash(){ $('gcashPopup').style.display='none'; }
+function openQR(e){ e&&e.stopPropagation(); $('qrPopup').style.display='grid'; }
+function closeQR(){ $('qrPopup').style.display='none'; }
+function onGoTymeRowClick(e){ if(e.target&&e.target.closest('#showGY'))return; const NUM='014664932955 — MOISES BITONIO'; navigator.clipboard&&navigator.clipboard.writeText(NUM).catch(()=>{}); toast('GoTyme number copied ✔'); }
+function openGoTymeQR(ev){ ev&&ev.stopPropagation(); $('gyPopup').style.display='grid'; }
+function closeGoTymeQR(){ $('gyPopup').style.display='none'; }
+
+/* Secret Delivered: 6 taps on logo */
+(function(){ const logo=$('secretLogo'); if(!logo) return; let taps=0, t=null; logo.addEventListener('click',()=>{taps++; clearTimeout(t); t=setTimeout(()=>taps=0,1500); if(taps>=6){taps=0; const id=$('t_id')?.textContent?.trim(); if(!id){toast("Wala pang active order.");return;} const o=updateStatus(id,"Delivered"); if(o){renderOrder(o); chime(); toast("✅ Order marked as Delivered");}}}); })();
+
+/* Toast + chime */
+function toast(msg){ const d=document.createElement('div'); d.textContent=msg; Object.assign(d.style,{position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',background:'rgba(0,0,0,.85)',color:'#fff',padding:'10px 14px',borderRadius:'12px',fontWeight:'800',zIndex:10000,boxShadow:'0 10px 30px rgba(0,0,0,.35)'}); document.body.appendChild(d); setTimeout(()=>d.remove(),1800); }
+function chime(){try{const a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.setValueAtTime(660,a.currentTime);g.gain.setValueAtTime(0.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(0.22,a.currentTime+0.02);o.connect(g).connect(a.destination);o.start();o.frequency.exponentialRampToValueAtTime(990,a.currentTime+0.18);g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+0.28);o.stop(a.currentTime+0.30);}catch(e){}}
+
+/* Build per-letter title (rotating glow) */
+(function(){
+  const el = document.getElementById('pageTitle');
+  if(!el) return;
+  const text = el.textContent;
+  el.textContent = '';
+  [...text].forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.style.setProperty('--i', i.toString());
+    span.textContent = ch;
+    el.appendChild(span);
+  });
+})();
+
+/* Initial compute */
+document.addEventListener('DOMContentLoaded',()=>{ try{ recalc(); }catch(_){} });
+</script>
+</body>
+</html>
