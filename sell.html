@@ -5,67 +5,129 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Legend of Ymir – Pricing</title>
 <style>
-  :root{
-    --bg1:#000; --bg2:#4e0015;
-    --card:rgba(255,255,255,.07);
-    --line:rgba(255,255,255,.08);
-    --muted:#d9d9d9;
-    --blue:#1877F2; --discord:#5865F2;
-    --green:#16a34a; --green2:#0f7e37;
-  }
-  html,body{margin:0;padding:0;font-family:system-ui,Segoe UI,Arial,sans-serif;color:#fff;background:
-    radial-gradient(circle at 50% -10%, var(--bg2), transparent 55%), #000;}
-  .wrap{max-width:560px;margin:0 auto;padding:10px}
-  .logoWrap{display:grid;place-items:center;margin-top:8px}
-  .logo{width:120px;height:120px;border-radius:50%;
-        filter:drop-shadow(0 0 10px #ff0040) drop-shadow(0 0 26px #ff2040);
-        animation:glow 3s ease-in-out infinite alternate}
-  @keyframes glow{from{filter:drop-shadow(0 0 8px #ff0040) drop-shadow(0 0 18px #ff2040)}
-                  to{filter:drop-shadow(0 0 18px #ff3760) drop-shadow(0 0 40px #ff2040)}}
+:root{
+  --glow1:#ff0044;
+  --glow2:#ff174e;
+  --glowDark:#2b000c;
+  --glass:rgba(255,255,255,0.06);
+  --line:rgba(255,255,255,0.15);
+  --green:#16a34a;
+  --green2:#0f7d36;
+  --fb:#1877F2;
+  --dc:#5865F2;
+}
+body{
+  margin:0;padding:0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: radial-gradient(circle at center, #3b000f, #000 70%);
+  color:#fff;
+}
+.wrap{max-width:560px;margin:0 auto;padding:12px}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 6px}
-  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .tier{background:#0e0e0e;border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
-  .tier .lab{font-size:11px;color:var(--muted)}
-  .tier .val{font-size:18px;font-weight:900;text-shadow:0 0 10px rgba(255,0,0,.35)}
-  .tier.active{outline:2px solid #ff3a60;box-shadow:0 0 20px rgba(255,0,0,.22) inset}
+/* LOGO */
+.logoWrap{display:grid;place-items:center;margin-top:14px;margin-bottom:10px}
+.logo{
+  width:150px;height:150px;border-radius:50%;
+  animation:pop 3s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 18px var(--glow1),
+    0 0 45px var(--glow2),
+    inset 0 0 35px var(--glow2);
+}
+@keyframes pop{
+  from{transform:scale(0.92);filter:drop-shadow(0 0 12px var(--glow1))}
+  to{transform:scale(1);filter:drop-shadow(0 0 35px var(--glow2))}
+}
 
-  label{display:block;font-size:11px;color:var(--muted);margin:4px 0}
-  input{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);
-        background:#0c0c0c;color:#fff;font-size:17px;text-align:center}
+/* CARDS */
+.card{
+  background:var(--glass);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;margin-bottom:12px;
+  box-shadow:0 0 18px rgba(255,0,40,.18) inset;
+}
 
-  .rateRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
-  .rateTag{background:#150408;border:1px solid #3a0c14;border-radius:10px;padding:8px 10px;
-           font-weight:900;font-size:18px;box-shadow:0 0 14px rgba(255,0,0,.18) inset}
-  .rateInfo{font-size:11px;color:var(--muted);margin-top:4px}
-  .saveTag{background:#04330f;border:1px solid #146327;border-radius:8px;padding:6px 8px;
-           font-weight:800;font-size:12px;color:#96ffb0;display:inline-block}
+/* PRICE BOXES */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tier{
+  text-align:center;
+  padding:12px;border-radius:12px;
+  background:var(--glowDark);
+  border:1px solid #550018;
+  box-shadow:0 0 12px rgba(255,0,50,0.22) inset;
+}
+.tier.active{
+  outline:2px solid var(--glow1);
+  box-shadow:0 0 22px var(--glow2) inset,0 0 14px var(--glow2);
+}
+.tier .lab{font-size:11px;opacity:.8}
+.tier .val{font-size:19px;font-weight:900}
 
-  .btn{cursor:pointer;border:none;border-radius:10px;padding:11px 16px;font-size:17px;font-weight:800}
-  .buy{background:var(--green)}
-  .buy:active{background:var(--green2)}
+/* INPUTS */
+label{font-size:11px;opacity:.75;margin:6px 0}
+input{
+  width:100%;padding:13px;font-size:18px;
+  text-align:center;color:#fff;
+  background:#0e0e0e;border-radius:12px;
+  border:1px solid #5a001a;
+  box-shadow:0 0 16px rgba(255,0,60,.22) inset;
+}
 
-  .pay{display:flex;gap:10px;align-items:center;background:rgba(0,80,255,.22);
-       border:1px solid rgba(0,80,255,.32);border-radius:10px;padding:10px}
-  .chip{background:#2a8cff;color:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}
+/* RATE & BUY */
+.rateRow{display:flex;align-items:center;justify-content:space-between}
+.rateTag{
+  padding:10px 12px;border-radius:12px;
+  background:#1a0009;border:1px solid #4e0015;
+  font-size:19px;font-weight:900;
+}
+.buy{
+  cursor:pointer;padding:11px 16px;
+  font-size:18px;font-weight:800;
+  border:none;border-radius:10px;
+  background:var(--green);
+  box-shadow:0 0 18px rgba(0,255,100,.28);
+}
+.buy:active{background:var(--green2);transform:scale(.97)}
 
-  .links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
-  .fb,.dc{border:none;border-radius:10px;padding:9px 14px;font-weight:800;color:#fff;font-size:14px}
-  .fb{background:var(--blue)} .dc{background:var(--discord)}
+/* PAYMENT */
+.pay{
+  display:flex;align-items:center;gap:10px;
+  padding:11px;border-radius:12px;
+  background:rgba(0,100,255,.18);
+  border:1px solid rgba(0,100,255,.32);
+}
+.chip{background:#2a8cff;padding:6px 12px;border-radius:999px;font-weight:800;font-size:12px}
 
-  .bar{display:flex;align-items:center;justify-content:space-between}
-  .badge{background:rgba(34,197,94,.18); color:#b7ffcf; border:1px solid rgba(34,197,94,.4);
-         padding:6px 10px;border-radius:999px;font-weight:900;cursor:pointer;user-select:none}
-  .hint{font-size:12px;color:var(--muted);text-align:center;margin:6px 0 0}
+/* LINKS */
+.links{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.fb,.dc{
+  padding:10px 16px;border-radius:10px;
+  font-weight:700;color:#fff;border:none;font-size:15px;
+}
+.fb{background:var(--fb)}
+.dc{background:var(--dc)}
+
+/* COUNTER */
+.badge{
+  padding:7px 12px;border-radius:14px;
+  background:rgba(0,255,100,.12);
+  border:1px solid rgba(0,255,100,.4);
+  font-weight:900;cursor:pointer;
+  transition:.15s;user-select:none;
+}
+.badge:active{transform:scale(.94)}
 </style>
 </head>
 <body>
+
 <div class="wrap">
 
-  <div class="logoWrap"><img src="logo.png" class="logo" alt="Logo"></div>
+  <div class="logoWrap">
+    <img src="logo.png" class="logo">
+  </div>
 
-  <!-- Price chips -->
-  <section class="card" style="margin-top:4px">
+  <section class="card">
     <div class="tiers">
       <div class="tier" id="chip80"><div class="lab">Price / dia</div><div class="val">₱0.80</div></div>
       <div class="tier" id="chip75"><div class="lab">Price / dia</div><div class="val">₱0.75</div></div>
@@ -73,167 +135,81 @@
     </div>
   </section>
 
-  <!-- Inputs -->
   <section class="card">
     <label>Enter Diamonds</label>
-    <input id="qty" type="number" placeholder="e.g. 1500" inputmode="numeric" />
-    <label style="margin-top:6px">ENTER PHP</label>
-    <input id="php" type="number" placeholder="e.g. 500.00" inputmode="decimal" />
+    <input id="qty" type="number" placeholder="e.g. 1500">
+    <label>ENTER PHP</label>
+    <input id="php" type="number" placeholder="e.g. 500.00">
   </section>
 
-  <!-- Applied rate + savings + BUY -->
   <section class="card">
     <div class="rateRow">
-      <div>
-        <div class="rateTag" id="rateTag">—</div>
-        <div class="rateInfo" id="rateInfo">Enter at least 500 dias or equivalent PHP.</div>
-        <div id="saveWrap" style="margin-top:6px;display:none"><span class="saveTag" id="saveTag">Save —</span></div>
-      </div>
-      <button class="btn buy" id="buyBtn">💎 Buy</button>
+      <div class="rateTag" id="rateTag">—</div>
+      <button class="buy" id="buyBtn">💎 Buy</button>
     </div>
+    <div id="rateInfo" style="font-size:12px;opacity:.7;margin-top:6px;">Enter at least 500 dias or PHP equivalent.</div>
   </section>
 
-  <!-- Payment + socials -->
   <section class="card">
     <div class="pay">
-      <span class="chip">GCash</span>
-      <div>09162466318 — <b>MOISES B.</b></div>
+      <span class="chip">GCash</span> 09162466318 — <b>MOISES B.</b>
     </div>
+
     <div class="links">
       <button class="fb" onclick="window.open('https://www.facebook.com/share/p/1DB1da3qMn/','_blank')">📘 Facebook</button>
       <button class="dc" onclick="window.open('https://discord.gg/QkdVz5mh','_blank')">🟣 Discord</button>
     </div>
   </section>
 
-  <!-- Transactions (clickable) -->
-  <section class="card">
-    <div class="bar">
-      <div style="font-size:12px;color:var(--muted)">Transactions</div>
-      <div class="badge" id="countBadge">✅ <span id="count">0</span></div>
-    </div>
+  <section class="card" style="text-align:center;">
+    Transactions <span class="badge" id="countBadge">✅ <span id="count">0</span></span>
   </section>
 
 </div>
 
 <script>
-/* ===== Config ===== */
-const MIN_QTY = 500;
-const TIERS = [
-  {max:3000, rate:0.80, name:'Normal'},
-  {max:7000, rate:0.75, name:'Retail'},
-  {max:Infinity, rate:0.70, name:'Bulk'}
+const MIN=500, TIERS=[
+{max:3000,rate:0.80,text:"Normal tier"},
+{max:7000,rate:0.75,text:"Retail tier"},
+{max:Infinity,rate:0.70,text:"Bulk tier"}
 ];
-const BASE = 0.80; // for savings computation
-const COUNT_KEY='ymirCount';
-
-/* ===== DOM ===== */
-const $ = (id)=>document.getElementById(id);
-const qty = $('qty'), php = $('php');
-const rateTag = $('rateTag'), rateInfo = $('rateInfo'), saveTag = $('saveTag'), saveWrap=$('saveWrap');
-
-/* ===== Helpers ===== */
-function tierByQty(q){
-  if(q < MIN_QTY) return null;
-  if(q <= 3000) return TIERS[0];
-  if(q <= 7000) return TIERS[1];
-  return TIERS[2];
+const qty=document.getElementById("qty"),php=document.getElementById("php"),rateTag=document.getElementById("rateTag"),rateInfo=document.getElementById("rateInfo");
+function tier(q){if(q<MIN)return null;return q<=3000?TIERS[0]:q<=7000?TIERS[1]:TIERS[2];}
+function updateFromQty(){
+ let q=+qty.value||0,t=tier(q);
+ if(!t){rateTag.textContent="—";rateInfo.textContent="Enter at least 500 dias.";return;}
+ php.value=(t.rate*q).toFixed(2);
+ rateTag.textContent=`₱${t.rate.toFixed(2)} / dia`;
+ rateInfo.textContent=`${t.text} detected for ${q.toLocaleString()} dias.`;
+ highlight(t.rate);
 }
-function hilite(r){
-  ['chip80','chip75','chip70'].forEach(id => $(id).classList.remove('active'));
-  if(!r) return;
-  if(r.rate===0.80) $('chip80').classList.add('active');
-  else if(r.rate===0.75) $('chip75').classList.add('active');
-  else $('chip70').classList.add('active');
+function updateFromPhp(){
+ let p=+php.value||0;
+ if(p<=0){rateTag.textContent="—";return;}
+ let d=Math.floor(p/0.70);
+ if(d<4000)d=Math.floor(p/0.80);
+ if(d>=4000&&d<8000)d=Math.floor(p/0.75);
+ qty.value=d;
+ updateFromQty();
 }
-function showSavings(rate, q){
-  if(!rate || !q){ saveWrap.style.display='none'; return; }
-  const per = (BASE-rate.rate);
-  const pct = (per/BASE)*100;
-  const totalSave = per * q;
-  saveTag.textContent = `Save ${pct.toFixed(2)}% • ₱${totalSave.toFixed(2)}`;
-  saveWrap.style.display='block';
+qty.oninput=updateFromQty;
+php.oninput=updateFromPhp;
+function highlight(r){
+ ["chip80","chip75","chip70"].forEach(id=>document.getElementById(id).classList.remove("active"));
+ if(r===0.80)chip80.classList.add("active");
+ if(r===0.75)chip75.classList.add("active");
+ if(r===0.70)chip70.classList.add("active");
 }
-
-/* ===== Sync inputs ===== */
-let guard=false;
-function syncFromQty(){
-  const q = Number(qty.value||0);
-  const t = tierByQty(q);
-  if(!t){ rateTag.textContent='—'; rateInfo.textContent='Enter at least 500 dias or equivalent PHP.'; hilite(null); showSavings(null,0); return; }
-  guard=true; php.value=(t.rate*q).toFixed(2); guard=false;
-  rateTag.textContent=`₱${t.rate.toFixed(2)} / dia`;
-  rateInfo.textContent=`${t.name} tier for ${q.toLocaleString()} dias.`;
-  hilite(t); showSavings(t,q);
-}
-function syncFromPhp(){
-  const p = Number(php.value||0);
-  if(p<=0){ rateTag.textContent='—'; rateInfo.textContent='Enter at least 500 dias or equivalent PHP.'; hilite(null); showSavings(null,0); return; }
-  let d = Math.floor(p / TIERS[2].rate);
-  if(d < 8000 && d >= 4000) d = Math.floor(p / TIERS[1].rate);
-  if(d < 4000) d = Math.floor(p / TIERS[0].rate);
-  guard=true; qty.value = d>0?d:''; guard=false;
-  const t = tierByQty(d);
-  if(!t){ rateTag.textContent='—'; rateInfo.textContent='Enter at least 500 dias or equivalent PHP.'; hilite(null); showSavings(null,0); return; }
-  rateTag.textContent=`₱${t.rate.toFixed(2)} / dia`;
-  rateInfo.textContent=`${t.name} tier for ~${d.toLocaleString()} dias.`;
-  hilite(t); showSavings(t,d);
-}
-qty.addEventListener('input', ()=>{ if(!guard) syncFromQty(); });
-php.addEventListener('input', ()=>{ if(!guard) syncFromPhp(); });
-
-/* ===== Soft chime ===== */
-function chime(){
-  try{
-    const ctx = new (window.AudioContext||window.webkitAudioContext)();
-    const now = ctx.currentTime;
-    [880,1320].forEach((f,i)=>{
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(ctx.destination);
-      const t0=now+i*0.08;
-      g.gain.setValueAtTime(0,t0);
-      g.gain.linearRampToValueAtTime(0.18,t0+0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001,t0+0.28);
-      o.start(t0); o.stop(t0+0.30);
-    });
-  }catch(e){}
-}
-
-/* ===== Device counter ===== */
-function getCount(){ return Number(localStorage.getItem(COUNT_KEY)||0); }
-function setCount(n){ localStorage.setItem(COUNT_KEY,String(n)); $('count').textContent=n; }
-setCount(getCount());
-
-$('countBadge').addEventListener('click', ()=>{
-  // clickable badge: quick refresh pulse
-  setCount(getCount());
-  $('countBadge').style.transform='scale(1.05)';
-  setTimeout(()=>{$('countBadge').style.transform='scale(1)';},120);
-});
-
-/* ===== BUY ===== */
-$('buyBtn').addEventListener('click', async ()=>{
-  const q = Number(qty.value||0);
-  const p = Number(php.value||0);
-  const t = tierByQty(q);
-  const rateText = t ? `₱${t.rate.toFixed(2)} / dia` : '—';
-  const msg = `LEGEND OF YMIR ORDER
-Diamonds: ${q.toLocaleString()} 💎
-Amount: ₱${p.toFixed(2)}
-Rate: ${rateText}
-Pay via GCash: 09162466318 (MOISES B.)`;
-
-  try{ await navigator.clipboard.writeText(msg); }catch(e){}
-  chime(); if(navigator.vibrate) navigator.vibrate([20,40]);
-
-  setCount(getCount()+1);  // live per-device count
-
-  // Best-effort open Messenger compose
-  const m = 'https://m.me/?text=' + encodeURIComponent(msg);
-  const w = window.open(m,'_blank'); if(!w) {/* popup blocked, it's fine – copied already */}
-});
-
-/* boot */
-syncFromQty();
+let COUNT_KEY="ymirCt";
+function setCount(n){localStorage.setItem(COUNT_KEY,n);document.getElementById("count").textContent=n;}
+setCount(localStorage.getItem(COUNT_KEY)||0);
+countBadge.onclick=()=>setCount(localStorage.getItem(COUNT_KEY)||0);
+buyBtn.onclick=()=>{
+ setCount(+localStorage.getItem(COUNT_KEY)+1);
+ navigator.clipboard.writeText(`ORDER\nDiamonds: ${qty.value}\nAmount: ₱${php.value}\nRate: ${rateTag.textContent}\nGCash: 09162466318 (MOISES B.)`);
+ if(navigator.vibrate)navigator.vibrate([40]);
+};
 </script>
+
 </body>
 </html>
