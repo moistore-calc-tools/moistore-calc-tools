@@ -108,6 +108,19 @@
     100%{ transform: translateX(-50%) translateY(0) scale(1); opacity:.85; }
   }
 
+  /* 🔖 BEST DEAL chip (shows only when 0.70 active) */
+  .dealChip{
+    position:absolute; top:-10px; right:-10px;
+    background:linear-gradient(180deg,#ffb66a,#ff7b2c);
+    color:#2b1200; font-weight:900; font-size:11px;
+    padding:6px 8px; border-radius:999px; box-shadow:0 8px 22px rgba(255,120,0,.35);
+    border:1px solid rgba(255,255,255,.35);
+    display:flex; align-items:center; gap:6px;
+    transform:scale(.9); opacity:0; pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .pill.best .dealChip{ opacity:1; transform:scale(1); }
+
   /* Card / Inputs */
   .section{background:linear-gradient(180deg,var(--red1),var(--red2));border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow-soft)}
   .label{font-size:13px;color:#ccb9c1;margin:4px 2px 6px}
@@ -205,6 +218,8 @@
       <div id="pill70" class="pill">
         <div class="pval">₱0.70</div>
         <div class="ptxt">min 8000 💎</div>
+        <!-- Best deal badge (hidden until active) -->
+        <div class="dealChip" aria-hidden="true">🔥 BEST DEAL</div>
       </div>
     </div>
 
@@ -297,7 +312,7 @@
         </div>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
           <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1">Buyer: I Paid</button>
-          <!-- Delivered button is hidden (secret via logo taps) -->
+          <!-- Delivered is secret: 6 taps on logo -->
         </div>
         <div class="hint" style="margin-top:6px">
           Tip: Buyer taps <b>I Paid</b> after sending payment. (Local tracking only)
@@ -371,28 +386,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Recalc */
   let lastEdited=null;
-  function recalc(){
-    let q = toInt(diasEl.value);
-    let p = toNum(phpEl.value);
-
-    if(lastEdited==='p'){
-      q = estimateFromPHP(p);
-      diasEl.value = q ? String(q) : '';
-    }else if(lastEdited==='d'){
-      const r = getRate(q);
-      phpEl.value = (r && q) ? fmt(q*r) : '';
-    }else{
-      if(!q && p){ q = estimateFromPHP(p); diasEl.value = q?String(q):''; }
-      if(q && !p){ const r=getRate(q); phpEl.value = r?fmt(q*r):''; }
-    }
-
-    const r=getRate(q);
-    paintPills(q,r);
-
-    const ok = q>=MIN1 && !!r;
-    const serverOK = (serverEl.value || '').trim().length>0;
-
-    warn.style.display = ok ? 'none' : 'block';
-    buyBtn.disabled = !(ok && serverOK);
-
-    if(
+  funct
