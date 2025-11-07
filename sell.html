@@ -11,7 +11,6 @@
   :root{
     --bg:#0b0a0b;
     --red:#ff2b56;
-    --panel:#181418;
     --text:#fff6f8;
     --muted:#d9c7cc;
     --green:#23cf6b;
@@ -123,25 +122,15 @@
     <div class="logoWrap">
       <div class="logo">
         <div class="ring"></div>
-        <!-- Upload your logo file as logo.png in the repo root -->
         <img src="logo.png" alt="Moistore" />
       </div>
     </div>
 
     <!-- Price board -->
     <div class="row prices">
-      <div class="card">
-        <h4>Price / dia</h4>
-        <div class="price">₱0.80</div>
-      </div>
-      <div class="card">
-        <h4>Price / dia</h4>
-        <div class="price">₱0.75</div>
-      </div>
-      <div class="card">
-        <h4>Price / dia</h4>
-        <div class="price">₱0.70</div>
-      </div>
+      <div class="card"><h4>Price / dia</h4><div class="price">₱0.80</div></div>
+      <div class="card"><h4>Price / dia</h4><div class="price">₱0.75</div></div>
+      <div class="card"><h4>Price / dia</h4><div class="price">₱0.70</div></div>
     </div>
 
     <!-- Inputs -->
@@ -210,7 +199,6 @@
     </div>
   </div>
 
-  <!-- Logic -->
   <script>
     const $ = id => document.getElementById(id);
 
@@ -236,23 +224,35 @@
     }
 
     function fmtMoney(n){
-      if (n===null || isNaN(n)) return "—";
-      return "₱" + Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+      if (n===null || isNaN(n)) return "";
+      return Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
     }
     function fmtRate(r){ return r ? `₱${r.toFixed(2)} / dia` : "—"; }
 
     const diasEl = $('dias'), phpEl = $('phpIn'), tierBig = $('tierBig'), saveBig = $('saveBig');
+    let lastEdited = null; // 'dias' | 'php'
 
-    function compute(){
+    diasEl.addEventListener('input', ()=>{ lastEdited='dias'; compute(true); });
+    phpEl.addEventListener('input',  ()=>{ lastEdited='php';  compute(true); });
+
+    function compute(syncFields=false){
       let q = parseInt(String(diasEl.value).replace(/[^0-9]/g,'')) || 0;
       let php = parseFloat(String(phpEl.value).replace(/[^0-9.]/g,'')) || 0;
 
-      if (!q && php) q = estimateDiamondsFromPhp(php);
+      if (lastEdited==='php'){
+        // user entered PHP → estimate diamonds then show both
+        q = estimateDiamondsFromPhp(php);
+        if (syncFields) diasEl.value = q ? String(q) : "";
+      } else if (lastEdited==='dias'){
+        // user entered diamonds → compute php from exact tier
+        const r = rateByQty(q);
+        const total = (r ? q * r : 0);
+        if (syncFields) phpEl.value = total ? fmtMoney(total) : "";
+      }
 
+      // Now display current tier + savings
       const rate = rateByQty(q);
-      let total = null;
-      if (rate) total = q * rate;
-      if (!php && total !== null) php = total;
+      let total = rate ? q*rate : 0;
 
       let saveAmt = null, savePct = null;
       if (q && rate){
@@ -262,11 +262,8 @@
       }
 
       tierBig.textContent = fmtRate(rate);
-      saveBig.textContent = (saveAmt===null) ? "—" : `${savePct.toFixed(2)}% • ${fmtMoney(saveAmt)}`;
+      saveBig.textContent = (saveAmt===null) ? "—" : `${savePct.toFixed(2)}% • ₱${fmtMoney(saveAmt)}`;
     }
-
-    diasEl.addEventListener('input', compute);
-    phpEl.addEventListener('input', compute);
     compute();
 
     // BUY — copy message + popup
@@ -277,12 +274,12 @@
       const r = rateByQty(q);
       if (!r){ alert('Enter at least 500 dias or PHP equivalent.'); return; }
       const total = (php && php>0) ? php : (q*r);
-      const txt = `BUY ORDER\n• Diamonds: ${q} 💎\n• Tier: ₱${r.toFixed(2)} / dia\n• Total: ${fmtMoney(total)}\n• GCash: 09162466318 (MOISES B.)`;
+      const txt = `BUY ORDER\n• Diamonds: ${q} 💎\n• Tier: ₱${r.toFixed(2)} / dia\n• Total: ₱${fmtMoney(total)}\n• GCash: 09162466318 (MOISES B.)`;
       try{ await navigator.clipboard.writeText(txt); }catch{ alert(txt); }
       document.getElementById("buyPopup").style.display = "grid";
     });
 
-    // Confirm (1x per device) with chime + counter
+    // Confirm (1x per device) with chime + local counter
     const TX_KEY='ymir_device_confirmed';
     const COUNT_KEY='ymir_tx_count';
     function setTxUI(){
