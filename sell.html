@@ -84,7 +84,7 @@
   .save{background:linear-gradient(180deg,#0f2a19,#0a1e12);border:1px solid rgba(40,255,160,.25)}
 
   /* Buttons */
-  .btnRow{display:grid;grid-template-columns:1fr auto;gap:10px;margin:10px 0}
+  .btnRow{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     border:none;border-radius:14px;padding:14px 16px;font-weight:800;
@@ -93,7 +93,7 @@
   }
   .btn:active{transform:translateY(1px)}
   .btn:disabled{opacity:.55;cursor:not-allowed}
-  .confirm{background:#1f8f53;color:#ecfff5}
+  .completed{background:#1f8f53;color:#ecfff5}
 
   /* Payment + social */
   .payCard{background:linear-gradient(180deg,#121019,#0c0a10);border:1px solid rgba(60,90,255,.12);border-radius:18px;padding:12px 14px;margin:12px 0}
@@ -102,6 +102,9 @@
   .sbtn{display:flex;align-items:center;gap:10px;justify-content:center;padding:14px;border-radius:14px;font-weight:800;border:none;cursor:pointer}
   .fb{background:var(--blue);color:#fff}
   .dc{background:var(--discord);color:#fff}
+
+  /* Completed row above transactions */
+  .completeRow{display:flex;justify-content:flex-end;margin-top:8px}
 
   /* Transactions pill */
   .txBox{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(180deg,#121512,#0c0f0c);border:1px solid rgba(80,255,120,.22);border-radius:18px;padding:14px;margin-top:10px;box-shadow:0 0 22px rgba(20,255,120,.12)}
@@ -112,7 +115,7 @@
   @media (max-width:540px){
     .prices{grid-template-columns:repeat(3,1fr)}
     .appliedRow{grid-template-columns:1fr}
-    .btnRow{grid-template-columns:1fr 1fr}
+    .socRow{grid-template-columns:1fr 1fr}
   }
 </style>
 </head>
@@ -126,7 +129,7 @@
       </div>
     </div>
 
-    <!-- Price board -->
+    <!-- Prices -->
     <div class="row prices">
       <div class="card"><h4>Price / dia</h4><div class="price">₱0.80</div></div>
       <div class="card"><h4>Price / dia</h4><div class="price">₱0.75</div></div>
@@ -154,10 +157,9 @@
       </div>
     </div>
 
-    <!-- BUY + CONFIRM -->
+    <!-- BUY -->
     <div class="btnRow">
       <button id="buyBtn" class="btn">💎 Buy</button>
-      <button id="confirmBtn" class="btn confirm">✅ Confirm</button>
     </div>
     <div class="muter">Enter at least 500 dias or PHP equivalent.</div>
 
@@ -165,9 +167,14 @@
     <div class="payCard">
       <div class="gcash">GCash • <strong>09162466318 — MOISES B.</strong></div>
       <div class="socRow">
-        <button class="sbtn fb" id="fbBtn">📘 Facebook</button>
-        <button class="sbtn dc" id="dcBtn">🟣 Discord</button>
+        <button class="sbtn fb" id="fbBtn">📘 Facebook Page</button>
+        <button class="sbtn dc" id="dcBtn">🟣 Discord Server</button>
       </div>
+    </div>
+
+    <!-- Completed button ABOVE transactions -->
+    <div class="completeRow">
+      <button id="confirmBtn" class="btn completed">✅ Completed</button>
     </div>
 
     <!-- Transactions -->
@@ -240,17 +247,14 @@
       let php = parseFloat(String(phpEl.value).replace(/[^0-9.]/g,'')) || 0;
 
       if (lastEdited==='php'){
-        // user entered PHP → estimate diamonds then show both
         q = estimateDiamondsFromPhp(php);
         if (syncFields) diasEl.value = q ? String(q) : "";
       } else if (lastEdited==='dias'){
-        // user entered diamonds → compute php from exact tier
         const r = rateByQty(q);
         const total = (r ? q * r : 0);
         if (syncFields) phpEl.value = total ? fmtMoney(total) : "";
       }
 
-      // Now display current tier + savings
       const rate = rateByQty(q);
       let total = rate ? q*rate : 0;
 
@@ -279,8 +283,8 @@
       document.getElementById("buyPopup").style.display = "grid";
     });
 
-    // Confirm (1x per device) with chime + local counter
-    const TX_KEY='ymir_device_confirmed';
+    // Completed (1x per device) with chime + local counter
+    const TX_KEY='ymir_device_completed';
     const COUNT_KEY='ymir_tx_count';
     function setTxUI(){
       const c = parseInt(localStorage.getItem(COUNT_KEY)||'0');
@@ -288,7 +292,8 @@
       const done = localStorage.getItem(TX_KEY)==='1';
       const btn = $('confirmBtn');
       btn.disabled = done;
-      btn.textContent = done ? '✅ Confirmed' : '✅ Confirm';
+      btn.textContent = done ? '✅ Completed' : '✅ Completed';
+      btn.style.opacity = done ? .7 : 1;
     }
     setTxUI();
 
