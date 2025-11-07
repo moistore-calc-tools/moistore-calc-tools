@@ -77,6 +77,16 @@
   .saveOut{font-weight:900;font-size:20px;color:#baffd6}
   .saveBox{background:linear-gradient(180deg,#0f2117,#0a1a11);border-color:rgba(40,255,160,.28)}
 
+  /* Server hint list */
+  .hintList{
+    margin-top:6px; background:#0d0b10; border:1px solid rgba(255,80,120,.18);
+    border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,.35); overflow:hidden;
+    max-height:220px; overflow-y:auto;
+  }
+  .hintItem{padding:10px 12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center}
+  .hintItem:hover{ background:rgba(255,60,110,.08); }
+  .hintTag{ font-size:12px; opacity:.7 }
+
   /* Buttons */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;padding:14px 16px;font-weight:800;letter-spacing:.2px;cursor:pointer;user-select:none}
   .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28);width:100%;margin-top:10px}
@@ -121,6 +131,7 @@
     box-shadow:0 0 18px rgba(0,0,0,.25); font-weight:700;
   }
   .thanks span{color:#b0ffd4;text-shadow:0 0 10px rgba(33,208,114,.35)}
+
   /* Popups */
   #buyPopup, #gcashPopup, #qrPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
   .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
@@ -175,6 +186,12 @@
       <input id="dias" class="in" inputmode="numeric" autocomplete="off" placeholder="e.g. 1500">
       <div class="label" style="margin-top:10px">ENTER PHP ₱</div>
       <input id="phpIn" class="in" inputmode="decimal" autocomplete="off" placeholder="e.g. 500.00">
+
+      <!-- Server (Required) -->
+      <div class="label" style="margin-top:10px">Server (Required)</div>
+      <input id="serverIn" class="in" placeholder="Type to search… e.g. SEA 03 / HOF2" autocomplete="off">
+      <div id="serverHints" class="hintList" style="display:none;"></div>
+
       <div id="warn" class="warn">Minimum 1000 💎 required.</div>
 
       <div class="grid2">
@@ -190,8 +207,8 @@
     </div>
 
     <!-- Buy -->
-    <button id="buyBtn" type="button" class="btn buy">💎 Buy</button>
-    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias or PHP equivalent.</div>
+    <button id="buyBtn" type="button" class="btn buy" disabled>💎 Buy</button>
+    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias, then select server.</div>
 
     <!-- Payment + Socials -->
     <div class="pay">
@@ -296,15 +313,51 @@ document.addEventListener('DOMContentLoaded', () => {
     return q;
   }
 
-  function paintPills(q, r){
-    const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
-    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
-    if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
-    if(q<MIN2) p75.classList.add('lock');
-    if(q<MIN3) p70.classList.add('lock');
-    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
-  }
+  /* ===== Server Auto-Search (with community servers) ===== */
+  const serverInput = $('serverIn');
+  const serverHints = $('serverHints');
 
+  const SERVER_LIST = [
+    // Official
+    "SEA 01","SEA 02","SEA 03","SEA 04","SEA 05","SEA 06","SEA 07","SEA 08",
+    "ASIA 01","ASIA 02","ASIA 03","ASIA 04","ASIA 05","ASIA 06","ASIA 07","ASIA 08","ASIA 09","ASIA 10",
+    "NA 01","NA 02","NA 03","NA 04","NA 05",
+    "EU 01","EU 02","EU 03","EU 04","EU 05",
+    "JP 01","KR 01","TWHK 01","TWHK 02",
+    // Community / Shopping / Supplier hubs
+    "DaddyKim","HOF1","HOF2","XOU","YUN MARKET","M-TRADE","ZEN SHOP","KVIP HUB"
+  ];
+
+  function filterServers(q){
+    q = (q||'').trim().toUpperCase();
+    if(!q) return SERVER_LIST.slice(0,8);
+    return SERVER_LIST.filter(s => s.toUpperCase().includes(q)).slice(0,8);
+  }
+  function renderHints(list){
+    if(!list.length){ serverHints.style.display='none'; serverHints.innerHTML=''; return; }
+    serverHints.innerHTML = list.map(s=>(
+      `<div class="hintItem" data-val="${s}">
+         <span>${s}</span>
+         <span class="hintTag">tap to select</span>
+       </div>`
+    )).join('');
+    serverHints.style.display='block';
+  }
+  serverInput.addEventListener('input', ()=>{ renderHints(filterServers(serverInput.value)); });
+  serverHints.addEventListener('click', (e)=>{
+    const row = e.target.closest('.hintItem');
+    if(!row) return;
+    serverInput.value = row.dataset.val;
+    serverHints.style.display='none';
+    recalc(); // re-validate Buy state
+  });
+  document.addEventListener('click', (e)=>{
+    if(!serverHints.contains(e.target) && e.target!==serverInput){
+      serverHints.style.display='none';
+    }
+  });
+
+  /* ===== Calculator ===== */
   const diasEl=$('dias'), phpEl=$('phpIn'), rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
 
   let lastEdited=null;
@@ -327,7 +380,10 @@ document.addEventListener('DOMContentLoaded', () => {
     paintPills(q,r);
 
     const ok = q>=MIN1 && !!r;
+    const serverOK = (serverInput.value || '').trim().length>0;
+
     warn.style.display = ok ? 'none' : 'block';
+    buyBtn.disabled = !(ok && serverOK);
 
     if(r && q){
       rateOut.textContent = `₱${r.toFixed(2)} / dia`;
@@ -337,6 +393,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }else{
       rateOut.textContent='—'; saveOut.textContent='—';
     }
+  }
+
+  function paintPills(q, r){
+    const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
+    [p80,p75,p70].forEach(p=>p.classList.remove('active','lock'));
+    if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
+    if(q<MIN2) p75.classList.add('lock');
+    if(q<MIN3) p70.classList.add('lock');
+    if(r===T1) p80.classList.add('active'); else if(r===T2) p75.classList.add('active'); else if(r===T3) p70.classList.add('active');
   }
 
   ['input','change','keyup'].forEach(ev=>{
@@ -352,36 +417,3 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!q && p) q = estimateFromPHP(p);
     const r = getRate(q);
     if(!r){ alert('Minimum 1000 💎 required.'); return; }
-    const total = p || (q*r);
-    const msg = `BUY ORDER
-Diamonds: ${q} 💎
-Rate: ₱${r.toFixed(2)} / dia
-Total: ₱${fmt(total)}
-GCash: 09162466318 (MOISES B.)`;
-    try{ await navigator.clipboard.writeText(msg); }catch(e){ console.warn('Clipboard write failed', e); }
-    $('buyPopup').style.display='grid';
-  });
-  $('closePop').addEventListener('click', ()=> $('buyPopup').style.display='none');
-
-  // GCash (copy only + popup)
-  (function(){
-    const MOBILE='09162466318';
-    const row = $('gcashRow');
-    const pop = $('gcashPopup');
-    const ok  = $('gcashOk');
-
-    async function copyNum(){ try{ await navigator.clipboard.writeText(MOBILE);}catch(e){ console.warn('Clipboard write failed', e); } }
-    row.addEventListener('click', async ()=>{ await copyNum(); pop.style.display='grid'; });
-    ok.addEventListener('click', ()=> pop.style.display='none');
-
-    // QR modal
-    const showQR = $('showQR');
-    const qrPop  = $('qrPopup');
-    const qrOk   = $('qrOk');
-    showQR.addEventListener('click', (e)=>{ e.stopPropagation(); qrPop.style.display='grid'; });
-    qrOk.addEventListener('click', ()=> qrPop.style.display='none');
-  })();
-});
-</script>
-</body>
-</html>
