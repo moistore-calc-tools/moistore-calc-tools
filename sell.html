@@ -22,27 +22,31 @@
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>💎 Moistore – Sell Calculator</h1>
-    <div class="muted">Tiers: 500–3000 → 0.80 | 4000–7000 → 0.75 | 8000+ → 0.70 PHP per dia</div>
-  </header>
+  <h1>💎 Moistore – Sell Calculator</h1>
+
+  <section class="card">
+    <div class="muted">Price Table (Editable)</div>
+    <div class="grid" style="margin-top:8px">
+      <div><input id="p3000" type="number" value="0.80" step="0.01" /><div class="muted">1–3000</div></div>
+      <div><input id="p7000" type="number" value="0.75" step="0.01" /><div class="muted">4000–7000</div></div>
+      <div><input id="p8000" type="number" value="0.70" step="0.01" /><div class="muted">8000+</div></div>
+    </div>
+  </section>
 
   <section class="card" style="margin-top:12px">
-    <div class="grid">
-      <div>
-        <label class="muted">Quantity (dias)</label>
-        <input id="qty" type="number" placeholder="e.g. 1200" inputmode="numeric" oninput="calc()" />
-        <div class="muted" style="margin-top:6px">Minimum: 500 dias</div>
+    <label class="muted">Quantity (dias)</label>
+    <input id="qty" type="number" placeholder="e.g. 1200" oninput="calc()" />
+  </section>
+
+  <section class="card" style="margin-top:12px">
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div class="kpi">
+        <div class="label">Tier rate</div>
+        <div class="val" id="rate">—</div>
       </div>
-      <div class="grid" style="grid-template-columns:1fr 1fr">
-        <div class="kpi">
-          <div class="label">Tier rate</div>
-          <div class="val" id="rate">—</div>
-        </div>
-        <div class="kpi">
-          <div class="label">Sell total</div>
-          <div class="val" id="sell">—</div>
-        </div>
+      <div class="kpi">
+        <div class="label">Sell total</div>
+        <div class="val" id="sell">—</div>
       </div>
     </div>
   </section>
@@ -50,31 +54,35 @@
   <section class="card" style="margin-top:12px">
     <div class="muted">Copy-ready</div>
     <pre id="out">/calc —\nSell: — PHP</pre>
-    <button style="margin-top:10px" onclick="copyOut()">Copy</button>
+    <button onclick="copyOut()" style="margin-top:10px">Copy</button>
   </section>
 </div>
 
 <script>
   const nf=(n,d=2)=>isFinite(n)?n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}):"";
-  function tierRate(q){
+  
+  function getRate(q){
+    let r3000 = Number(document.getElementById('p3000').value);
+    let r7000 = Number(document.getElementById('p7000').value);
+    let r8000 = Number(document.getElementById('p8000').value);
     if(q<500) return 0;
-    if(q<=3000) return 0.80;
-    if(q<=7000) return 0.75;
-    return 0.70;
+    if(q<=3000) return r3000;
+    if(q<=7000) return r7000;
+    return r8000;
   }
+
   function calc(){
-    const q = Number(document.getElementById('qty').value||0);
-    const r = tierRate(q);
-    const sell = r ? q*r : 0;
-    document.getElementById('rate').textContent = r? r.toFixed(2)+" PHP/ea":"MIN 500";
-    document.getElementById('sell').textContent = r? nf(sell)+" PHP":"—";
+    const q = Number(document.getElementById('qty').value);
+    const r = getRate(q);
+    const sell = r*q;
+    document.getElementById('rate').textContent = r? r.toFixed(2)+" PHP/ea" : "MIN 500";
+    document.getElementById('sell').textContent = r? nf(sell)+" PHP" : "—";
     document.getElementById('out').textContent = `/calc ${q||""}\nSell: ${r? nf(sell):"—"} PHP`;
   }
+
   async function copyOut(){
-    try{
-      await navigator.clipboard.writeText(document.getElementById('out').textContent);
-      alert("Copied!");
-    }catch(e){ alert("Copy failed. Long-press to select & copy."); }
+    try{ navigator.clipboard.writeText(document.getElementById('out').textContent); alert("Copied!"); }
+    catch{ alert("Copy failed. Hold press to copy manually."); }
   }
 </script>
 </body>
