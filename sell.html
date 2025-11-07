@@ -3,204 +3,308 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Legend of Ymir — Diamond Pricing</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<title>LEGEND OF YMIR – DIAMOND 💎</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
+    --bg:#09080a;
+    --txt:#fff7fb;
+    --mut:#dbc9d0;
+    --panel:#151116;
+    --panel2:#100c10;
     --red:#ff2b56;
-    --text:#fff6f8;
-    --muted:#d9c7cc;
-    --green:#23cf6b;
+    --green:#21d072;
     --blue:#1877f2;
     --discord:#5865f2;
-    --ring: conic-gradient(#ff0044,#ff3377,#ff1166,#ff0044);
+    --border:rgba(255,80,120,.18);
+    --glow:0 0 18px rgba(255,30,80,.45), 0 0 38px rgba(255,30,80,.18);
   }
   *{box-sizing:border-box}
-  html,body{
-    margin:0;
-    background:radial-gradient(1200px 600px at 50% -200px,#3a0013 0%,#14000a 40%,#0a0609 70%,#060407 100%);
-    color:var(--text);
-    font-family:Poppins,Arial;
-  }
-  .wrap{max-width:760px;margin:auto;padding:16px 14px 60px}
+  html,body{margin:0;background:radial-gradient(1200px 600px at 50% -220px,#3a0013 0%,#16000a 45%,#0a0609 75%,#050407 100%);color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:760px;margin:auto;padding:14px 14px 60px}
 
-  /* ——— UPGRADED LOGO ——— */
-  .logoWrap{display:grid;place-items:center;margin:14px 0 20px;}
+  /* Title */
+  .title{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:20px;letter-spacing:.3px;margin:2px 0 8px}
+  .title .dia{filter:drop-shadow(0 0 10px rgba(255,60,120,.55))}
+  
+  /* Logo */
+  .logoWrap{display:grid;place-items:center;margin:2px 0 8px}
   .logo{
-    width:min(60vw,260px);
-    aspect-ratio:1/1;
-    border-radius:999px;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:radial-gradient(circle,#16000b 0%,#000 90%);
-    box-shadow:
-      0 0 45px rgba(255,0,60,.55),
-      0 0 110px rgba(255,0,60,.45),
-      0 0 160px rgba(255,0,60,.38);
+    width:min(44vw,200px);aspect-ratio:1/1;border-radius:999px;position:relative;display:grid;place-items:center;
+    background:radial-gradient(140px 120px at 50% 50%, #0b070b 35%, #000 100%);
+    box-shadow:0 0 0 10px rgba(0,0,0,.55), 0 0 110px rgba(255,0,70,.35);
+    animation:pulse 3.2s ease-in-out infinite;
   }
-  .ring{
-    position:absolute;inset:0;border-radius:50%;
-    background:var(--ring);
-    filter:blur(4px);
-    animation:spin 6s linear infinite;
-    -webkit-mask:radial-gradient(circle,transparent 62%,#000 64%);
-            mask:radial-gradient(circle,transparent 62%,#000 64%);
+  .ring{position:absolute;inset:12px;border-radius:999px;
+    background:conic-gradient(from 0deg,#ff2b56,#ff6aa1,#ff2b56);
+    -webkit-mask:radial-gradient(circle, transparent 56%, #000 58%);
+    mask:radial-gradient(circle, transparent 56%, #000 58%);
+    filter:blur(.8px) drop-shadow(0 0 16px rgba(255,0,90,.6));
+    animation:spin 9s linear infinite;
   }
+  .logo img{width:72%;border-radius:999px;box-shadow:0 0 34px rgba(255,0,90,.35)}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .logo img{
-    width:72%;
-    border-radius:999px;
-    box-shadow:
-      0 0 35px rgba(255,100,150,.55),
-      0 0 60px rgba(255,0,80,.45);
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 10px rgba(0,0,0,.55), 0 0 85px rgba(255,0,70,.35)}
+    50%{box-shadow:0 0 0 10px rgba(0,0,0,.55), 0 0 140px rgba(255,0,70,.55)}
   }
 
-  /* Price & Inputs */
+  /* Cards */
   .row{display:grid;gap:12px}
-  .prices{grid-template-columns:repeat(3,1fr);margin-top:10px}
-  .card{background:#140b10;border:1px solid rgba(255,80,120,.25);border-radius:16px;padding:14px;text-align:center;box-shadow:0 0 18px rgba(255,0,80,.25);}
-  .card .price{font-size:26px;font-weight:800}
+  .prices{grid-template-columns:repeat(3,1fr);margin:6px 0 10px}
+  .pill{
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.00));
+    border:1px solid var(--border);border-radius:18px;padding:12px;box-shadow:inset 0 0 0 1px rgba(255,30,80,.06), var(--glow);
+    text-align:center
+  }
+  .pval{font-size:26px;font-weight:900;letter-spacing:.3px}
+  .ptxt{font-size:13px;color:var(--mut);margin-top:4px}
 
-  .inputCard{background:#11090f;border:1px solid rgba(255,70,120,.2);padding:14px;border-radius:16px;margin-top:14px;box-shadow:0 0 20px rgba(255,0,80,.2);}
-  .in{width:100%;background:#0a060a;border:1px solid rgba(255,70,120,.25);padding:12px;border-radius:14px;font-size:18px;color:#fff;outline:none;}
+  .section{background:linear-gradient(180deg,#160e14,#110c11);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow)}
+  .label{font-size:13px;color:var(--mut);margin:4px 2px 6px}
+  .in{width:100%;border:1px solid var(--border);background:#0b090c;color:var(--txt);
+      padding:14px;border-radius:14px;font-size:18px;outline:none;box-shadow:inset 0 0 18px rgba(255,10,60,.06)}
+  .in:focus{border-color:#ff6aa1;box-shadow:0 0 0 3px rgba(255,60,110,.18), var(--glow)}
 
-  /* Tier Display */
-  .appliedRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-  .applied{background:#130c12;border:1px solid rgba(255,60,120,.25);padding:12px;border-radius:14px;text-align:center;}
-  .applied .big{font-size:21px;font-weight:800}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  .box{background:linear-gradient(180deg,#1a1218,#120e13);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--glow)}
+  .box h5{margin:0 0 4px;font-size:13px;color:var(--mut)}
+  .rateOut{font-weight:900;font-size:20px}
+  .saveOut{font-weight:900;font-size:20px;color:#c9ffe0}
+  .saveBox{background:linear-gradient(180deg,#0f2117,#0a1a11);border-color:rgba(40,255,160,.28)}
 
   /* Buttons */
-  .btn{width:100%;padding:14px;border:none;border-radius:14px;font-weight:800;font-size:18px;cursor:pointer;}
-  #buyBtn{background:var(--green);color:#05140b;margin-top:14px;}
-  #confirmBtn{background:#1f8f53;color:#ecfff5;margin-top:6px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;
+       padding:14px 16px;font-weight:800;letter-spacing:.2px;cursor:pointer;user-select:none;position:relative;overflow:hidden}
+  .buy{background:var(--green);color:#092112;font-size:18px;box-shadow:0 18px 44px rgba(33,208,114,.28)}
+  .btn:active{transform:translateY(1px)}
+  .btn .ripple{position:absolute;border-radius:999px;transform:scale(0);background:rgba(255,255,255,.55);animation:rip .6s linear}
+  @keyframes rip{to{transform:scale(9);opacity:0}}
 
-  .payCard{background:#0e0c14;border:1px solid rgba(60,90,255,.2);padding:16px;border-radius:14px;margin-top:16px;}
-  .gcash{background:#0b1130;border:1px solid rgba(24,119,242,.35);padding:12px;border-radius:12px;font-weight:700;text-align:center;margin-bottom:8px;}
+  .pay{background:linear-gradient(180deg,#11111a,#0b0c12);border:1px solid rgba(24,119,242,.2);border-radius:18px;padding:12px 14px;box-shadow:0 0 22px rgba(24,119,242,.16)}
+  .gcash{display:flex;align-items:center;gap:10px;font-weight:800}
+  .soc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .fb{background:var(--blue);color:#fff}
+  .dc{background:var(--discord);color:#fff}
 
-  .socRow{display:flex;gap:10px;margin-top:10px;}
-  .sbtn{flex:1;border:none;border-radius:12px;padding:12px;font-weight:700;cursor:pointer;}
-  .fb{background:var(--blue);color:white;}
-  .dc{background:var(--discord);color:white;}
-
-  .txBox{display:flex;justify-content:center;align-items:center;gap:10px;background:#111;border:1px solid rgba(80,255,120,.25);padding:14px;border-radius:16px;margin-top:14px;}
-  .txNum{font-size:26px;font-weight:800}
+  /* Completed + Transactions in one card */
+  .ctCard{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:10px;
+          background:linear-gradient(180deg,#101510,#0c100c);border:1px solid rgba(80,255,120,.22);
+          border-radius:18px;padding:10px 12px;box-shadow:0 0 22px rgba(20,255,120,.12)}
+  .completed{background:#1f8f53;color:#ecfff5}
+  .chip{display:flex;align-items:center;gap:8px;background:#0b1310;border:1px solid rgba(80,255,120,.25);
+        padding:10px 14px;border-radius:12px;font-weight:900}
+  .num{font-size:20px}
 
   /* Popup */
-  #buyPopup{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:999;}
-  #buyPopup div{background:#160c13;border:1px solid rgba(255,70,120,.35);border-radius:18px;padding:22px 20px;width:80%;max-width:300px;text-align:center;box-shadow:0 0 25px rgba(255,0,80,.45);}
+  .popup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
+  .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--glow);text-align:center}
+  .cardPop h3{margin:0 0 6px}
+  .cardPop p{margin:6px 0 14px;color:var(--mut)}
+  .close{background:#272327;color:#fff}
+
+  @media (max-width:540px){
+    .prices{grid-template-columns:repeat(3,1fr)}
+    .grid2{grid-template-columns:1fr 1fr}
+  }
 </style>
 </head>
-
 <body>
-<div class="wrap">
+  <div class="wrap">
+    <div class="title">LEGEND OF YMIR DIAMOND <span class="dia">💎</span></div>
 
-  <!-- LOGO -->
-  <div class="logoWrap">
-    <div class="logo">
-      <div class="ring"></div>
-      <img src="logo.png"/>
+    <!-- Animated neon logo -->
+    <div class="logoWrap">
+      <div class="logo">
+        <div class="ring"></div>
+        <!-- replace logo.png with your uploaded file name if different -->
+        <img src="logo.png" alt="Logo">
+      </div>
+    </div>
+
+    <!-- Price pills -->
+    <div class="row prices">
+      <div class="pill">
+        <div class="pval">₱0.80</div>
+        <div class="ptxt">Price / dia</div>
+      </div>
+      <div class="pill">
+        <div class="pval">₱0.75</div>
+        <div class="ptxt">Price / dia</div>
+      </div>
+      <div class="pill">
+        <div class="pval">₱0.70</div>
+        <div class="ptxt">Price / dia</div>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="section">
+      <div class="label">Enter Diamonds 💎</div>
+      <input id="dias" class="in" inputmode="numeric" placeholder="e.g. 1500">
+      <div class="label" style="margin-top:10px">ENTER PHP ₱</div>
+      <input id="phpIn" class="in" inputmode="decimal" placeholder="e.g. 500.00">
+      <div class="grid2">
+        <div class="box">
+          <h5>Rate</h5>
+          <div id="rateOut" class="rateOut">—</div>
+        </div>
+        <div class="box saveBox">
+          <h5>Savings</h5>
+          <div id="saveOut" class="saveOut">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buy -->
+    <button id="buyBtn" class="btn buy" style="width:100%;margin-top:10px">💎 Buy</button>
+    <div class="label" style="text-align:center;margin-top:8px">Enter at least 500 dias or PHP equivalent.</div>
+
+    <!-- Payment + socials -->
+    <div class="pay" style="margin-top:10px">
+      <div class="gcash">💠 GCash • <strong>09162466318 — MOISES B.</strong></div>
+      <div class="soc">
+        <button id="fbBtn" class="btn fb">📘 Facebook Page</button>
+        <button id="dcBtn" class="btn dc">🟣 Discord Server</button>
+      </div>
+    </div>
+
+    <!-- Completed + Transactions -->
+    <div class="ctCard">
+      <button id="doneBtn" class="btn completed">✅ Completed</button>
+      <div class="chip">Transactions <span id="txNum" class="num">0</span></div>
     </div>
   </div>
 
-  <!-- Prices -->
-  <div class="row prices">
-    <div class="card"><div class="price">₱0.80</div></div>
-    <div class="card"><div class="price">₱0.75</div></div>
-    <div class="card"><div class="price">₱0.70</div></div>
-  </div>
-
-  <!-- Inputs -->
-  <div class="inputCard">
-    <div>Enter Diamonds 💎</div>
-    <input id="dias" class="in" inputmode="numeric">
-
-    <div style="margin-top:8px;">ENTER PHP ₱</div>
-    <input id="phpIn" class="in" inputmode="decimal">
-  </div>
-
-  <!-- Tier + Save -->
-  <div class="appliedRow">
-    <div class="applied"><div>Rate</div><div class="big" id="tierBig">—</div></div>
-    <div class="applied"><div>Savings</div><div class="big" id="saveBig">—</div></div>
-  </div>
-
-  <!-- BUY -->
-  <button id="buyBtn" class="btn">💎 Buy</button>
-
-  <!-- Payment -->
-  <div class="payCard">
-    <div class="gcash">GCash • 09162466318 — MOISES B.</div>
-    <div class="socRow">
-      <button class="sbtn fb" id="fbBtn">Facebook Page</button>
-      <button class="sbtn dc" id="dcBtn">Discord Server</button>
+  <!-- BUY Popup -->
+  <div id="buyPopup" class="popup">
+    <div class="cardPop">
+      <h3>Copied ✔</h3>
+      <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+      <button id="closePop" class="btn close">OK</button>
     </div>
   </div>
-
-  <!-- Completed -->
-  <button id="confirmBtn" class="btn">✅ Completed</button>
-
-  <!-- Transactions -->
-  <div class="txBox">
-    <span>Transactions</span>
-    <span class="txNum" id="txNum">0</span>
-  </div>
-
-</div>
-
-<!-- Pop-up -->
-<div id="buyPopup">
-  <div>
-    ✅ COPIED!<br><br>
-    <b>I-paste mo ito sa Messenger ko.</b><br><br>
-    <button id="closePopup" class="btn" style="background:#ff2b56;">OK ✅</button>
-  </div>
-</div>
 
 <script>
-const $=id=>document.getElementById(id);
-const T1=0.80,T2=0.75,T3=0.70;
-function rate(q){return q<500?null:q<=3000?T1:q<=7000?T2:T3;}
-function est(php){if(!php)return 0;let q=php/T1;for(let i=0;i<3;i++)q=php/(rate(q)||T1);return Math.floor(q);}
-function F(n){return Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+  /* ===== Helpers ===== */
+  const $ = id => document.getElementById(id);
+  const num = v => parseFloat(String(v).replace(/[^0-9.]/g,'')) || 0;
+  const int = v => parseInt(String(v).replace(/[^0-9]/g,'')) || 0;
+  const F = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
 
-let last;
-$('dias').oninput=()=>{last='d';compute();}
-$('phpIn').oninput=()=>{last='p';compute();};
+  const MIN = 500, T1=0.80, T2=0.75, T3=0.70;
 
-function compute(){
-  let q=parseInt($('dias').value)||0;
-  let p=parseFloat($('phpIn').value)||0;
-  if(last==='p'){q=est(p);$('dias').value=q||'';}
-  if(last==='d'){const r=rate(q);p=r?q*r:0;$('phpIn').value=p?F(p):'';}
-  const r=rate(q);
-  $('tierBig').textContent=r?`₱${r.toFixed(2)}`:'—';
-  if(r){const save=(q*T1)-(q*r);$('saveBig').textContent=`₱${F(save)}`;}else $('saveBig').textContent='—';
-}
+  const rate = q => (!q||q<MIN) ? null : (q<=3000?T1:(q<=7000?T2:T3));
 
-$('buyBtn').onclick=async()=>{
-  let q=parseInt($('dias').value)||0;
-  let p=parseFloat($('phpIn').value)||0;
-  if(!q)return alert("Enter value");
-  const r=rate(q),t=p||q*r;
-  const msg=`BUY ORDER\nDiamonds: ${q} 💎\nRate: ₱${r.toFixed(2)}\nTotal: ₱${F(t)}\nGCash: 09162466318 (MOISES B.)`;
-  try{await navigator.clipboard.writeText(msg);}catch{}
-  $('buyPopup').style.display='grid';
-};
-$('closePopup').onclick=()=>$('buyPopup').style.display='none';
+  function estFromPhp(php){
+    if (!php) return 0;
+    let q = Math.floor(php/T1);
+    for (let i=0;i<3;i++){ const r = rate(q) ?? T1; q = Math.floor(php/r); }
+    return q;
+  }
 
-const KEY='ymir_done',CNT='ymir_cnt';
-function set(){const c=+localStorage[CNT]||0;$('txNum').textContent=c;const d=localStorage[KEY]==='1';$('confirmBtn').disabled=d;}
-set();
-$('confirmBtn').onclick=()=>{
-  if(localStorage[KEY]==='1')return;
-  localStorage[KEY]='1';
-  localStorage[CNT]=(+localStorage[CNT]||0)+1;
-  set();
-};
-$('fbBtn').onclick=()=>open('https://www.facebook.com/share/p/1DB1da3qMn/','_blank');
-$('dcBtn').onclick=()=>open('https://discord.gg/QkdVz5mh','_blank');
+  function compute(){
+    let q = int($('dias').value);
+    let p = num($('phpIn').value);
+
+    if (!q && p) q = estFromPhp(p);
+    const r = rate(q);
+    let total = null;
+    if (r) total = q*r;
+    if (!p && total!==null) p = total;
+
+    // savings vs base
+    let saveTxt = '—', rateTxt='—';
+    if (q && r){
+      const base = q*T1;
+      const saveAmt = Math.max(0, base - (q*r));
+      const savePct = Math.max(0, (1 - r/T1)*100);
+      rateTxt = `₱${r.toFixed(2)} / dia`;
+      saveTxt = `${savePct.toFixed(2)}% • ₱${F(saveAmt)}`;
+    }
+    $('rateOut').textContent = rateTxt;
+    $('saveOut').textContent = saveTxt;
+  }
+  $('dias').addEventListener('input', compute);
+  $('phpIn').addEventListener('input', compute);
+  compute();
+
+  /* ===== Buy: copy + popup, ripple ===== */
+  function ripple(e){
+    const r=document.createElement('span');
+    r.className='ripple';
+    const rect=e.currentTarget.getBoundingClientRect();
+    r.style.width=r.style.height=Math.max(rect.width,rect.height)+'px';
+    r.style.left=(e.clientX-rect.left - rect.width/2)+'px';
+    r.style.top=(e.clientY-rect.top - rect.height/2)+'px';
+    e.currentTarget.appendChild(r);
+    setTimeout(()=>r.remove(),600);
+  }
+  document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',ripple,{passive:true}));
+
+  $('buyBtn').addEventListener('click', async ()=>{
+    let q = int($('dias').value);
+    let p = num($('phpIn').value);
+    if (!q && p) q = estFromPhp(p);
+    const r = rate(q);
+    if (!r){ alert('Enter at least 500 dias or PHP equivalent.'); return; }
+    const total = p || (q*r);
+
+    const msg =
+`BUY ORDER
+Diamonds: ${q} 💎
+Rate: ₱${r.toFixed(2)} / dia
+Total: ₱${F(total)}
+GCash: 09162466318 (MOISES B.)`;
+
+    try{ await navigator.clipboard.writeText(msg); }catch{}
+    $('buyPopup').style.display='grid';
+  });
+  $('closePop').onclick = ()=> $('buyPopup').style.display='none';
+
+  /* ===== Completed (1x/device) + counter ===== */
+  const DONE_KEY='ymir_done';
+  const COUNT_KEY='ymir_tx_count';
+
+  function setCounts(){
+    const c = parseInt(localStorage.getItem(COUNT_KEY)||'0');
+    $('txNum').textContent = isNaN(c)?'0':String(c);
+    const done = localStorage.getItem(DONE_KEY)==='1';
+    $('doneBtn').disabled = done;
+    $('doneBtn').textContent = done ? '✅ Completed' : '✅ Completed';
+    $('doneBtn').style.opacity = done ? .7 : 1;
+  }
+  setCounts();
+
+  $('doneBtn').addEventListener('click', ()=>{
+    if (localStorage.getItem(DONE_KEY)==='1') return;
+    chime();
+    localStorage.setItem(DONE_KEY,'1');
+    const c = parseInt(localStorage.getItem(COUNT_KEY)||'0') + 1;
+    localStorage.setItem(COUNT_KEY,String(c));
+    setCounts();
+  });
+
+  /* ===== Soft chime ===== */
+  function chime(){
+    try{
+      const a=new (window.AudioContext||window.webkitAudioContext)();
+      const o=a.createOscillator(), g=a.createGain();
+      o.type='sine'; o.frequency.setValueAtTime(660,a.currentTime);
+      g.gain.setValueAtTime(0.0001,a.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.22,a.currentTime+0.03);
+      o.connect(g).connect(a.destination); o.start();
+      o.frequency.exponentialRampToValueAtTime(990,a.currentTime+0.18);
+      g.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+0.26);
+      o.stop(a.currentTime+0.28);
+    }catch(e){}
+  }
+
+  /* ===== Social links ===== */
+  $('fbBtn').onclick = ()=> window.open('https://www.facebook.com/share/p/1DB1da3qMn/','_blank');
+  $('dcBtn').onclick = ()=> window.open('https://discord.gg/QkdVz5mh','_blank');
 </script>
 </body>
 </html>
