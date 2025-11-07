@@ -1,309 +1,241 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Legend of Ymir — Diamond Pricing</title>
-<link rel="icon" href="./logo.png" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Legend of Ymir – Diamond Pricing</title>
 <style>
-:root{
-  --bg:#000; --card:#0f0f0f; --line:#1a1a1a; --text:#fff; --muted:#cfcfcf;
-  --red:#ff2b2b; --blue:#2a8cff; --purple:#6c4bff;
-  --space:12px; --radius:16px;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;color:var(--text);
-  background:
-    radial-gradient(900px 500px at 50% -10%, rgba(255,0,40,.14), transparent 60%),
-    radial-gradient(700px 400px at -10% 110%, rgba(255,0,40,.12), transparent 60%),
-    radial-gradient(800px 500px at 110% 120%, rgba(255,0,40,.10), transparent 60%),
-    #000;
-  animation:bgpulse 10s ease-in-out infinite alternate;
-}
-@keyframes bgpulse{0%{filter:none}50%{filter:brightness(1.04)}100%{filter:none}}
-.wrap{max-width:640px;margin:0 auto;padding:14px}
+  :root{
+    --bg1:#000; --bg2:#4e0015;
+    --card:rgba(255,255,255,.07);
+    --line:rgba(255,255,255,.08);
+    --muted:#d9d9d9;
+    --blue:#1877F2; --discord:#5865F2;
+  }
+  html,body{margin:0;padding:0;font-family:system-ui,Segoe UI,Arial,sans-serif;color:#fff;background:
+    radial-gradient(circle at 50% -10%, var(--bg2), transparent 55%),
+    #000;}
+  .wrap{max-width:680px;margin:0 auto;padding:14px}
+  /* Logo + glow */
+  .logoWrap{display:grid;place-items:center;margin-top:18px}
+  .logo{width:140px;height:140px;border-radius:50%;
+    filter:drop-shadow(0 0 10px #ff0040) drop-shadow(0 0 26px #ff2040);
+    animation:glow 3s ease-in-out infinite alternate}
+  @keyframes glow{from{filter:drop-shadow(0 0 8px #ff0040) drop-shadow(0 0 18px #ff2040)}
+                  to{filter:drop-shadow(0 0 18px #ff3760) drop-shadow(0 0 40px #ff2040)}}
+  h1{margin:10px 0 0;font-size:26px;text-align:center;font-weight:900;
+     text-shadow:0 0 12px rgba(255,0,60,.45),0 0 26px rgba(255,0,60,.25)}
+  .sub{opacity:.85;text-align:center;margin:6px 0 10px}
 
-/* Header + Animated glow */
-.hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 10px;position:relative}
-.logoWrap{position:relative;width:128px;height:128px;display:grid;place-items:center;margin-top:8px;animation:floaty 4.5s ease-in-out infinite}
-@keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
-.logoWrap::before{
-  content:"";position:absolute;inset:-10px;border-radius:50%;
-  background:radial-gradient(circle at 50% 50%, rgba(255,0,80,.45), transparent 60%);
-  filter:blur(22px);animation:ringPulse 3.5s ease-in-out infinite;
-}
-@keyframes ringPulse{
-  0%{opacity:.55;box-shadow:0 0 32px rgba(255,0,80,.55), inset 0 0 22px rgba(255,0,40,.25)}
-  50%{opacity:.9;box-shadow:0 0 60px rgba(255,0,80,.85), inset 0 0 40px rgba(255,0,40,.35)}
-  100%{opacity:.55;box-shadow:0 0 32px rgba(255,0,80,.55), inset 0 0 22px rgba(255,0,40,.25)}
-}
-.logo{
-  width:128px;height:128px;object-fit:cover;border-radius:50%;
-  box-shadow:0 0 0 4px rgba(255,0,80,.45),0 0 22px rgba(255,0,80,.65),0 0 70px rgba(255,0,40,.45);
-}
-.title{margin-top:10px;text-align:center;font-size:24px;font-weight:900;letter-spacing:.2px;
-  background:linear-gradient(90deg,#fff,#ffd6d6,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 12px rgba(255,0,60,.45),0 0 26px rgba(255,0,60,.25);}
-.subtitle{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .tier{background:#0e0e0e;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .tier .lab{font-size:12px;color:var(--muted)}
+  .tier .val{font-size:22px;font-weight:900;text-shadow:0 0 10px rgba(255,0,0,.35)}
+  .tier.active{outline:2px solid #ff3a60;box-shadow:0 0 20px rgba(255,0,0,.22) inset}
 
-/* cards */
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:0 0 30px rgba(255,0,0,.12) inset,0 0 10px rgba(255,0,0,.10);margin-top:var(--space)}
-.grid{display:grid;gap:10px}
+  label{display:block;font-size:12px;color:var(--muted);margin:6px 0}
+  input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);
+        background:#0c0c0c;color:#fff;font-size:18px;text-align:center}
 
-/* tier chips */
-.tiers{grid-template-columns:repeat(3,1fr)}
-.tier{
-  position:relative;background:#101010;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;
-  box-shadow:0 0 12px rgba(255,0,0,.16);transition:all .25s ease;
-}
-.tier .label{font-size:11px;color:var(--muted);letter-spacing:.2px}
-.tier .price{font-size:22px;font-weight:900;text-shadow:0 0 8px rgba(255,0,0,.55),0 0 18px rgba(255,0,0,.22)}
-.tier.active{border-color:#ff4264;box-shadow:0 0 0 2px rgba(255,66,100,.35),0 0 30px rgba(255,30,60,.35) inset,0 0 20px rgba(255,30,60,.25)}
-.tier.active .price{color:#fff}
+  .rateRow{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .rateBox{display:flex;gap:12px;align-items:flex-start}
+  .rateTag{background:#150408;border:1px solid #3a0c14;border-radius:12px;padding:10px 14px;
+           font-weight:900;font-size:20px;box-shadow:0 0 18px rgba(255,0,0,.18) inset}
+  .rateInfo{font-size:12px;color:var(--muted)}
+  .saveTag{background:#04330f;border:1px solid #146327;border-radius:10px;padding:8px 10px;
+           font-weight:800;font-size:13px;color:#96ffb0;box-shadow:0 0 14px rgba(0,220,100,.18) inset}
 
-/* inputs */
-label.note{font-size:12px;color:var(--muted)}
-input{
-  width:100%;padding:12px 13px;font-size:16px;border-radius:12px;outline:none;
-  background:#0c0c0c;color:#fff;border:1px solid var(--line);box-shadow:0 0 10px rgba(255,0,0,.08) inset;
-}
+  .btn{cursor:pointer;border:none;border-radius:12px;padding:12px 18px;font-size:18px;font-weight:800}
+  .buy{background:#007bff}
+  .buy:active{background:#005fcc}
 
-/* Applied rate row + quick actions (Share + FB + Discord) */
-.rateRow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.ratePack{display:flex;align-items:flex-start;gap:12px}
-.rateTag{
-  padding:10px 14px;border-radius:12px;background:#150408;border:1px solid #3a0c14;
-  font-weight:900;font-size:20px;letter-spacing:.3px;box-shadow:0 0 18px rgba(255,0,0,.18) inset,0 0 10px rgba(255,0,0,.18);
-}
-.rateInfo{font-size:12px;color:var(--muted)}
+  .pay{display:flex;gap:12px;align-items:center;background:rgba(0,80,255,.25);
+       border:1px solid rgba(0,80,255,.35);border-radius:12px;padding:12px;margin-top:6px}
+  .chip{background:#2a8cff;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}
 
-.quick{display:flex;gap:8px;align-items:center}
-.btn{
-  padding:10px 12px;border-radius:12px;background:#1f1f1f;border:1px solid var(--line);color:#fff;cursor:pointer;
-  white-space:nowrap;display:inline-flex;align-items:center;gap:6px;font-weight:700
-}
-.btn.shareBlue{background:linear-gradient(90deg,#0061ff,#0091ff);border:none}
-.iconBtn{padding:8px 10px;border-radius:999px;font-weight:800;border:1px solid var(--line)}
-.iconBtn.fb{background:#1b439c;border:none}
-.iconBtn.dc{background:#5b60ff;border:none}
+  .links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .fb,.dc{border:none;border-radius:12px;padding:10px 16px;font-weight:800;color:#fff;font-size:15px}
+  .fb{background:var(--blue)} .dc{background:var(--discord)}
 
-/* payment */
-.pay{display:flex;align-items:center;gap:12px;font-weight:700;background:#0e1524;border:1px solid #1e2b45;border-radius:12px;padding:12px;box-shadow:0 0 16px rgba(42,140,255,.25) inset,0 0 10px rgba(42,140,255,.25)}
-.pay .tag{background:var(--blue);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;box-shadow:0 0 12px rgba(42,140,255,.65);}
-
-/* actions (recorded) */
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.small{font-size:12px;color:var(--muted)}
-.counter{display:flex;align-items:center;gap:10px}
-.counter .num{font-size:18px;font-weight:900}
-.btn.rec{background:#1f1f1f}
-.btn.rec.success{background:linear-gradient(90deg,#0b7b2b,#0fb44e)}
+  .row{display:flex;align-items:center;justify-content:space-between}
+  .count{font-size:18px;font-weight:900}
+  .hint{font-size:13px;color:var(--muted);text-align:center;margin:8px 4px 0}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- Header -->
-  <div class="hero">
-    <div class="logoWrap"><img src="./logo.png" class="logo" alt="Logo" /></div>
-    <div class="title">Legend of Ymir — Diamond Pricing</div>
-    <div class="subtitle">Enter diamonds or PHP to see totals. Bigger orders unlock better rates.</div>
-  </div>
+  <div class="logoWrap"><img src="logo.png" class="logo" alt="Logo"></div>
+  <h1>Legend of Ymir – Diamond Pricing</h1>
+  <div class="sub">Enter diamonds or PHP. Bigger orders unlock better rates.</div>
 
-  <!-- Tiers -->
+  <!-- Price chips -->
   <section class="card">
-    <div class="grid tiers">
-      <div class="tier" id="chip80"><div class="label">Price / dia</div><div class="price">₱0.80</div></div>
-      <div class="tier" id="chip75"><div class="label">Price / dia</div><div class="price">₱0.75</div></div>
-      <div class="tier" id="chip70"><div class="label">Price / dia</div><div class="price">₱0.70</div></div>
+    <div class="tiers">
+      <div class="tier" id="chip80"><div class="lab">Price / dia</div><div class="val">₱0.80</div></div>
+      <div class="tier" id="chip75"><div class="lab">Price / dia</div><div class="val">₱0.75</div></div>
+      <div class="tier" id="chip70"><div class="lab">Price / dia</div><div class="val">₱0.70</div></div>
     </div>
   </section>
 
   <!-- Inputs -->
   <section class="card">
-    <div class="grid" style="grid-template-columns:1fr">
-      <div>
-        <label class="note">Enter Diamonds</label>
-        <input id="qty" type="number" placeholder="e.g. 1500" inputmode="numeric" />
-      </div>
-      <div>
-        <label class="note" style="margin-top:8px;display:block">ENTER PHP</label>
-        <input id="phpAmount" type="number" placeholder="e.g. 500.00" inputmode="decimal" />
-      </div>
-    </div>
+    <label>Enter Diamonds</label>
+    <input id="qty" type="number" placeholder="e.g. 1500" inputmode="numeric" />
+    <label style="margin-top:10px">ENTER PHP</label>
+    <input id="php" type="number" placeholder="e.g. 500.00" inputmode="decimal" />
   </section>
 
-  <!-- Applied rate + Share + Socials -->
+  <!-- Applied rate + savings -->
   <section class="card">
     <div class="rateRow">
-      <div class="ratePack">
+      <div class="rateBox">
         <div>
-          <div class="small">Applied Tier Rate</div>
-          <div class="rateTag" id="appliedRate">—</div>
+          <div class="rateTag" id="rateTag">—</div>
+          <div class="rateInfo" id="rateInfo">Enter at least 500 dias or equivalent PHP.</div>
         </div>
-        <div class="rateInfo" id="rateInfoText">Enter at least 500 dias or equivalent PHP.</div>
+        <div class="saveTag" id="saveTag" style="display:none">Saving —</div>
       </div>
-
-      <div class="quick">
-        <button id="shareBtn" class="btn shareBlue">🛒 Buy &amp; Share</button>
-        <a class="iconBtn fb" href="https://www.facebook.com/share/p/1DB1da3qMn/" target="_blank" rel="noopener">📘</a>
-        <a class="iconBtn dc" href="https://discord.gg/QkdVz5mh" target="_blank" rel="noopener">🟣</a>
-      </div>
+      <button class="btn buy" id="buyBtn">💎 Buy</button>
     </div>
+    <div class="hint">Tap <b>BUY</b> → message auto-copied → <b>Paste sa Messenger ko</b> to process.</div>
   </section>
 
-  <!-- Payment -->
+  <!-- Payment + socials -->
   <section class="card">
     <div class="pay">
-      <span class="tag">GCash</span>
-      <div>09162466318 — <strong>MOISES B.</strong></div>
+      <span class="chip">GCash</span>
+      <div>09162466318 — <b>MOISES B.</b></div>
+    </div>
+    <div class="links">
+      <button class="fb" onclick="window.open('https://www.facebook.com/share/p/1DB1da3qMn/','_blank')">📘 Facebook</button>
+      <button class="dc" onclick="window.open('https://discord.gg/QkdVz5mh','_blank')">🟣 Discord</button>
     </div>
   </section>
 
-  <!-- Recorded counter -->
+  <!-- Local device counter -->
   <section class="card">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <div class="counter">
-        <div class="small">Transactions Completed</div>
-        <div class="num" id="countDisplay">0</div>
-      </div>
-      <button id="successBtn" class="btn rec">✅ Recorded?</button>
+    <div class="row">
+      <div class="rateInfo">Transactions Completed</div>
+      <div class="count" id="count">0</div>
     </div>
   </section>
 
 </div>
 
 <script>
-/* ======== CONFIG ======== */
+/* ---------- Config ---------- */
 const MIN_QTY = 500;
 const TIERS = [
   {max:3000, rate:0.80, name:'Normal'},
   {max:7000, rate:0.75, name:'Retail'},
   {max:Infinity, rate:0.70, name:'Bulk'}
 ];
+const BASE = 0.80; // for discount computation
 
-/* ======== DOM helpers ======== */
-const $ = id => document.getElementById(id);
+/* ---------- DOM ---------- */
+const $ = (id)=>document.getElementById(id);
+const qty = $('qty'), php = $('php');
+const rateTag = $('rateTag'), rateInfo = $('rateInfo'), saveTag = $('saveTag');
 
-/* ======== Tier logic ======== */
-function getRateByQty(q){
+/* ---------- Tier helpers ---------- */
+function tierByQty(q){
   if(q < MIN_QTY) return null;
   if(q <= 3000) return TIERS[0];
   if(q <= 7000) return TIERS[1];
   return TIERS[2];
 }
-function highlight(rate){
+function hilite(r){
   ['chip80','chip75','chip70'].forEach(id => $(id).classList.remove('active'));
-  if(!rate) return;
-  if(rate.rate === 0.80) $('chip80').classList.add('active');
-  else if(rate.rate === 0.75) $('chip75').classList.add('active');
+  if(!r) return;
+  if(r.rate===0.80) $('chip80').classList.add('active');
+  else if(r.rate===0.75) $('chip75').classList.add('active');
   else $('chip70').classList.add('active');
 }
-
-/* two-way sync */
-let internal = false;
-function sync(){
-  const q = Number($('qty').value || 0);
-  const p = Number($('phpAmount').value || 0);
-
-  // user typed qty
-  if(!internal && $('qty') === document.activeElement){
-    const tier = getRateByQty(q);
-    if(!tier){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
-    $('appliedRate').textContent = `₱${tier.rate.toFixed(2)} / dia`;
-    $('rateInfoText').textContent = `${tier.name} tier detected for ${q.toLocaleString()} dias.`;
-    highlight(tier);
-    internal = true; $('phpAmount').value = (tier.rate * q).toFixed(2); internal = false;
-    return;
-  }
-
-  // user typed PHP
-  if(!internal && $('phpAmount') === document.activeElement){
-    if(p <= 0){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
-    let d = Math.floor(p / TIERS[2].rate);
-    if(d >= 8000){} else if(d >= 4000){ d = Math.floor(p / TIERS[1].rate); if(d > 7999) d = 7999; } else { d = Math.floor(p / TIERS[0].rate); }
-    internal = true; $('qty').value = d>0?d:''; internal = false;
-    const tier = getRateByQty(d);
-    if(!tier){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
-    $('appliedRate').textContent = `₱${tier.rate.toFixed(2)} / dia`;
-    $('rateInfoText').textContent = `${tier.name} tier estimated for ~${d.toLocaleString()} dias.`;
-    highlight(tier);
-    return;
-  }
-
-  // refresh
-  const tier = getRateByQty(q);
-  if(!tier){ $('appliedRate').textContent='—'; $('rateInfoText').textContent='Enter at least 500 dias or equivalent PHP.'; highlight(null); return; }
-  $('appliedRate').textContent = `₱${tier.rate.toFixed(2)} / dia`;
-  $('rateInfoText').textContent = `${tier.name} tier detected for ${q.toLocaleString()} dias.`;
-  highlight(tier);
-  if(!internal){ internal = true; $('phpAmount').value = (tier.rate * q).toFixed(2); internal = false; }
+function showSavings(rate, q){
+  if(!rate || !q){ saveTag.style.display='none'; return; }
+  const per = (BASE-rate.rate);
+  const pct = (per/BASE)*100;                   // % off
+  const totalSave = per * q;                    // PHP saved vs base
+  saveTag.textContent = `Save ${pct.toFixed(2)}%  •  ₱${totalSave.toFixed(2)}`;
+  saveTag.style.display='inline-block';
 }
-$('qty').addEventListener('input', sync);
-$('phpAmount').addEventListener('input', sync);
 
-/* ======== Chime ======== */
-function playChime(){
+/* ---------- Sync inputs ---------- */
+let guard=false;
+function syncFromQty(){
+  const q = Number(qty.value||0);
+  const t = tierByQty(q);
+  if(!t){ rateTag.textContent='—'; rateInfo.textContent='Enter at least 500 dias or equivalent PHP.'; hilite(null); showSavings(null,0); return; }
+  guard=true; php.value=(t.rate*q).toFixed(2); guard=false;
+  rateTag.textContent=`₱${t.rate.toFixed(2)} / dia`;
+  rateInfo.textContent=`${t.name} tier detected for ${q.toLocaleString()} dias.`;
+  hilite(t); showSavings(t,q);
+}
+function syncFromPhp(){
+  const p = Number(php.value||0);
+  if(p<=0){ rateTag.textContent='—'; rateInfo.textContent='Enter at least 500 dias or equivalent PHP.'; hilite(null); showSavings(null,0); return; }
+  // assume best tier first then adjust
+  let d = Math.floor(p / TIERS[2].rate);
+  if(d < 8000 && d >= 4000) d = Math.floor(p / TIERS[1].rate);
+  if(d < 4000) d = Math.floor(p / TIERS[0].rate);
+  guard=true; qty.value = d>0?d:''; guard=false;
+  const t = tierByQty(d);
+  if(!t){ rateTag.textContent='—'; rateInfo.textContent='Enter at least 500 dias or equivalent PHP.'; hilite(null); showSavings(null,0); return; }
+  rateTag.textContent=`₱${t.rate.toFixed(2)} / dia`;
+  rateInfo.textContent=`${t.name} tier estimated for ~${d.toLocaleString()} dias.`;
+  hilite(t); showSavings(t,d);
+}
+qty.addEventListener('input', ()=>{ if(!guard) syncFromQty(); });
+php.addEventListener('input', ()=>{ if(!guard) syncFromPhp(); });
+
+/* ---------- Success chime ---------- */
+function chime(){
   try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
     const now = ctx.currentTime;
     [880,1320].forEach((f,i)=>{
       const o=ctx.createOscillator(), g=ctx.createGain();
       o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(ctx.destination);
-      const t0 = now + i*0.08;
-      g.gain.setValueAtTime(0, t0);
-      g.gain.linearRampToValueAtTime(0.18, t0+0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0+0.28);
-      o.start(t0); o.stop(t0+0.3);
+      const t0=now+i*0.08;
+      g.gain.setValueAtTime(0,t0);
+      g.gain.linearRampToValueAtTime(0.18,t0+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,t0+0.28);
+      o.start(t0); o.stop(t0+0.30);
     });
   }catch(e){}
 }
 
-/* ======== Counter (1 per device) ======== */
-const K_FLAG='ymir_success_flag', K_TOTAL='ymir_success_total';
-const getLocal=()=>Number(localStorage.getItem(K_TOTAL)||0);
-const setLocal=n=>localStorage.setItem(K_TOTAL,String(n));
-const hasCounted=()=>localStorage.getItem(K_FLAG)==='1';
-const markCounted=()=>localStorage.setItem(K_FLAG,'1');
+/* ---------- BUY: copy + count + chime ---------- */
+const COUNT_KEY='ymirCount';
+function getCount(){ return Number(localStorage.getItem(COUNT_KEY)||0); }
+function setCount(n){ localStorage.setItem(COUNT_KEY,String(n)); $('count').textContent=n; }
+setCount(getCount()); // init
 
-function initCounter(){
-  $('countDisplay').textContent=getLocal();
-  if(hasCounted()){ const b=$('successBtn'); b.classList.add('rec','success'); b.textContent='✅ Recorded'; }
-}
-$('successBtn').addEventListener('click', ()=>{
-  if(hasCounted()) return;
-  markCounted();
-  const n=getLocal()+1; setLocal(n);
-  $('countDisplay').textContent=n;
-  playChime(); if(navigator.vibrate) navigator.vibrate([20,40]);
-  const b=$('successBtn'); b.classList.add('rec','success'); b.textContent='✅ Recorded';
-});
+$('buyBtn').addEventListener('click', async ()=>{
+  const q = Number(qty.value||0);
+  const p = Number(php.value||0);
+  const t = tierByQty(q);
+  const rateText = t ? `₱${t.rate.toFixed(2)} / dia` : '—';
+  const msg = `LEGEND OF YMIR ORDER
+Diamonds: ${q.toLocaleString()} 💎
+Amount: ₱${p.toFixed(2)}
+Rate: ${rateText}
+Pay via GCash: 09162466318 (MOISES B.)`;
 
-/* ======== Share (blue button) ======== */
-function composeShareText(){
-  const q = Number(($('qty').value||0));
-  const p = Number(($('phpAmount').value||0));
-  const rateTxt = $('appliedRate').textContent || '—';
-  const lines = [];
-  if(q) lines.push(`Diamonds: ${q.toLocaleString()} 💎`);
-  if(p) lines.push(`Amount: ₱${p.toFixed(2)}`);
-  lines.push(`Rate: ${rateTxt}`);
-  lines.push(`Pay via GCash: 09162466318 (MOISES B.)`);
-  lines.push(`Legend of Ymir — Diamond Pricing`);
-  return lines.join('\n');
-}
-$('shareBtn').addEventListener('click', async ()=>{
-  const text = composeShareText();
-  if(navigator.share){ try{ await navigator.share({title:'Diamond Pricing',text}); return; }catch(e){} }
-  const url = 'https://m.me/?text=' + encodeURIComponent(text);
-  const w = window.open(url,'_blank'); if(w) return;
-  try{ await navigator.clipboard.writeText(text); alert('Copied! Paste to Messenger.'); }catch(e){ alert(text); }
+  try{ await navigator.clipboard.writeText(msg); }catch(e){}
+  chime(); if(navigator.vibrate) navigator.vibrate([20,40]);
+
+  setCount(getCount()+1);
+
+  // Also attempt to open Messenger compose (best effort; some browsers may block)
+  const m = 'https://m.me/?text=' + encodeURIComponent(msg);
+  const w = window.open(m,'_blank'); if(!w) alert('✅ Copied! Paste sa Messenger ko to proceed.');
 });
 
 /* boot */
-sync(); initCounter();
+syncFromQty();
 </script>
 </body>
 </html>
