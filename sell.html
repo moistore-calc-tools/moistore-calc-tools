@@ -196,7 +196,7 @@
         <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
       </svg>
       <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
-        <span class="ownerName">MOISES TRAJANO BITONIO</span>
+        <span class="ownerName">MOISEES TRAJANO BITONIO</span>
         <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
           <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2aa4ff"/><stop offset="1" stop-color="#1877f2"/></linearGradient></defs>
           <circle cx="12" cy="12" r="10" fill="url(#g)"/>
@@ -218,7 +218,6 @@
       <div id="pill70" class="pill">
         <div class="pval">₱0.70</div>
         <div class="ptxt">min 8000 💎</div>
-        <!-- Best deal badge (hidden until active) -->
         <div class="dealChip" aria-hidden="true">🔥 BEST DEAL</div>
       </div>
     </div>
@@ -354,36 +353,261 @@
   </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  /* Helpers */
-  const $ = id => document.getElementById(id);
-  const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
-  const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
-  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
-  const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+(function(){
+  /* ====== Error overlay (helps debug if anything breaks) ====== */
+  window.addEventListener('error', function (e) {
+    try{
+      const t = document.createElement('div');
+      t.textContent = 'Error: ' + (e.message || 'unknown');
+      Object.assign(t.style, {
+        position:'fixed', left:'8px', bottom:'8px', background:'rgba(255,0,80,.12)',
+        color:'#fff', padding:'8px 10px', border:'1px solid rgba(255,0,80,.35)',
+        borderRadius:'8px', zIndex:99999, fontSize:'12px', maxWidth:'90vw'
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(), 6000);
+    }catch(_){}
+  });
 
-  const MIN1=1000, MIN2=4000, MIN3=8000;
-  const T1=0.80, T2=0.75, T3=0.70;
+  document.addEventListener('DOMContentLoaded', () => {
+    /* Helpers */
+    const $ = id => document.getElementById(id);
+    const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
+    const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
+    const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
+    const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
 
-  function getRate(q){
-    if(!q || q<MIN1) return null;
-    if(q<MIN2) return T1;
-    if(q<MIN3) return T2;
-    return T3;
-  }
-  function estimateFromPHP(p){
-    if(!p||p<=0) return 0;
-    let q = Math.floor(p/T1);
-    for(let i=0;i<4;i++){
-      const r = getRate(q) ?? T1;
-      q = Math.floor(p/r);
+    const MIN1=1000, MIN2=4000, MIN3=8000;
+    const T1=0.80, T2=0.75, T3=0.70;
+
+    const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
+    const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
+
+    function getRate(q){
+      if(!q || q<MIN1) return null;
+      if(q<MIN2) return T1;
+      if(q<MIN3) return T2;
+      return T3;
     }
-    return q;
-  }
+    function estimateFromPHP(p){
+      if(!p||p<=0) return 0;
+      let q = Math.floor(p/T1);
+      for(let i=0;i<4;i++){
+        const r = getRate(q) ?? T1;
+        q = Math.floor(p/r);
+      }
+      return q;
+    }
 
-  const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
-  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
+    function paintPills(q, r){
+      const p80=$('pill80'), p75=$('pill75'), p70=$('pill70');
+      [p80,p75,p70].forEach(p=>p.classList.remove('active','lock','flame','best'));
+      if(!q || q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; }
+      if(q<MIN2) p75.classList.add('lock');
+      if(q<MIN3) p70.classList.add('lock');
+      if(r===T1){ p80.classList.add('active'); }
+      else if(r===T2){ p75.classList.add('active'); }
+      else if(r===T3){ p70.classList.add('active','flame','best'); }
+    }
 
-  /* Recalc */
-  let lastEdited=null;
-  funct
+    let lastEdited=null;
+    function recalc(){
+      let q = toInt(diasEl.value);
+      let p = toNum(phpEl.value);
+
+      if(lastEdited==='p'){
+        q = estimateFromPHP(p);
+        diasEl.value = q ? String(q) : '';
+      }else if(lastEdited==='d'){
+        const r = getRate(q);
+        phpEl.value = (r && q) ? fmt(q*r) : '';
+      }else{
+        if(!q && p){ q = estimateFromPHP(p); diasEl.value = q?String(q):''; }
+        if(q && !p){ const r=getRate(q); phpEl.value = r?fmt(q*r):''; }
+      }
+
+      const r=getRate(q);
+      paintPills(q,r);
+
+      const ok = q>=MIN1 && !!r;
+      const serverOK = (serverEl.value || '').trim().length>0;
+
+      warn.style.display = ok ? 'none' : 'block';
+      buyBtn.disabled = !(ok && serverOK);
+
+      if(r && q){
+        rateOut.textContent = `₱${r.toFixed(2)} / dia`;
+        const base=q*T1, saveAmt=Math.max(0, base-(q*r));
+        const savePct=Math.max(0,(1-r/T1)*100);
+        saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
+      }else{
+        rateOut.textContent='—'; saveOut.textContent='—';
+      }
+    }
+
+    ['input','change','keyup'].forEach(ev=>{
+      diasEl.addEventListener(ev, ()=>{ lastEdited='d'; recalc(); });
+      phpEl.addEventListener(ev,  ()=>{ lastEdited='p'; recalc(); });
+    });
+    serverEl.addEventListener('input', recalc);
+    recalc(); // initial compute
+
+    /* ===== Order Store (local only) ===== */
+    const ORDERS_KEY = 'ymir_orders_v2';
+    function loadOrders(){ try{ return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]'); }catch{ return []; } }
+    function saveOrders(list){ try{ localStorage.setItem(ORDERS_KEY, JSON.stringify(list)); }catch(e){} }
+    function genOrderId(){ const n = Math.floor(10000 + Math.random()*90000); return `MB-STORE-${n}`; }
+
+    /* ===== Track elements ===== */
+    const trackIn=$('trackIn'), trackBtn=$('trackBtn'), trackOut=$('trackOut'), trackNone=$('trackNone');
+    const t_id=$('t_id'), t_status=$('t_status'), t_server=$('t_server'), t_qty=$('t_qty'), t_rate=$('t_rate'), t_total=$('t_total'), t_time=$('t_time');
+    const btnPaid=$('btnPaid');
+
+    function findOrder(id){
+      id = (id||'').trim().toUpperCase();
+      const list = loadOrders();
+      return list.find(o => String(o.id).toUpperCase() === id) || null;
+    }
+    function renderOrder(o){
+      if(!o){ trackOut.style.display='none'; trackNone.style.display='block'; return; }
+      t_id.textContent = o.id;
+      t_status.textContent = `• ${o.status}`;
+      t_server.textContent = o.server;
+      t_qty.textContent = o.qty;
+      t_rate.textContent = `₱${o.rate.toFixed(2)} / dia`;
+      t_total.textContent = `₱${fmt(o.total)}`;
+      t_time.textContent = new Date(o.created).toLocaleString();
+      trackNone.style.display='none';
+      trackOut.style.display='block';
+    }
+    function updateStatus(id, status){
+      const list = loadOrders();
+      const idx = list.findIndex(o => o.id === id);
+      if(idx>=0){ list[idx].status = status; saveOrders(list); return list[idx]; }
+      return null;
+    }
+    trackBtn.addEventListener('click', ()=> renderOrder(findOrder(trackIn.value)));
+    trackIn.addEventListener('keyup', (e)=>{ if(e.key==='Enter') trackBtn.click(); });
+
+    /* Buyer: I Paid */
+    btnPaid.addEventListener('click', ()=>{
+      const id = t_id.textContent.trim();
+      if(!id){ toast("Walang active order."); return; }
+      const o = updateStatus(id,'Processing');
+      if(o){ renderOrder(o); toast("Payment marked: Processing ✅"); chime(); }
+    });
+
+    /* ===== Buy (copy + popup + store + autofill track) ===== */
+    const buyPopup = $('buyPopup'), buyOrderIdEl = $('buyOrderId');
+    buyBtn.addEventListener('click', async ()=>{
+      let q = toInt(diasEl.value);
+      let p = toNum(phpEl.value);
+      if(!q && p) q = estimateFromPHP(p);
+      const r = getRate(q);
+      if(!r){ alert('Minimum 1000 💎 required.'); return; }
+      const server = (serverEl.value || '').trim();
+      if(!server){ alert('Please enter your server (required).'); return; }
+
+      const total = p || (q*r);
+      const orderId = genOrderId();
+
+      const msg = `BUY ORDER
+Order ID: ${orderId}
+Server: ${server}
+Diamonds: ${q} 💎
+Rate: ₱${r.toFixed(2)} / dia
+Total: ₱${fmt(total)}
+GCash: 09162466318 (MOISES B.)`;
+
+      const orders = loadOrders();
+      const newOrder = { id: orderId, server, qty: q, rate: r, total, status: 'Pending Payment', created: Date.now() };
+      orders.unshift(newOrder);
+      saveOrders(orders);
+
+      try{ await navigator.clipboard.writeText(msg); }catch(e){ console.warn('Clipboard write failed', e); }
+      buyOrderIdEl.textContent = `Order ID: ${orderId}`;
+      buyPopup.style.display='grid';
+
+      trackIn.value = orderId;
+      renderOrder(newOrder);
+      document.querySelector('.track').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+    $('closePop').addEventListener('click', ()=> buyPopup.style.display='none');
+
+    /* ===== GCash (copy only + popup + QR modal) ===== */
+    (function(){
+      const MOBILE='09162466318';
+      const row = $('gcashRow'), pop = $('gcashPopup'), ok  = $('gcashOk');
+      async function copyNum(){ try{ await navigator.clipboard.writeText(MOBILE);}catch(e){ console.warn('Clipboard write failed', e); } }
+
+      row.addEventListener('click', async (e)=>{
+        if (e.target.closest('#showQR')) return; // don't fire when clicking the QR button
+        await copyNum(); pop.style.display='grid';
+      });
+      ok.addEventListener('click', ()=> pop.style.display='none');
+
+      const showQR = $('showQR'), qrPop  = $('qrPopup'), qrOk   = $('qrOk');
+      showQR.addEventListener('click', (e)=>{ e.stopPropagation(); qrPop.style.display='grid'; });
+      qrOk.addEventListener('click', ()=> qrPop.style.display='none');
+    })();
+
+    /* ===== SECRET DELIVER: 6 TAPS ON LOGO (no PIN) ===== */
+    function markDelivered(){
+      const id = document.getElementById('t_id')?.textContent?.trim();
+      if(!id){ toast("Wala pang active order."); return; }
+      const order = updateStatus(id, "Delivered");
+      if(order){
+        renderOrder(order);
+        chime();
+        toast("✅ Order marked as Delivered");
+      }
+    }
+    (function secretLogoDeliver(){
+      const logo = document.querySelector('.logo');
+      if(!logo) return;
+      let taps = 0, resetTimer = null;
+      logo.addEventListener("click", ()=>{
+        taps++;
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(()=>{ taps = 0; }, 1500); // 1.5s window
+        if(taps >= 6){
+          taps = 0;
+          markDelivered();
+        }
+      });
+    })();
+
+    /* === Toast + soft chime === */
+    function toast(msg){
+      const t=document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style,{
+        position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',
+        background:'rgba(0,0,0,.85)',color:'#fff',padding:'10px 14px',
+        borderRadius:'12px',fontWeight:'800',zIndex:9999,boxShadow:'0 10px 30px rgba(0,0,0,.35)'
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(),1800);
+    }
+    function chime(){
+      try{
+        const a = new (window.AudioContext||window.webkitAudioContext)();
+        const o = a.createOscillator();
+        const g = a.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(660, a.currentTime);
+        g.gain.setValueAtTime(0.0001, a.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.22, a.currentTime + 0.02);
+        o.connect(g).connect(a.destination);
+        o.start();
+        o.frequency.exponentialRampToValueAtTime(990, a.currentTime + 0.18);
+        g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + 0.28);
+        o.stop(a.currentTime + 0.30);
+      }catch(e){}
+    }
+
+  }); // DOMContentLoaded
+})(); // IIFE
+</script>
+</body>
+</html>
