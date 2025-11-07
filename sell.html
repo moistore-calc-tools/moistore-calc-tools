@@ -33,7 +33,7 @@
   /* Sparkle canvas */
   #sparkleCanvas{position:fixed; inset:0; z-index:-1; pointer-events:none}
 
-  .wrap{max-width:760px;margin:auto;padding:14px 14px 64px; position:relative; z-index:1;}
+  .wrap{max-width:760px;margin:auto;padding:14px 14px 84px; position:relative; z-index:1;}
   .title{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:20px;letter-spacing:.4px;margin:2px 0 8px}
 
   /* LOGO (subtle ring, bigger image) */
@@ -82,16 +82,25 @@
   .fb{background:var(--blue);color:#fff}
   .dc{background:var(--discord);color:#fff}
 
-  /* Completed + Transactions */
-  .ctCard{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:10px;background:linear-gradient(180deg,#101510,#0c100c);border:1px solid rgba(80,255,120,.22);border-radius:18px;padding:10px 12px;box-shadow:0 0 22px rgba(20,255,120,.12)}
-  .completed{background:#1f8f53;color:#ecfff5}
-  .chip{display:flex;align-items:center;gap:8px;background:#0b1310;border:1px solid rgba(80,255,120,.25);padding:10px 14px;border-radius:12px;font-weight:900}
-  .num{font-size:20px}
+  /* Notice */
+  .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 18px rgba(0,0,0,.25)}
+  .notice h4{margin:0 0 6px;font-size:14px}
+  .notice p{margin:0;color:var(--mut);font-size:13px}
 
-  /* Popup */
-  .popup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
-  .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
-  .close{background:#272327;color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800}
+  /* Footer owner with Meta Verified badge */
+  .owner{
+    margin-top:14px; display:flex; gap:10px; align-items:center; justify-content:center;
+    padding:10px 12px; border-radius:14px;
+    background:linear-gradient(180deg,#131218,#0d0c12);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 0 18px rgba(0,0,0,.25);
+    font-weight:800;
+  }
+  .ownerName{letter-spacing:.3px}
+  .metaBadge{
+    width:22px; height:22px; display:inline-block;
+    filter: drop-shadow(0 0 10px rgba(24,119,242,.45));
+  }
 </style>
 </head>
 <body>
@@ -179,23 +188,43 @@
       </div>
     </div>
 
-    <!-- Completed + Global Transactions -->
-    <div class="ctCard">
-      <button id="doneBtn" class="btn completed">✅ Completed</button>
-      <div class="chip">Transactions <span id="txNum" class="num">0</span></div>
+    <!-- Waiting Time Notice -->
+    <div class="notice">
+      <h4>⏳ Waiting Time Notice</h4>
+      <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
+    </div>
+
+    <!-- Owner + Meta Verified -->
+    <div class="owner">
+      <!-- Simple Meta Verified style badge (SVG) -->
+      <svg class="metaBadge" viewBox="0 0 24 24" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2aa4ff"/>
+            <stop offset="1" stop-color="#1877f2"/>
+          </linearGradient>
+        </defs>
+        <circle cx="12" cy="12" r="10" fill="url(#g)"/>
+        <path d="M9.2 12.6l-1.7-1.7a1 1 0 10-1.4 1.4l2.4 2.4c.4.4 1 .4 1.4 0l6.1-6.1a1 1 0 10-1.4-1.4l-5.4 5.4z" fill="#fff"/>
+      </svg>
+      <span class="ownerName">MOISES TRAJANO BITONIO</span>
     </div>
   </div>
 
   <!-- BUY Popup -->
-  <div id="buyPopup" class="popup">
-    <div class="cardPop">
+  <div id="buyPopup" class="popup" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50">
+    <div class="cardPop" style="width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center">
       <h3>Copied ✔</h3>
       <p><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
-      <button id="closePop" class="close">OK</button>
+      <button id="closePop" class="close" style="background:#272327;color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800">OK</button>
     </div>
   </div>
 
 <script>
+  /* ===== Links (update mo kung kailangan) ===== */
+  const FB_URL = 'https://www.facebook.com/share/p/1DB1da3qMn/';
+  const DC_URL = 'https://discord.gg/QkdVz5mh';
+
   /* ===== Helpers ===== */
   const $ = id => document.getElementById(id);
   const num = v => parseFloat(String(v).replace(/[^0-9.]/g,'')) || 0;
@@ -308,50 +337,13 @@ GCash: 09162466318 (MOISES B.)`;
   });
   document.getElementById('closePop').onclick = ()=> document.getElementById('buyPopup').style.display='none';
 
-  /* ===== Global Transactions Counter (CountAPI) ===== */
-  const NS  = 'ymir_moistore_v2';   // change if you want a fresh namespace
-  const KEY = 'transactions_global';
-
-  async function getGlobalCount() {
-    try {
-      const r = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(NS)}/${encodeURIComponent(KEY)}`);
-      if (r.ok) { const d=await r.json(); return Number(d.value)||0; }
-      const c = await fetch(`https://api.countapi.xyz/create?namespace=${encodeURIComponent(NS)}&key=${encodeURIComponent(KEY)}&value=0`);
-      const d = await c.json(); return Number(d.value)||0;
-    } catch { return null; }
-  }
-  async function bumpGlobalCount() {
-    try {
-      const r = await fetch(`https://api.countapi.xyz/hit/${encodeURIComponent(NS)}/${encodeURIComponent(KEY)}`);
-      if (!r.ok) return null; const d=await r.json(); return Number(d.value)||0;
-    } catch { return null; }
-  }
-  const TX_DISPLAY = $('txNum');
-  async function refreshGlobalCount(){ const v=await getGlobalCount(); if (typeof v==='number') TX_DISPLAY.textContent=String(v); }
-  setInterval(refreshGlobalCount, 30000);
-  refreshGlobalCount();
-
-  const DONE_KEY='ymir_done_global_once';
-  function paintDoneState(){ const done = localStorage.getItem(DONE_KEY)==='1'; $('doneBtn').disabled = done; }
-  paintDoneState();
-
-  $('doneBtn').addEventListener('click', async ()=>{
-    if (localStorage.getItem(DONE_KEY)==='1') return;
-    localStorage.setItem(DONE_KEY,'1'); paintDoneState();
-    const v = await bumpGlobalCount();
-    if (typeof v==='number') TX_DISPLAY.textContent=String(v);
-    else TX_DISPLAY.textContent = String((parseInt(TX_DISPLAY.textContent||'0')||0)+1);
+  /* Social buttons — open links in new tab */
+  $('fbBtn').addEventListener('click', ()=> {
+    window.open(FB_URL, '_blank', 'noopener');
   });
-
-  // Secret local reset (long press title, 3s) – testing only
-  (function(){
-    const title = document.querySelector('.title'); if(!title) return;
-    let t=null; const reset=()=>{ localStorage.removeItem(DONE_KEY); alert('✅ This device reset. (Global stays)'); paintDoneState(); };
-    title.addEventListener('touchstart', ()=>{ t=setTimeout(reset,3000); });
-    title.addEventListener('touchend', ()=>{ if(t) clearTimeout(t); });
-    title.addEventListener('mousedown', ()=>{ t=setTimeout(reset,3000); });
-    title.addEventListener('mouseup', ()=>{ if(t) clearTimeout(t); });
-  })();
+  $('dcBtn').addEventListener('click', ()=> {
+    window.open(DC_URL, '_blank', 'noopener');
+  });
 
   /* ===== Sparkle engine (light) ===== */
   (function(){
