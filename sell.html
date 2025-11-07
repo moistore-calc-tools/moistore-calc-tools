@@ -15,11 +15,32 @@
     --glow: 0 0 18px rgba(255,30,80,.45), 0 0 38px rgba(255,30,80,.18);
   }
   *{box-sizing:border-box}
+
+  /* ===== Animated dark-red background ===== */
   html,body{
+    height:100%;
     margin:0;
-    background:radial-gradient(1200px 600px at 50% -220px,#3a0013 0%,#16000a 45%,#0a0609 75%,#050407 100%);
-    color:var(--txt); font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--txt);
+    font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    background:#0a0609; /* base fallback */
   }
+  body::before{
+    content:"";
+    position:fixed; inset:-10% -10%;
+    z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(40% 30% at 20% 10%, rgba(255,0,80,.18), transparent 60%),
+      radial-gradient(35% 25% at 85% 0%, rgba(200,0,60,.12), transparent 65%),
+      radial-gradient(45% 30% at 50% 110%, rgba(255,30,100,.10), transparent 70%);
+    filter: blur(12px) saturate(120%);
+    animation:bgFloat 14s ease-in-out infinite alternate;
+  }
+  @keyframes bgFloat{
+    0%   { transform: translate3d(0,0,0) scale(1);       filter: blur(12px) saturate(115%); }
+    50%  { transform: translate3d(2%, -1%, 0) scale(1.02); filter: blur(13px) saturate(130%); }
+    100% { transform: translate3d(-2%, 1%, 0) scale(1.03); filter: blur(14px) saturate(120%); }
+  }
+
   .wrap{max-width:760px;margin:auto;padding:14px 14px 64px}
 
   /* Glow text helper */
@@ -150,9 +171,18 @@
 
     <!-- Price pills (auto-highlight) -->
     <div class="row prices">
-      <div id="pill80" class="pill"><div class="pval glowtext">₱0.80</div><div class="ptxt">Price / dia</div></div>
-      <div id="pill75" class="pill"><div class="pval glowtext">₱0.75</div><div class="ptxt">Price / dia</div></div>
-      <div id="pill70" class="pill"><div class="pval glowtext">₱0.70</div><div class="ptxt">Price / dia</div></div>
+      <div id="pill80" class="pill">
+        <div class="pval glowtext">₱0.80</div>
+        <div class="ptxt">Price / dia</div>
+      </div>
+      <div id="pill75" class="pill">
+        <div class="pval glowtext">₱0.75</div>
+        <div class="ptxt">min 4000 💎</div>
+      </div>
+      <div id="pill70" class="pill">
+        <div class="pval glowtext">₱0.70</div>
+        <div class="ptxt">min 8000 💎</div>
+      </div>
     </div>
 
     <!-- Inputs -->
@@ -336,7 +366,7 @@ GCash: 09162466318 (MOISES B.)`;
       g.gain.exponentialRampToValueAtTime(0.22,a.currentTime+0.03);
       o.connect(g).connect(a.destination); o.start();
       o.frequency.exponentialRampToValueAtTime(990,a.currentTime+0.18);
-      g.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+0.26);
+      g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+0.26);
       o.stop(a.currentTime+0.28);
     }catch(e){}
   }
