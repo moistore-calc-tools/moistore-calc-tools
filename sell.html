@@ -3,30 +3,33 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Legend of Ymir – Diamond Price Calculator</title>
+<title>Legend of Ymir – Diamond Pricing</title>
 <link rel="icon" href="./logo.png" />
 <style>
 :root{
-  --bg:#000000; --card:#0f0f0f; --line:#1f1f1f;
-  --text:#ffffff; --muted:#cfcfcf; --accent:#ff2b2b;
+  --bg:#000; --card:#0f0f0f; --line:#1f1f1f; --text:#fff; --muted:#cfcfcf;
+  --red:#ff2b2b; --blue:#2a8cff;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0; font-family:system-ui,Arial,sans-serif; color:var(--text);
+  margin:0;font-family:system-ui,Arial,sans-serif;color:var(--text);
   background:
-    radial-gradient(900px 500px at 50% -10%, rgba(255,0,40,0.14), transparent 60%),
-    radial-gradient(700px 400px at -10% 110%, rgba(255,0,40,0.12), transparent 60%),
-    radial-gradient(800px 500px at 110% 120%, rgba(255,0,40,0.10), transparent 60%),
+    radial-gradient(900px 500px at 50% -10%, rgba(255,0,40,.14), transparent 60%),
+    radial-gradient(700px 400px at -10% 110%, rgba(255,0,40,.12), transparent 60%),
+    radial-gradient(800px 500px at 110% 120%, rgba(255,0,40,.10), transparent 60%),
     #000;
-  animation: glow 10s ease-in-out infinite alternate;
+  animation:glow 10s ease-in-out infinite alternate;
 }
-@keyframes glow { 0%{filter:none} 50%{filter:brightness(1.04)} 100%{filter:none} }
+@keyframes glow{0%{filter:none}50%{filter:brightness(1.04)}100%{filter:none}}
+
 .wrap{max-width:760px;margin:0 auto;padding:20px}
 .card{
-  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px;
-  box-shadow:0 0 30px rgba(255,0,0,0.12) inset, 0 0 10px rgba(255,0,0,0.10);
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;
+  box-shadow:0 0 30px rgba(255,0,0,.12) inset,0 0 10px rgba(255,0,0,.10);
 }
+
+/* header */
 .logo-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 10px}
 .logo{
   width:120px;height:120px;object-fit:cover;border-radius:50%;
@@ -40,6 +43,11 @@ body{
   animation:shine 4.5s linear infinite;
 }
 @keyframes shine{0%{filter:drop-shadow(0 0 0 rgba(255,0,0,.8))}50%{filter:drop-shadow(0 0 10px rgba(255,0,0,.95))}100%{filter:drop-shadow(0 0 0 rgba(255,0,0,.8))}}
+.subtitle{
+  text-align:center;font-size:13px;color:var(--muted);margin-top:4px
+}
+
+/* UI blocks */
 .grid{display:grid;gap:12px}
 .kpi{
   background:#111;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;
@@ -47,36 +55,40 @@ body{
 }
 .kpi .label{font-size:12px;color:var(--muted)}
 .kpi .val{font-size:22px;font-weight:800;color:#fff;text-shadow:0 0 8px rgba(255,0,0,.6),0 0 18px rgba(255,0,0,.22)}
+
 .note{font-size:13px;color:var(--muted)}
 input{
   width:100%;padding:14px;font-size:18px;border-radius:12px;outline:none;
   background:#0c0c0c;color:#fff;border:1px solid var(--line);
   box-shadow:0 0 10px rgba(255,0,0,.08) inset;
 }
-pre{
-  background:#0c0c0c;border:1px solid var(--line);padding:12px;border-radius:12px;margin:0;
-  font-size:18px;color:#fff;text-align:center;text-shadow:0 0 8px rgba(255,0,0,.5);
+
+/* payment card (blue) */
+.pay{
+  display:flex;align-items:center;gap:12px;font-weight:700;
+  background:#0e1524;border:1px solid #1e2b45;border-radius:12px;padding:12px;
+  box-shadow:0 0 16px rgba(42,140,255,.25) inset, 0 0 10px rgba(42,140,255,.25);
 }
-button{
-  width:100%;padding:12px 16px;border:0;border-radius:12px;font-weight:800;font-size:16px;
-  background:var(--accent);color:#fff;cursor:pointer;box-shadow:0 0 14px rgba(255,0,0,.55)
+.pay .tag{
+  background:var(--blue);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;
+  box-shadow:0 0 12px rgba(42,140,255,.65);
 }
-button:hover{filter:brightness(1.08)}
-.pay{display:flex;align-items:center;gap:12px;font-weight:700;background:#101010;padding:12px;border-radius:12px;border:1px solid var(--line);box-shadow:0 0 10px rgba(255,0,0,.18) inset}
-.pay .tag{background:#b40000;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;box-shadow:0 0 10px rgba(255,0,0,.45)}
 </style>
 </head>
 
 <body>
 <div class="wrap">
 
-  <!-- Logo + Title -->
+  <!-- Header -->
   <div class="logo-wrap">
     <img src="./logo.png" alt="Logo" class="logo" />
-    <div class="title">Legend of Ymir – Diamond Price Calculator</div>
+    <div class="title">Legend of Ymir — Diamond Pricing</div>
+    <div class="subtitle">
+      Enter your diamonds to instantly see the total. Prices adjust by quantity — larger orders unlock better rates.
+    </div>
   </div>
 
-  <!-- Diamond Price (locked) -->
+  <!-- Diamond price (locked) -->
   <section class="card">
     <div class="note" style="text-shadow:0 0 6px rgba(255,0,0,.5);">Diamond Price 💎 (Locked)</div>
     <div class="grid" style="grid-template-columns:repeat(3,1fr); margin-top:8px">
@@ -84,7 +96,8 @@ button:hover{filter:brightness(1.08)}
       <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r7000">—</div></div>
       <div class="kpi"><div class="label">Price 💎</div><div class="val" id="r8000">—</div></div>
     </div>
-    <div class="note" style="margin-top:6px">Minimum: <span id="min">—</span> dias</div>
+    <!-- intentionally no explicit minimum number shown -->
+    <div class="note" style="margin-top:6px">Minimum applies on orders.</div>
   </section>
 
   <!-- Quantity -->
@@ -105,22 +118,18 @@ button:hover{filter:brightness(1.08)}
         <div class="val" id="sell">—</div>
       </div>
     </div>
+    <div class="note" style="margin-top:8px">Tip: The more diamonds you buy, the better the discount.</div>
   </section>
 
-  <!-- Copy: AMOUNT ONLY with ₱ -->
+  <!-- Payment (blue) — replaces the old amount/copy section -->
   <section class="card" style="margin-top:12px">
-    <pre id="out">—</pre>
-    <button onclick="copyOut()" style="margin-top:10px">Copy</button>
-  </section>
-
-  <!-- Payment method -->
-  <section class="card" style="margin-top:12px">
-    <div class="note">Payment Method</div>
+    <div class="note">Payment</div>
     <div class="pay" style="margin-top:8px">
       <span class="tag">GCash</span>
       <div>09162466318 — <strong>MOISES B.</strong></div>
     </div>
   </section>
+
 </div>
 
 <script>
@@ -138,15 +147,15 @@ button:hover{filter:brightness(1.08)}
         if(typeof data.price_8000 === 'number') CFG.price_8000 = data.price_8000;
       }
     }catch(e){/* keep defaults */}
-    // show per-dia prices (₱ only, no ranges)
+    // show per-dia prices (₱)
     document.getElementById('r3000').textContent = '₱' + CFG.price_3000.toFixed(2);
     document.getElementById('r7000').textContent = '₱' + CFG.price_7000.toFixed(2);
     document.getElementById('r8000').textContent = '₱' + CFG.price_8000.toFixed(2);
-    document.getElementById('min').textContent   = CFG.min;
     calc();
   }
 
   function tierRate(q){
+    // keep logic but we no longer display the exact minimum number
     if(q < CFG.min) return 0;
     if(q <= 3000) return CFG.price_3000;
     if(q <= 7000) return CFG.price_7000;
@@ -159,16 +168,8 @@ button:hover{filter:brightness(1.08)}
     const r = tierRate(q);
     const total = r ? r * q : 0;
 
-    document.getElementById('rate').textContent = r ? ('₱' + r.toFixed(2)) : ('MIN ' + CFG.min);
+    document.getElementById('rate').textContent = r ? ('₱' + r.toFixed(2)) : '—';
     document.getElementById('sell').textContent = r ? peso(total) : '—';
-    document.getElementById('out').textContent  = r ? peso(total) : '—'; // Copy amount only with ₱
-  }
-
-  async function copyOut(){
-    try{
-      await navigator.clipboard.writeText(document.getElementById('out').textContent);
-      alert('Copied ✅');
-    }catch{ alert('Copy failed. Long-press to select & copy.'); }
   }
 
   loadConfig();
