@@ -14,19 +14,19 @@
     --ring: conic-gradient(#ff2b63,#ff6ea0,#ff2b63);
     --glow-soft: 0 0 16px rgba(255,40,100,.22);
     --chip:#222027;
-    --teal:#00d6e7;
   }
   *{box-sizing:border-box}
   html,body{margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--ink);min-height:100%}
 
-  /* Animated bg */
+  /* Animated dark red background */
   body::before{
     content:"";position:fixed;inset:-20% -20%;z-index:-3;pointer-events:none;
     background:
       radial-gradient(40% 30% at 15% 10%, rgba(255,40,100,.14), transparent 60%),
       radial-gradient(38% 28% at 85% 5%, rgba(200,20,80,.10), transparent 65%),
       radial-gradient(55% 40% at 50% 110%, rgba(255,30,100,.10), transparent 72%);
-    filter: blur(10px) saturate(112%); animation:bgFloat 16s ease-in-out infinite alternate;
+    filter: blur(10px) saturate(112%);
+    animation:bgFloat 16s ease-in-out infinite alternate;
   }
   @keyframes bgFloat{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(1.2%,-1.2%,0)}}
   body::after{
@@ -43,13 +43,6 @@
   .wrap{max-width:760px;margin:auto;padding:16px 14px 120px}
   .title{display:flex;gap:10px;justify-content:center;font-weight:800;font-size:22px;letter-spacing:.4px;margin:2px 0 8px;text-shadow:0 0 10px rgba(255,70,120,.25)}
 
-  .topbar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;margin-bottom:6px}
-  .stock{display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:linear-gradient(180deg,#111016,#0c0b11);border:1px solid rgba(255,255,255,.10);box-shadow:0 0 16px rgba(0,0,0,.25);font-weight:800}
-  .stock .cnt{font-size:16px}
-  .stock .mut{font-size:12px;color:var(--mut)}
-  .stock:active{transform:scale(.99)}
-  .editHint{font-size:11px;color:var(--mut2)}
-
   /* Logo */
   .logoWrap{display:grid;place-items:center;margin:6px 0 8px}
   .logo{width:min(44vw,186px);aspect-ratio:1/1;border-radius:999px;position:relative;display:grid;place-items:center;background:radial-gradient(120px 110px at 50% 50%, #0e0a0d 40%, #000 100%);box-shadow:0 0 0 8px rgba(0,0,0,.55); cursor:pointer}
@@ -57,7 +50,7 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .logo img{width:82%;border-radius:999px;box-shadow:0 0 18px rgba(255,40,100,.28)}
 
-  /* Owner */
+  /* Owner (under logo) */
   .owner{margin:10px auto 8px;display:flex;gap:10px;align-items:center;justify-content:center;padding:10px 12px;border-radius:14px;background:linear-gradient(180deg,#131218,#0d0c12);border:1px solid rgba(255,255,255,.10);box-shadow:0 0 16px rgba(0,0,0,.25);font-weight:800;max-width:560px}
   .owner a{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
   .ownerName{letter-spacing:.3px}
@@ -72,17 +65,61 @@
   .pill.active{transform:translateY(-2px) scale(1.02);border-color:rgba(80,255,170,.55);box-shadow:0 0 20px rgba(40,255,170,.26), inset 0 0 0 1px rgba(40,255,170,.28)}
   .pill.lock{opacity:.55;filter:grayscale(.25);border-color:rgba(255,255,255,.10);box-shadow:none}
 
-  /* Flaming 0.70 */
-  .pill.flame {border-color: rgba(255,120,0,.7)!important;box-shadow:0 0 24px rgba(255,120,0,.35),0 0 42px rgba(255,60,0,.25),inset 0 0 0 1px rgba(255,150,80,.35);animation: flamePulse 1.2s ease-in-out infinite;}
-  .pill.flame::before,.pill.flame::after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:64%;height:46%;bottom:-8px;border-radius:50% 50% 40% 40%;filter: blur(8px) drop-shadow(0 0 12px rgba(255,120,0,.55));pointer-events:none}
-  .pill.flame::before{background: radial-gradient(60% 70% at 50% 80%,rgba(255,180,60,.9) 0%,rgba(255,110,30,.75) 35%,rgba(255,60,0,.55) 60%,rgba(255,60,0,0) 72%);animation: flameFlicker 180ms infinite steps(2,end)}
-  .pill.flame::after{background: radial-gradient(55% 65% at 50% 78%,rgba(255,240,200,.85) 0%,rgba(255,170,80,.65) 35%,rgba(255,90,0,.45) 60%,rgba(255,90,0,0) 72%);opacity:.9; mix-blend-mode: screen;animation: flameRise 1.6s ease-in-out infinite}
-  @keyframes flamePulse {0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
-  @keyframes flameFlicker {50%{filter: blur(10px) drop-shadow(0 0 16px rgba(255,140,0,.65));}}
-  @keyframes flameRise {0%{transform: translateX(-50%) translateY(0) scale(1); opacity:.85;}50%{transform: translateX(-50%) translateY(-2px) scale(1.04); opacity:.95;}100%{transform: translateX(-50%) translateY(0) scale(1); opacity:.85;}}
+  /* 🔥 Flaming effect for ₱0.70 when active */
+  .pill.flame {
+    border-color: rgba(255,120,0,.7) !important;
+    box-shadow:
+      0 0 24px rgba(255,120,0,.35),
+      0 0 42px rgba(255,60,0,.25),
+      inset 0 0 0 1px rgba(255,150,80,.35);
+    animation: flamePulse 1.2s ease-in-out infinite;
+  }
+  .pill.flame::before,
+  .pill.flame::after{
+    content:"";
+    position:absolute; left:50%; transform:translateX(-50%);
+    width:64%; height:46%;
+    bottom:-8px; border-radius:50% 50% 40% 40%;
+    filter: blur(8px) drop-shadow(0 0 12px rgba(255,120,0,.55));
+    pointer-events:none;
+  }
+  .pill.flame::before{
+    background: radial-gradient(60% 70% at 50% 80%,
+      rgba(255,180,60,.9) 0%,
+      rgba(255,110,30,.75) 35%,
+      rgba(255,60,0,.55) 60%,
+      rgba(255,60,0,0) 72%);
+    animation: flameFlicker 180ms infinite steps(2,end);
+  }
+  .pill.flame::after{
+    background: radial-gradient(55% 65% at 50% 78%,
+      rgba(255,240,200,.85) 0%,
+      rgba(255,170,80,.65) 35%,
+      rgba(255,90,0,.45) 60%,
+      rgba(255,90,0,0) 72%);
+    opacity:.9; mix-blend-mode: screen;
+    animation: flameRise 1.6s ease-in-out infinite;
+  }
+  @keyframes flamePulse { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+  @keyframes flameFlicker { 50% { filter: blur(10px) drop-shadow(0 0 16px rgba(255,140,0,.65)); } }
+  @keyframes flameRise {
+    0%{ transform: translateX(-50%) translateY(0) scale(1); opacity:.85; }
+    50%{ transform: translateX(-50%) translateY(-2px) scale(1.04); opacity:.95; }
+    100%{ transform: translateX(-50%) translateY(0) scale(1); opacity:.85; }
+  }
 
-  .dealChip{position:absolute; top:-10px; right:-10px;background:linear-gradient(180deg,#ffb66a,#ff7b2c);color:#2b1200; font-weight:900; font-size:11px;padding:6px 8px; border-radius:999px; box-shadow:0 8px 22px rgba(255,120,0,.35);border:1px solid rgba(255,255,255,.35);display:flex; align-items:center; gap:6px;transform:scale(.9); opacity:0; pointer-events:none;transition:opacity .18s ease, transform .18s ease}
-  .pill.best .dealChip{ opacity:1; transform:scale(1) }
+  /* 🔖 BEST DEAL chip (shows only when 0.70 active) */
+  .dealChip{
+    position:absolute; top:-10px; right:-10px;
+    background:linear-gradient(180deg,#ffb66a,#ff7b2c);
+    color:#2b1200; font-weight:900; font-size:11px;
+    padding:6px 8px; border-radius:999px; box-shadow:0 8px 22px rgba(255,120,0,.35);
+    border:1px solid rgba(255,255,255,.35);
+    display:flex; align-items:center; gap:6px;
+    transform:scale(.9); opacity:0; pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .pill.best .dealChip{ opacity:1; transform:scale(1); }
 
   /* Card / Inputs */
   .section{background:linear-gradient(180deg,var(--red1),var(--red2));border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--glow-soft)}
@@ -125,47 +162,60 @@
   .fb{background:var(--blue);color:#fff}
   .dc{background:var(--discord);color:#fff}
 
+  /* Notice */
   .notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,#17141a,#120f14);border:1px solid rgba(255,255,255,.12);box-shadow:0 0 16px rgba(0,0,0,.25)}
   .notice h4{margin:0 0 6px;font-size:14px}
   .notice p{margin:0;color:#ccb9c1;font-size:13px}
 
+  /* Track Order */
   .track{margin-top:14px;background:linear-gradient(180deg,#151218,#100f13);border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:14px;box-shadow:0 0 16px rgba(0,0,0,.25)}
   .chip{display:inline-flex;gap:8px;align-items:center;background:var(--chip);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:12px}
 
+  /* Stock UI */
+  .stockChip{display:inline-flex;align-items:center;gap:10px;background:#1a1418;border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:12px;box-shadow:0 0 16px rgba(0,0,0,.25);cursor:pointer}
+  .badge{font-size:11px;color:#ccb9c1;border:1px solid rgba(255,255,255,.14);padding:2px 6px;border-radius:999px}
+  #stockModal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:60}
+  .stockCard{width:min(95vw,720px);background:#100d11;border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.55)}
+  .stockHead{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .stockHead h3{margin:0;font-size:16px}
+  .stockTools{display:flex;gap:10px;align-items:center;margin-left:auto}
+  .stockSearch{display:flex;align-items:center;gap:6px;background:#17141a;border:1px solid rgba(255,255,255,.12);padding:6px 8px;border-radius:999px}
+  .stockSearch input{background:transparent;border:none;outline:none;color:#fff}
+  .stockBody{max-height:65vh;overflow:auto;padding:8px 10px}
+  .srvRow{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;border-bottom:1px dashed rgba(255,255,255,.08);padding:8px}
+  .srvRow h4{margin:0;font-size:14px}
+  .srvCnt{font-weight:900}
+  .srvCnt.edit input{width:110px;background:#0d0b0e;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:6px 8px}
+  .btnTiny{border:none;border-radius:10px;padding:8px 10px;font-weight:800;cursor:pointer}
+  .btnGhost{background:#231f27;color:#fff;border:1px solid rgba(255,255,255,.1)}
+  .btnPri{background:#21d072;color:#071b11}
+  .stockFoot{display:flex;gap:10px;justify-content:flex-end;padding:10px 12px;border-top:1px solid rgba(255,255,255,.08)}
+  .nameEdit{width:180px;background:#0d0b0e;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:6px 8px}
+
   /* Popups */
-  #buyPopup, #copyPopup, #qrPopup, #goQRPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
+  #buyPopup, #gcashPopup, #qrPopup, #goPopup, #goQRPopup, #stockModal{user-select:none}
+  #buyPopup, #gcashPopup, #qrPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
   .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
   .qrImg{max-width:86vw;max-height:70vh;border-radius:12px;border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 36px rgba(0,0,0,.45)}
+
   @media (max-width:560px){ .grid2{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="topbar">
-      <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
-      <!-- STOCK CHIP -->
-      <div id="stockChip" class="stock" title="Long-press to edit stock">
-        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="#ffd86b" d="M12 2l3 4 4 .7-2.9 3.1.6 4.2L12 12.8 7.3 14l.6-4.2L5 6.7 9 6z"/>
-        </svg>
-        <div>
-          <div class="cnt"><span id="stockCnt">—</span> 💎</div>
-          <div class="mut editHint">long-press to edit</div>
-        </div>
-      </div>
-    </div>
+    <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
 
     <div class="logoWrap">
-      <div class="logo" id="secretLogo">
+      <div class="logo" id="secretLogo" title="(Secret) 6 taps to mark Delivered">
         <div class="ring"></div>
         <img src="logo.png" alt="Logo">
       </div>
     </div>
 
-    <!-- Owner -->
+    <!-- Owner (under logo) -->
     <div class="owner">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
-        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
+        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
       </svg>
       <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
         <span class="ownerName">MOISEES TRAJANO BITONIO</span>
@@ -224,8 +274,18 @@
     <button id="buyBtn" type="button" class="btn buy" disabled>💎 Buy</button>
     <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias, then type your server.</div>
 
+    <!-- Stock quick view -->
+    <div style="display:flex;justify-content:center;margin:10px 0 12px">
+      <div id="stockChip" class="stockChip" title="Tap to view server stocks">
+        <span id="stockIcon" aria-hidden="true">📦</span>
+        <strong style="margin-left:6px">Total Stock:</strong>&nbsp;<span id="stockTotal">—</span> 💎
+        <span class="badge" style="margin-left:8px">Tap to view • 5 taps on 📦 to edit</span>
+      </div>
+    </div>
+
     <!-- Payment + Socials -->
     <div class="pay">
+      <!-- GCash (copy only) with QR button -->
       <div id="gcashRow" class="gcashRow" title="Tap to copy number">
         <div class="gcashLeft">
           <div class="gcashIcon">G</div>
@@ -239,9 +299,10 @@
         </button>
       </div>
 
-      <!-- GoTyme -->
+      <!-- GoTyme (copy only) with QR button) -->
       <div id="goRow" class="gcashRow" title="Tap to copy account" style="background:rgba(0,214,231,.08);border-color:rgba(0,214,231,.35)">
         <div class="gcashLeft">
+          <!-- teal icon -->
           <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"
                style="border-radius:999px; box-shadow:0 0 10px rgba(0,214,231,.35)">
             <defs>
@@ -283,347 +344,4 @@
     <!-- Waiting Time Notice -->
     <div class="notice">
       <h4>⏳ Waiting Time Notice</h4>
-      <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p>
-    </div>
-
-    <!-- Track Order -->
-    <div class="track">
-      <div class="label" style="margin-bottom:6px">Track Order</div>
-      <div style="display:grid;grid-template-columns:1fr auto;gap:10px">
-        <input id="trackIn" class="in" placeholder="Enter Receipt ID (e.g., YMIR-XXXX)" autocomplete="off">
-        <button id="trackBtn" class="btn" style="background:#27252c;color:#fff">Check</button>
-      </div>
-      <div id="trackOut" style="margin-top:10px;display:none">
-        <div class="chip" style="margin-bottom:8px">
-          <strong id="t_id">—</strong>
-          <span id="t_status" style="opacity:.9"></span>
-        </div>
-        <div style="display:grid;gap:6px;font-size:14px;color:#ccb9c1">
-          <div>Server: <span id="t_server" style="color:#fff"></span></div>
-          <div>Diamonds: <span id="t_qty" style="color:#fff"></span> 💎</div>
-          <div>Rate: <span id="t_rate" style="color:#fff"></span></div>
-          <div>Total: <span id="t_total" style="color:#fff"></span></div>
-          <div>Created: <span id="t_time" style="color:#fff"></span></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-          <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1">Buyer: I Paid</button>
-          <!-- Delivered is secret: 6 taps on the logo -->
-        </div>
-        <div class="hint" style="margin-top:6px">
-          Tip: Buyer taps <b>I Paid</b> after sending payment. (Local tracking only)
-        </div>
-      </div>
-      <div id="trackNone" class="hint" style="display:none;margin-top:8px">Walang record sa device na ’to. Note: Tracking works on the same phone/browser (local only).</div>
-    </div>
-  </div>
-
-  <!-- BUY Popup (15s redirect, no link shown) -->
-  <div id="buyPopup">
-    <div class="cardPop">
-      <h3>Copied ✔</h3>
-      <p><b>PAALALA:</b> Bubukas ang Messenger pagkatapos ng countdown.<br>
-      <b>I-PASTE</b> ang nakopyang order at <b>i-send kay MOISEES TRAJANO BITONIO</b>.</p>
-      <p id="countdown" style="margin-top:6px;opacity:.9">Opening Messenger in <b>15</b>s…</p>
-      <div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px">
-        <button id="openNow" class="btn" style="background:#1877f2;color:#fff">Open Messenger now</button>
-        <button id="closePop" class="btn" style="background:#272327;color:#fff">Stay Here</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Generic copy popup -->
-  <div id="copyPopup">
-    <div class="cardPop">
-      <h3>Copied ✔</h3>
-      <p id="copyMsg">Copied to clipboard.</p>
-      <button id="copyOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
-    </div>
-  </div>
-
-  <!-- QR Modals -->
-  <div id="qrPopup">
-    <div class="cardPop">
-      <h3>GCash QR</h3>
-      <img id="qrImg" src="gcash-qr.png" alt="GCash QR" class="qrImg">
-      <div style="margin-top:12px">
-        <button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="goQRPopup">
-    <div class="cardPop">
-      <h3>GoTyme QR</h3>
-      <img id="goQrImg" src="gotyme-qr.png" alt="GoTyme QR" class="qrImg">
-      <div style="margin-top:12px">
-        <button id="goQrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-(function(){
-  const $ = id => document.getElementById(id);
-  const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
-  const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
-  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
-  const fmt2 = n => Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
-
-  /* Tier rules */
-  const MIN1=1000, MIN2=4000, MIN3=8000;
-  const T1=0.80, T2=0.75, T3=0.70;
-
-  /* Stock (local) */
-  const STOCK_KEY='ymir_stock';
-  function getStock(){ try{ const n=parseInt(localStorage.getItem(STOCK_KEY)||'0',10); return isNaN(n)?0:n; }catch{ return 0; } }
-  function setStock(n){ try{ localStorage.setItem(STOCK_KEY, String(Math.max(0, n|0))); }catch{} }
-  function showStock(){ $('stockCnt').textContent = (getStock()).toLocaleString(); }
-  function adjustStock(delta){ setStock(Math.max(0, getStock()+delta)); showStock(); }
-
-  // Long-press to edit stock
-  (function setupStockEdit(){
-    const chip=$('stockChip');
-    let timer=null;
-    const start=()=>{ timer=setTimeout(()=>{ const v=prompt('Set Diamond Stock (whole number):', getStock()); if(v!==null){ const n=parseInt(v.replace(/[^\d]/g,''),10); if(!isNaN(n)){ setStock(n); showStock(); } } }, 650); };
-    const cancel=()=>{ clearTimeout(timer); timer=null; };
-    chip.addEventListener('mousedown', start); chip.addEventListener('touchstart', start,{passive:true});
-    ['mouseup','mouseleave','touchend','touchcancel'].forEach(e=>chip.addEventListener(e,cancel));
-    if(getStock()===0){ setStock(100000); } // default once
-    showStock();
-  })();
-
-  /* Tracking (local) */
-  const STORE='ymir_orders';
-  const loadMap=()=>{ try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return{}} };
-  const saveMap=(m)=>{ try{localStorage.setItem(STORE, JSON.stringify(m))}catch{} };
-  const statusOut=$('t_status');
-  const setStatusUI=(st)=>{ statusOut.textContent=st; statusOut.style.color = st==='DELIVERED' ? '#ff7896' : st==='PAID' ? '#22cf74' : '#ffd64d'; };
-
-  function genRID(){
-    const t = Date.now().toString(36).toUpperCase();
-    const r = Math.random().toString(36).slice(2,6).toUpperCase();
-    return `YMIR-${t}-${r}`;
-  }
-
-  /* Rate logic */
-  const getRate=(q)=>{
-    if(!q || q<MIN1) return null;
-    if(q<MIN2) return T1;
-    if(q<MIN3) return T2;
-    return T3;
-  };
-
-  const estimateFromPHP=(p)=>{
-    if(!p||p<=0) return 0;
-    let q = Math.max(0, Math.floor(p/T1));
-    for(let i=0;i<3;i++){
-      const r = getRate(q) ?? T1;
-      q = Math.max(0, Math.floor(p/r));
-    }
-    return q;
-  };
-
-  /* UI refs */
-  const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
-  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
-  const pill80=$('pill80'), pill75=$('pill75'), pill70=$('pill70');
-
-  let typingField=null;
-
-  const paintPills=(q,r)=>{
-    [pill80,pill75,pill70].forEach(p=>p.classList.remove('active','flame','best'));
-    if(!q || q<MIN1 || !r) return;
-    if(r===T1) pill80.classList.add('active');
-    if(r===T2) pill75.classList.add('active');
-    if(r===T3){ pill70.classList.add('active','flame','best'); }
-  };
-
-  const validServer=()=> serverEl.value.trim().length>0;
-
-  function recalcOutputs(){
-    const q = toInt(diasEl.value);
-    const p = toNum(phpEl.value);
-    let r = getRate(q);
-
-    let qEst = q;
-    if(typingField==='p'){
-      const guess = estimateFromPHP(p);
-      if(!r){ qEst = guess; r = getRate(qEst); }
-    }
-
-    paintPills(qEst, r);
-
-    const ok = (q>=MIN1 || (typingField==='p' && qEst>=MIN1)) && !!r && validServer();
-    warn.style.display = ok ? 'none' : 'block';
-    buyBtn.disabled = !ok;
-
-    if(r){
-      const useQ = (typingField==='p' && qEst>=MIN1) ? qEst : q;
-      if(useQ>=MIN1){
-        rateOut.textContent = `₱${r.toFixed(2)} / dia`;
-        const base = useQ*T1, saveAmt=Math.max(0, base-(useQ*r));
-        const savePct=Math.max(0,(1-r/T1)*100);
-        saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt2(saveAmt)}`;
-        return;
-      }
-    }
-    rateOut.textContent='—'; saveOut.textContent='—';
-  }
-
-  ['input','keyup'].forEach(ev=>{
-    diasEl.addEventListener(ev, ()=>{ typingField='d'; recalcOutputs(); });
-    phpEl.addEventListener(ev,  ()=>{ typingField='p'; recalcOutputs(); });
-    serverEl.addEventListener(ev, ()=>{ recalcOutputs(); });
-  });
-
-  diasEl.addEventListener('blur', ()=>{
-    typingField=null;
-    const q = toInt(diasEl.value);
-    const r = getRate(q);
-    if(r && q>=MIN1){ phpEl.value = fmt2(q*r); }
-    recalcOutputs();
-  });
-  phpEl.addEventListener('blur', ()=>{
-    typingField=null;
-    const p = toNum(phpEl.value);
-    const q = estimateFromPHP(p);
-    const r = getRate(q);
-    if(r && q>=MIN1){ diasEl.value = String(q); }
-    if(p>0) phpEl.value = fmt2(p);
-    recalcOutputs();
-  });
-  serverEl.addEventListener('blur', ()=>{ typingField=null; recalcOutputs(); });
-
-  recalcOutputs();
-
-  /* Copy helpers / popups */
-  const copyPopup=$('copyPopup'), copyMsg=$('copyMsg'), copyOk=$('copyOk');
-  function showCopy(msg){ copyMsg.textContent=msg||'Copied to clipboard.'; copyPopup.style.display='grid'; }
-  copyOk.addEventListener('click', ()=> copyPopup.style.display='none');
-  async function copy(text){
-    try{ await navigator.clipboard.writeText(text); return true; }
-    catch(e){ return false; }
-  }
-
-  /* Payments */
-  $('gcashRow').addEventListener('click', async ()=>{
-    const ok = await copy('09162466318');
-    showCopy(ok?'GCash number copied ✔':'Copy failed. Long-press to copy.');
-  });
-  $('showQR').addEventListener('click', (e)=>{ e.stopPropagation(); $('qrPopup').style.display='grid'; });
-  $('qrOk').addEventListener('click', ()=> $('qrPopup').style.display='none');
-
-  $('goRow').addEventListener('click', async ()=>{
-    const ok = await copy('014664932955');
-    showCopy(ok?'GoTyme account copied ✔':'Copy failed. Long-press to copy.');
-  });
-  $('showGoQR').addEventListener('click', (e)=>{ e.stopPropagation(); $('goQRPopup').style.display='grid'; });
-  $('goQrOk').addEventListener('click', ()=> $('goQRPopup').style.display='none');
-
-  /* Track */
-  $('trackBtn').addEventListener('click', ()=>{
-    const rid = $('trackIn').value.trim();
-    const map = loadMap();
-    const rec = map[rid];
-    if(!rid || !rec){
-      $('trackOut').style.display='none';
-      $('trackNone').style.display='block';
-      return;
-    }
-    $('trackNone').style.display='none';
-    $('trackOut').style.display='block';
-    $('t_id').textContent=rid;
-    setStatusUI(rec.status||'PENDING');
-    $('t_server').textContent=rec.server||'—';
-    $('t_qty').textContent=rec.qty||'—';
-    $('t_rate').textContent=rec.rate?`₱${rec.rate.toFixed(2)}`:'—';
-    $('t_total').textContent=rec.total?`₱${fmt2(rec.total)}`:'—';
-    $('t_time').textContent=rec.time||'—';
-  });
-
-  $('btnPaid').addEventListener('click', ()=>{
-    const rid = $('t_id').textContent.trim();
-    if(!rid) return;
-    const map = loadMap();
-    if(!map[rid]) return;
-    map[rid].status='PAID';
-    saveMap(map);
-    setStatusUI('PAID');
-    showCopy('Status updated: PAID ✔');
-  });
-
-  /* Secret Delivered: 6 taps on logo */
-  let taps=0, tapTimer=null;
-  $('secretLogo').addEventListener('click', ()=>{
-    taps++; clearTimeout(tapTimer);
-    tapTimer=setTimeout(()=>taps=0, 1200);
-    if(taps>=6){
-      taps=0;
-      const rid = $('t_id').textContent.trim();
-      if(!rid) return;
-      const map = loadMap();
-      if(!map[rid]) return;
-      map[rid].status='DELIVERED';
-      saveMap(map);
-      setStatusUI('DELIVERED');
-      showCopy('Status updated: DELIVERED ✔');
-    }
-  });
-
-  /* Buy flow with 15s redirect (popup text has your name only; no link shown) */
-  const buyPopup=$('buyPopup'), buyOrderId=$('buyOrderId'), countdownEl=$('countdown'), openNow=$('openNow'), closePop=$('closePop');
-
-  function buildOrder(rid, q, p, r, server){
-    return [
-      `Order ID: ${rid}`,
-      `Diamonds: ${q} 💎`,
-      `Rate: ₱${r.toFixed(2)} / dia`,
-      `Total: ₱${fmt2(p)}`,
-      `Server: ${server}`
-    ].join('\n');
-  }
-  function openMessenger(){ location.href='https://m.me/mbitonio'; }
-
-  openNow.addEventListener('click', openMessenger);
-  closePop.addEventListener('click', ()=> buyPopup.style.display='none');
-
-  $('buyBtn').addEventListener('click', async ()=>{
-    let q = toInt(diasEl.value);
-    let p = toNum(phpEl.value);
-    const server = serverEl.value.trim();
-    if(typingField==='p' && (!q || q<MIN1)){ const qGuess=estimateFromPHP(p); if(qGuess>=MIN1){ q=qGuess; } }
-    if(typingField==='d' && (!p || p<=0)){ const rNow=getRate(q); if(rNow) p=q*rNow; }
-    const r=getRate(q);
-    if(!r || q<MIN1 || !server){ warn.style.display='block'; return; }
-
-    // Stock check & deduct
-    if(getStock() < q){ alert('Not enough stock for this order. Please lower quantity or update stock.'); return; }
-    adjustStock(-q);
-
-    const rid=genRID();
-    const orderText = buildOrder(rid, q, p||q*r, r, server);
-
-    // Save local track
-    const map=loadMap();
-    map[rid]={status:'PENDING', server, qty:q, rate:r, total:p||q*r, time:new Date().toLocaleString()};
-    saveMap(map);
-
-    // Copy to clipboard
-    const copied = await copy(orderText);
-    buyOrderId.textContent = `Order ${rid} ${copied?'copied to clipboard.':'— please copy manually.'}`;
-
-    // Popup + 15s countdown -> redirect
-    buyPopup.style.display='grid';
-    let left=15;
-    countdownEl.innerHTML = `Opening Messenger in <b>${left}</b>s…`;
-    const timer=setInterval(()=>{
-      left--; countdownEl.innerHTML = `Opening Messenger in <b>${left}</b>s…`;
-      if(left<=0){ clearInterval(timer); openMessenger(); }
-    },1000);
-  });
-
-})();
-</script>
-</body>
-</html>
+      <p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatangg
