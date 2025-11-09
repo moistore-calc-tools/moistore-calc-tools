@@ -173,7 +173,7 @@
 
   /* Stock UI */
   .stockChip{display:inline-flex;align-items:center;gap:10px;background:#1a1418;border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:12px;box-shadow:0 0 16px rgba(0,0,0,.25);cursor:pointer}
-  .badge{font-size:11px;color:#ccb9c1;border:1px solid rgba(255,255,255,.14);padding:2px 6px;border-radius:999px}
+  .badge{font-size:11px;color:#ccb9c1;border:1px solid rgba(255,255,255,.14);padding:2px 6px;border-radius:999px;display:none} /* hidden hint text */
   #stockModal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:60}
   .stockCard{width:min(95vw,720px);background:#100d11;border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.55)}
   .stockHead{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -206,7 +206,7 @@
     <div class="title">LEGEND OF YMIR DIAMOND 💎</div>
 
     <div class="logoWrap">
-      <div class="logo" id="secretLogo" title="(Secret) 6 taps to mark Delivered">
+      <div class="logo" id="secretLogo" title="(Secret)">
         <div class="ring"></div>
         <img src="logo.png" alt="Logo">
       </div>
@@ -230,16 +230,16 @@
     <!-- Tiers -->
     <div class="row prices">
       <div id="pill80" class="pill">
-        <div class="pval">₱0.80</div>
-        <div class="ptxt">min 1000 💎</div>
+        <div class="pval">₱800</div>
+        <div class="ptxt">per 1,000 • min 1,000 💎</div>
       </div>
       <div id="pill75" class="pill">
-        <div class="pval">₱0.75</div>
-        <div class="ptxt">min 4000 💎</div>
+        <div class="pval">₱750</div>
+        <div class="ptxt">per 1,000 • min 4,000 💎</div>
       </div>
       <div id="pill70" class="pill">
-        <div class="pval">₱0.70</div>
-        <div class="ptxt">min 8000 💎</div>
+        <div class="pval">₱700</div>
+        <div class="ptxt">per 1,000 • min 8,000 💎</div>
         <div class="dealChip" aria-hidden="true">🔥 BEST DEAL</div>
       </div>
     </div>
@@ -250,13 +250,13 @@
       <input id="dias" class="in" inputmode="numeric" autocomplete="off" placeholder="e.g. 1500">
 
       <div class="label" style="margin-top:10px">ENTER PHP ₱</div>
-      <input id="phpIn" class="in" inputmode="decimal" autocomplete="off" placeholder="e.g. 500.00">
+      <input id="phpIn" class="in" inputmode="decimal" autocomplete="off" placeholder="e.g. 800.00">
 
       <div class="label" style="margin-top:10px">Server (Required)</div>
       <input id="serverIn" class="in" placeholder="Type exact server (e.g., ASIA-022 / HOF1)" autocomplete="off">
       <div class="hint">Make sure tama ang server name para iwas delay sa drop.</div>
 
-      <div id="warn" class="warn">Minimum 1000 💎 required and Server is needed.</div>
+      <div id="warn" class="warn">Minimum 1,000 💎 and Server are required.</div>
 
       <div class="grid2">
         <div class="box">
@@ -272,14 +272,14 @@
 
     <!-- Buy -->
     <button id="buyBtn" type="button" class="btn buy" disabled>💎 Buy</button>
-    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias, then type your server.</div>
+    <div class="label" style="text-align:center;margin-top:8px">Enter at least 1,000 dias, then type your server.</div>
 
-    <!-- Stock quick view -->
+    <!-- Stock quick view (no hint text shown) -->
     <div style="display:flex;justify-content:center;margin:10px 0 12px">
-      <div id="stockChip" class="stockChip" title="Tap to view server stocks">
+      <div id="stockChip" class="stockChip" title="Stocks">
         <span id="stockIcon" aria-hidden="true">📦</span>
         <strong style="margin-left:6px">Total Stock:</strong>&nbsp;<span id="stockTotal">—</span> 💎
-        <span class="badge" style="margin-left:8px">Tap to view • 5 taps on 📦 to edit</span>
+        <span class="badge" id="stockHint"></span>
       </div>
     </div>
 
@@ -302,7 +302,6 @@
       <!-- GoTyme (copy only) with QR button) -->
       <div id="goRow" class="gcashRow" title="Tap to copy account" style="background:rgba(0,214,231,.08);border-color:rgba(0,214,231,.35)">
         <div class="gcashLeft">
-          <!-- teal icon -->
           <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"
                style="border-radius:999px; box-shadow:0 0 10px rgba(0,214,231,.35)">
             <defs>
@@ -312,8 +311,7 @@
               </linearGradient>
             </defs>
             <rect x="0" y="0" width="32" height="32" rx="16" fill="url(#goTeal)"/>
-            <path d="M10.5 16a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0zm2.6 0a2.9 2.9 0 1 0 5.8 0 2.9 2.9 0 0 0-5.8 0z"
-                  fill="#00353A" opacity=".95"/>
+            <path d="M10.5 16a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0zm2.6 0a2.9 2.9 0 1 0 5.8 0 2.9 2.9 0 0 0-5.8 0z" fill="#00353A" opacity=".95"/>
           </svg>
           GoTyme • <strong id="goNumber">014664932955 — MOISES BITONIO</strong>
         </div>
@@ -368,7 +366,6 @@
         </div>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
           <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1">Buyer: I Paid</button>
-          <!-- Delivered is secret: 6 taps on the round logo (top). -->
         </div>
         <div class="hint" style="margin-top:6px">
           Tip: Buyer taps <b>I Paid</b> after sending payment. (Local tracking only)
@@ -382,8 +379,7 @@
   <div id="buyPopup">
     <div class="cardPop">
       <h3>Copied ✔</h3>
-      <p id="buyMsg"><strong>PAALALA:</strong> May lalabas na Messenger pagkatapos ng <b id="countDown">15</b>s.  
-      <br>I-paste mo doon ang nakopya mong order message at <b>isend kay MOISES TRAJANO BITONIO</b>.</p>
+      <p id="buyMsg"><strong>PAALALA:</strong> May lalabas na Messenger pagkatapos ng <b id="countDown">15</b>s.<br>I-paste mo doon ang nakopya mong order message at <b>isend kay MOISES TRAJANO BITONIO</b>.</p>
       <div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div>
       <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
     </div>
@@ -419,7 +415,7 @@
           <div class="stockSearch" style="flex:1">
             🔎 <input id="srvSearch" type="search" placeholder="Search server… (e.g., ASIA-022 / HOF1)">
           </div>
-          <span id="adminState" class="badge">🔒 Read-only</span>
+          <span id="adminState" class="badge"></span>
           <button id="btnCloseStock" class="btnTiny btnGhost" type="button">Close</button>
         </div>
       </div>
@@ -439,16 +435,18 @@
   const $ = id => document.getElementById(id);
   const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
   const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
-  const toNum = v => { const m = clean(v).match(/^\d+(?:\\.\d+)?/); return m? parseFloat(m[0]):0; };
+  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
   const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
   const nowISO = () => new Date().toISOString().replace('T',' ').slice(0,19);
 
   const MIN = 1000;
+  /* Rates are PHP PER 1,000 diamonds */
   const TIERS = [
-    {min:8000, rate:0.70},
-    {min:4000, rate:0.75},
-    {min:1000, rate:0.80}
+    {min:8000, rate:700},
+    {min:4000, rate:750},
+    {min:1000, rate:800}
   ];
+  const BASE_REF = 900; // for "Save" comparison, PHP per 1,000
 
   /* ====== Elements ====== */
   const diasIn = $('dias'), phpIn = $('phpIn'), serverIn = $('serverIn');
@@ -513,37 +511,37 @@
   /* ====== Rate utils ====== */
   function getRate(qty){
     if(!qty || qty<MIN) return null;
-    for(const t of TIERS) if(qty>=t.min) return t.rate;
+    for(const t of TIERS){ if(qty>=t.min) return t.rate; }
     return null;
   }
+
   function recalcFromDias(){
     const q = toInt(diasIn.value);
     const r = getRate(q);
-    if(!r){ rateOut.textContent='—'; saveOut.textContent='—'; }
-    else{
-      rateOut.textContent = `₱${r.toFixed(2)} / 1,000`;
-      const total = (q/1000)*r*1000; // same value display
-      const ref = (q/1000)*0.90*1000; // dummy ref for 'save' display
-      const save = Math.max(0, ref - total);
+    if(!r){
+      rateOut.textContent='—'; saveOut.textContent='—';
+    }else{
+      rateOut.textContent = `₱${r.toFixed(0)} / 1,000`;
+      const total = (q/1000)*r;
+      const save = Math.max(0, (q/1000)*(BASE_REF - r));
       saveOut.textContent = `₱${fmt(save)}`;
     }
     validate();
   }
+
   function recalcFromPHP(){
     const p = toNum(phpIn.value);
-    // find best tier that matches: total = q * rate
-    // We’ll estimate qty by trying tiers from best to worst
+    if(!p){ validate(); return; }
     let bestQ=0, bestR=null;
     for(const t of TIERS){
-      const q = Math.floor(p / t.rate); // pesos per diamond rate
+      const q = Math.floor((p / t.rate) * 1000); // qty in diamonds
       if(q>=t.min && q>bestQ){ bestQ=q; bestR=t.rate; }
     }
-    if(bestQ>0){
+    if(bestQ>=MIN && bestR){
       diasIn.value = String(bestQ);
-      rateOut.textContent = `₱${bestR.toFixed(2)} / 1,000`;
-      const ref = (bestQ/1000)*0.90*1000;
-      const total = bestQ*bestR;
-      saveOut.textContent = `₱${fmt(Math.max(0, ref-total))}`;
+      rateOut.textContent = `₱${bestR.toFixed(0)} / 1,000`;
+      const save = Math.max(0, (bestQ/1000)*(BASE_REF - bestR));
+      saveOut.textContent = `₱${fmt(save)}`;
     }
     validate();
   }
@@ -557,7 +555,7 @@
   }
 
   diasIn.addEventListener('input', recalcFromDias);
-  phpIn.addEventListener('input', ()=>{ /* no forced min; compute only */ recalcFromPHP(); });
+  phpIn.addEventListener('input', recalcFromPHP);
   serverIn.addEventListener('input', validate);
 
   /* ====== GCash UI ====== */
@@ -571,13 +569,16 @@
   qrOk.addEventListener('click', ()=> qrPopup.style.display='none');
 
   /* ====== Buy flow (15s popup + redirect to Messenger) ====== */
+  const buyMsg = $('buyMsg');
+  const secretLogo = $('secretLogo');
+
   buyBtn.addEventListener('click', ()=>{
     const qty = toInt(diasIn.value);
     const srv = (serverIn.value||'').trim();
     const rate = getRate(qty);
     if(!rate) return;
 
-    const totalPhp = qty * rate;
+    const totalPhp = (qty/1000)*rate;
     const id = 'YMIR-' + Date.now().toString(36).toUpperCase();
 
     // Save order locally
@@ -593,16 +594,15 @@
       `ORDER: ${id}`,
       `Server: ${srv}`,
       `Diamonds: ${qty} 💎`,
-      `Rate: ₱${rate.toFixed(2)}/1,000`,
+      `Rate: ₱${rate.toFixed(0)}/1,000`,
       `Total: ₱${fmt(totalPhp)}`,
-      `Buyer: I Paid (after sending)`,
-    ].join('\\n');
+      `Buyer: I Paid (after sending)`
+    ].join('\n');
     navigator.clipboard?.writeText(msg).catch(()=>{});
 
-    // Popup + countdown
-    buyOrderId.textContent = id;
+    // Popup + countdown + redirect
+    $('buyOrderId').textContent = id;
     buyPopup.style.display='grid';
-
     let t = 15;
     countDownEl.textContent = String(t);
     const iv = setInterval(()=>{
@@ -623,7 +623,7 @@
     trackNone.style.display='none'; trackOut.style.display='block';
     t_id.textContent=o.id||'—'; t_status.textContent=`• ${o.status||'—'}`;
     t_server.textContent=o.server||'—'; t_qty.textContent=(o.qty||0).toLocaleString();
-    t_rate.textContent=o.rate?`₱${o.rate.toFixed(2)}/1,000`:'—';
+    t_rate.textContent=o.rate?`₱${o.rate.toFixed(0)}/1,000`:'—';
     t_total.textContent=o.total?`₱${fmt(o.total)}`:'—';
     t_time.textContent=o.created||'—';
   }
@@ -644,7 +644,7 @@
   });
 
   /* ====== Secret "Delivered" (6 taps on round logo) with auto-deduct ====== */
-  const secretLogo=$('secretLogo');
+  let tap6=0, tap6Timer=null;
   function onLogoTap(){
     tap6++;
     clearTimeout(tap6Timer);
@@ -667,17 +667,16 @@
       o.status='Delivered';
       saveOrders(map);
       alert('Marked Delivered. Stock auto-deducted ✔');
-      // refresh tracking if visible
       if(($('t_id').textContent||'')===id){ renderTrack(o); }
     }
   }
   secretLogo.addEventListener('click', onLogoTap);
 
-  /* ====== Stock modal (view + admin via 5 taps on 📦, no PIN) ====== */
+  /* ====== Stock modal (view + admin via 5 taps on 📦, no text shown) ====== */
   function openStock(readOnly=true){
     stockModal.style.display='grid';
     adminMode = !readOnly;
-    adminState.textContent = adminMode ? '🛠️ Admin mode' : '🔒 Read-only';
+    adminState.textContent = adminMode ? '' : ''; // hide
     dirty=false; btnSaveStock.disabled=true;
     filter=''; if(srvSearch) srvSearch.value='';
     renderStockList();
@@ -749,9 +748,6 @@
           }
         };
         act.appendChild(del);
-      }else{
-        const b=document.createElement('span'); b.className='badge'; b.textContent='View only';
-        act.appendChild(b);
       }
 
       row.appendChild(nameCell);
@@ -762,21 +758,23 @@
   }
 
   stockChip.addEventListener('click', ()=> openStock(true));
+
+  let tap5=0, tapTimer=null;
   stockIcon.addEventListener('click', (e)=>{
     e.stopPropagation();
     tap5++; clearTimeout(tapTimer);
     tapTimer=setTimeout(()=>tap5=0,1200);
     if(tap5>=5){
       tap5=0;
-      openStock(false); // admin mode, no PIN
+      openStock(false); // admin mode
     }
   });
   btnCloseStock.addEventListener('click', closeStock);
   btnSaveStock.addEventListener('click', ()=>{ saveStock(); dirty=false; btnSaveStock.disabled=true; alert('Stocks saved ✔'); });
   btnAddServer.addEventListener('click', ()=>{
-    if(!adminMode) return alert('Open Admin mode (5 taps on 📦) to add servers.');
+    if(!adminMode) return alert('Open Admin mode first (tap 📦 5x).');
     const name=prompt('New server name (e.g., ASIA-031 or HOF6):'); if(!name) return;
-    const key=name.trim(); if(!/^[\\w\\-]+$/i.test(key)) return alert('Invalid server name.');
+    const key=name.trim(); if(!/^[\w\-]+$/i.test(key)) return alert('Invalid server name.');
     if(stockMap[key]!=null) return alert('Server already exists.');
     const qty=Math.max(0, parseInt(prompt('Initial stock (gold/💎):')||'0',10)||0);
     stockMap[key]=qty; dirty=true; btnSaveStock.disabled=false; renderTotals(); renderStockList();
@@ -785,7 +783,6 @@
 
   /* ====== Init ====== */
   renderTotals();
-  recalcFromDias();
 })();
 </script>
 </body>
