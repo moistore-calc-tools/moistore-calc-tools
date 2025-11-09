@@ -1,5 +1,4 @@
-u
-bsbsbbsbsbsbsbsbwbwbbwbw<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -370,4 +369,260 @@ bsbsbbsbsbsbsbsbwbwbbwbw<!DOCTYPE html>
   <!-- GCash Copied Popup -->
   <div id="gcashPopup">
     <div class="cardPop">
-      <h3>GCash numb
+      <h3>GCash number copied ✔</h3>
+      <p><strong>09162466318 — MOISES B.</strong><br>Paste sa GCash Express Send.</p>
+      <button id="gcashOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
+    </div>
+  </div>
+
+  <!-- GCash QR Popup -->
+  <div id="qrPopup">
+    <div class="cardPop">
+      <h3>GCash QR</h3>
+      <p>Scan to pay • <strong>MOISES B.</strong></p>
+      <img src="gcash-qr.png" alt="GCash QR" class="qrImg">
+      <div style="margin-top:12px">
+        <button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GoTyme Copied Popup -->
+  <div id="goPopup">
+    <div class="cardPop">
+      <h3>GoTyme account copied ✔</h3>
+      <p><strong>014664932955 — MOISES BITONIO</strong><br>Paste sa GoTyme transfer.</p>
+      <button id="goOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
+    </div>
+  </div>
+
+  <!-- GoTyme QR Popup -->
+  <div id="goQRPopup">
+    <div class="cardPop">
+      <h3>GoTyme QR</h3>
+      <p>Scan to pay • <strong>MOISES BITONIO</strong></p>
+      <img src="gotyme-qr.png" alt="GoTyme QR" class="qrImg">
+      <div style="margin-top:12px">
+        <button id="goQROk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const MESSENGER_ID = 'mbitonio'; // m.me/mbitonio
+
+  // Shorthands
+  const $ = id => document.getElementById(id);
+  const clean = v => String(v ?? '').replace(/[^\d.,]/g,'').replace(/,/g,'');
+  const toInt = v => { const m = clean(v).match(/^\d+/); return m ? parseInt(m[0],10) : 0; };
+  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m ? parseFloat(m[0]) : 0; };
+  const fmt  = n => Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+  const now  = () => new Date().toLocaleString();
+
+  // Pricing rules
+  const MIN1=1000, MIN2=4000, MIN3=8000;
+  const T1=0.80, T2=0.75, T3=0.70;
+  const getRate = q => (!q || q<MIN1) ? null : (q<MIN2?T1:(q<MIN3?T2:T3));
+
+  function estimateDiasFromPhp(p){
+    if(!p || p<=0) return 0;
+    let q = Math.floor(p / T1);
+    for(let i=0;i<3;i++){
+      const r = getRate(q) || T1;
+      q = Math.floor(p / r);
+    }
+    if(q && q<MIN1) q = MIN1;
+    return q;
+  }
+
+  // Storage
+  const STORE='ymir_orders';
+  const load = ()=>{ try { return JSON.parse(localStorage.getItem(STORE)||'{}'); } catch { return {}; } };
+  const save = m => { try { localStorage.setItem(STORE, JSON.stringify(m)); } catch {} };
+
+  // UI refs
+  const dias=$('dias'), php=$('phpIn'), server=$('serverIn'), buy=$('buyBtn');
+  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn');
+  const pill80=$('pill80'), pill75=$('pill75'), pill70=$('pill70');
+
+  // Paint tiers
+  function paintTiers(q, r){
+    [pill80,pill75,pill70].forEach(p=>p&&p.classList.remove('active','lock','flame','best'));
+    if(!q || q<MIN1){ [pill80,pill75,pill70].forEach(p=>p&&p.classList.add('lock')); return; }
+    if(r===T1 && pill80) pill80.classList.add('active');
+    if(r===T2 && pill75) pill75.classList.add('active');
+    if(r===T3 && pill70) { pill70.classList.add('active','flame','best'); }
+  }
+
+  // Compute
+  let lastEdited = null; // 'd' or 'p'
+  function recompute(){
+    let q = toInt(dias.value);
+    let p = toNum(php.value);
+
+    if(lastEdited==='p'){
+      q = estimateDiasFromPhp(p);
+      dias.value = q ? String(q) : '';
+      const r = getRate(q) || T1;
+      p = q ? q * r : 0;
+      php.value = p ? fmt(p) : '';
+    } else if(lastEdited==='d'){
+      const r = getRate(q);
+      p = (r && q) ? q * r : 0;
+      php.value = p ? fmt(p) : '';
+    }
+
+    const r = getRate(q);
+    paintTiers(q,r);
+
+    if(r&&q){
+      rateOut.textContent = `₱${r.toFixed(2)} / dia`;
+      const base=q*T1, saveAmt=Math.max(0, base-(q*r));
+      const savePct=Math.max(0,(1-r/T1)*100);
+      saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
+    } else {
+      rateOut.textContent = '—';
+      saveOut.textContent = '—';
+    }
+
+    const ok = q>=MIN1 && !!r && server.value.trim().length>0;
+    warn.style.display = ok ? 'none' : 'block';
+    buy.disabled = !ok;
+  }
+
+  ['input','change','keyup','paste'].forEach(ev=>{
+    dias.addEventListener(ev, ()=>{ lastEdited='d'; recompute(); });
+    php .addEventListener(ev, ()=>{ lastEdited='p'; recompute(); });
+  });
+  server.addEventListener('input', recompute);
+  recompute();
+
+  // Helpers
+  function genRID(){
+    const t=Date.now().toString(36).toUpperCase();
+    const r=Math.random().toString(36).slice(2,6).toUpperCase();
+    return `YMIR-${t}-${r}`;
+  }
+  function openMessenger(){
+    const url=`https://m.me/${encodeURIComponent(MESSENGER_ID)}`;
+    try{ window.open(url,'_blank'); }catch(_){ location.href=url; }
+  }
+  function show(id){ const el=$(id); if(el) el.style.display='grid'; }
+  function hide(id){ const el=$(id); if(el) el.style.display='none'; }
+
+  // BUY flow + 5s redirect
+  buy.addEventListener('click', async ()=>{
+    let q = toInt(dias.value);
+    let p = toNum(php.value);
+    if(!q && p){ q = estimateDiasFromPhp(p); dias.value = q?String(q):''; }
+    const r = getRate(q);
+    if(!(q>=MIN1) || !r || !server.value.trim()){ recompute(); return; }
+
+    const total = p || (q*r);
+    const rid = genRID();
+    const txt = `YMIR ORDER
+Receipt ID: ${rid}
+Server: ${server.value.trim()}
+Diamonds: ${q} 💎
+Rate: ₱${r.toFixed(2)} / dia
+Total: ₱${fmt(total)}
+
+Note: Open Messenger ➜ Paste this ➜ Send to MOISEES TRAJANO BITONIO (m.me/mbitonio).`;
+
+    try{ await navigator.clipboard.writeText(txt); }catch(_){}
+
+    const m=load(); m[rid]={status:'PENDING',server:server.value.trim(),qty:q,rate:r,total:total,time:now()}; save(m);
+
+    $('buyOrderId').textContent = rid;
+    show('buyPopup');
+    $('closePop').onclick = ()=>hide('buyPopup');
+    setTimeout(()=>hide('buyPopup'), 900);
+
+    show('redirectPopup');
+    let s=5; $('redirSec').textContent=String(s);
+    const timer=setInterval(()=>{ s--; $('redirSec').textContent=String(s); if(s<=0){ clearInterval(timer); hide('redirectPopup'); openMessenger(); } },1000);
+    $('openMsgNow').onclick=()=>{ clearInterval(timer); hide('redirectPopup'); openMessenger(); };
+    $('redirClose').onclick =()=>{ clearInterval(timer); hide('redirectPopup'); };
+
+    // prefill tracker
+    $('trackIn').value=rid;
+    doTrack();
+  });
+
+  // Payments + QR popups
+  $('gcashRow').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(($('gcashNumber').textContent||'').trim()); }catch(_){}
+    show('gcashPopup');
+  });
+  $('gcashOk').addEventListener('click', ()=>hide('gcashPopup'));
+  $('showQR').addEventListener('click', e=>{ e.stopPropagation(); show('qrPopup'); });
+  $('qrOk').addEventListener('click', ()=>hide('qrPopup'));
+
+  $('goRow').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(($('goNumber').textContent||'').trim()); }catch(_){}
+    show('goPopup');
+  });
+  $('goOk').addEventListener('click', ()=>hide('goPopup'));
+  $('showGoQR').addEventListener('click', e=>{ e.stopPropagation(); show('goQRPopup'); });
+  $('goQROk').addEventListener('click', ()=>hide('goQRPopup'));
+
+  // Tracking (local)
+  function setStatusColor(txt){
+    const el=$('t_status');
+    el.textContent = txt || 'PENDING';
+    el.style.color = (txt==='DELIVERED')?'#ff7896' : (txt==='PAID'?'#22cf74' : '#ffd64d');
+  }
+  function doTrack(){
+    const rid=$('trackIn').value.trim();
+    if(!rid){ $('trackOut').style.display='none'; $('trackNone').style.display='block'; return; }
+    const m=load(); const o=m[rid];
+    if(!o){ $('trackOut').style.display='none'; $('trackNone').style.display='block'; return; }
+    $('trackNone').style.display='none'; $('trackOut').style.display='block';
+    $('t_id').textContent=rid;
+    setStatusColor(o.status);
+    $('t_server').textContent=o.server;
+    $('t_qty').textContent=o.qty;
+    $('t_rate').textContent=`₱${o.rate.toFixed(2)} / dia`;
+    $('t_total').textContent=`₱${fmt(o.total)}`;
+    $('t_time').textContent=o.time||'—';
+  }
+  window.doTrack = doTrack;
+  $('trackBtn').addEventListener('click', doTrack);
+  $('btnPaid').addEventListener('click', ()=>{
+    const rid=$('trackIn').value.trim();
+    const m=load(); if(!m[rid]) return;
+    m[rid].status='PAID'; save(m); setStatusColor('PAID');
+  });
+
+  // Secret delivered (6 taps sa logo)
+  let taps=0, tmr=null;
+  const logo = document.getElementById('secretLogo');
+  if(logo){
+    logo.addEventListener('click', ()=>{
+      taps++; clearTimeout(tmr); tmr=setTimeout(()=>taps=0,1200);
+      if(taps>=6){
+        taps=0;
+        const rid=$('trackIn').value.trim(); const m=load(); if(!m[rid]) return;
+        m[rid].status='DELIVERED'; save(m); setStatusColor('DELIVERED');
+      }
+    });
+  }
+
+  // Backdrop to close
+  ['buyPopup','redirectPopup','gcashPopup','qrPopup','goPopup','goQRPopup'].forEach(id=>{
+    const el=$(id); if(!el) return;
+    el.addEventListener('click',e=>{ if(e.target===el) el.style.display='none'; });
+  });
+
+  // Minimal runtime error toast
+  window.addEventListener('error', e=>{
+    const t=document.createElement('div');
+    t.textContent='JS Error: '+(e.message||'unknown');
+    Object.assign(t.style,{position:'fixed',left:'8px',top:'8px',background:'rgba(255,0,80,.12)',color:'#fff',padding:'8px 10px',border:'1px solid rgba(255,0,80,.35)',borderRadius:'8px',zIndex:99999,fontSize:'12px'});
+    document.body.appendChild(t); setTimeout(()=>t.remove(),6000);
+  });
+})();
+</script>
+</body>
+</html>
