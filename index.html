@@ -14,11 +14,12 @@
     --ring: conic-gradient(#ff2b63,#ff6ea0,#ff2b63);
     --glow-soft: 0 0 16px rgba(255,40,100,.22);
     --chip:#222027;
+    --gotyme:#00d6e7;
   }
   *{box-sizing:border-box}
   html,body{margin:0;color:var(--txt);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--ink);min-height:100%}
 
-  /* Animated dark red background */
+  /* Animated background */
   body::before{
     content:"";position:fixed;inset:-20% -20%;z-index:-3;pointer-events:none;
     background:
@@ -166,9 +167,7 @@
   .chip{display:inline-flex;gap:8px;align-items:center;background:var(--chip);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:12px}
 
   /* Popups */
-  #buyPopup, #gcashPopup, #qrPopup, #goPopup, #goQRPopup, #redirectPopup{
-    position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50
-  }
+  #buyPopup, #copyPopup, #qrPopup, #goQRPopup{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
   .cardPop{width:min(92vw,520px);background:#0f0d10;border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center}
   .qrImg{max-width:86vw;max-height:70vh;border-radius:12px;border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 36px rgba(0,0,0,.45)}
 
@@ -189,7 +188,7 @@
     <!-- Owner -->
     <div class="owner">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
-        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
+        <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/>
       </svg>
       <a href="https://www.facebook.com/share/1FWLHh32iE/" target="_blank" rel="noopener">
         <span class="ownerName">MOISEES TRAJANO BITONIO</span>
@@ -248,13 +247,13 @@
     <button id="buyBtn" type="button" class="btn buy" disabled>💎 Buy</button>
     <div class="label" style="text-align:center;margin-top:8px">Enter at least 1000 dias, then type your server.</div>
 
-    <!-- Payment + Socials -->
+    <!-- Payments -->
     <div class="pay">
       <!-- GCash -->
       <div id="gcashRow" class="gcashRow" title="Tap to copy number">
         <div class="gcashLeft">
           <div class="gcashIcon">G</div>
-          GCash • <strong id="gcashNumber">09162466318 — MOISEES B.</strong>
+          GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong>
         </div>
         <button id="showQR" type="button" class="qrBtn" title="Show GCash QR">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#cfe4ff" aria-hidden="true">
@@ -267,7 +266,6 @@
       <!-- GoTyme -->
       <div id="goRow" class="gcashRow" title="Tap to copy account" style="background:rgba(0,214,231,.08);border-color:rgba(0,214,231,.35)">
         <div class="gcashLeft">
-          <!-- GoTyme-like teal icon -->
           <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"
                style="border-radius:999px; box-shadow:0 0 10px rgba(0,214,231,.35)">
             <defs>
@@ -280,7 +278,7 @@
             <path d="M10.5 16a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0zm2.6 0a2.9 2.9 0 1 0 5.8 0 2.9 2.9 0 0 0-5.8 0z"
                   fill="#00353A" opacity=".95"/>
           </svg>
-          GoTyme • <strong id="goNumber">014664932955 — MOISEES BITONIO</strong>
+          GoTyme • <strong id="goNumber">014664932955 — MOISES BITONIO</strong>
         </div>
         <button id="showGoQR" type="button" class="qrBtn" title="Show GoTyme QR" style="background:rgba(0,214,231,.14);border-color:rgba(0,214,231,.45);color:#d6fffe">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#d6fffe" aria-hidden="true">
@@ -343,297 +341,32 @@
     </div>
   </div>
 
-  <!-- BUY Copied Popup -->
+  <!-- Copy/Buy Popup -->
   <div id="buyPopup">
     <div class="cardPop">
-      <h3>Copied ✔</h3>
-      <p id="buyMsg"><strong>I-PASTE MO ITO SA MESSENGER KO.</strong><br>Open Messenger then paste the order message.</p>
+      <h3>Almost there! ✅</h3>
+      <p><b>Next step:</b> Open Messenger, <b>paste</b> the copied order, then <b>send to MOISEES TRAJANO BITONIO</b>.</p>
+      <p id="countdown" style="margin-top:6px;opacity:.9">Redirecting to Messenger in <b>15</b>s…</p>
       <div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div>
-      <button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
-    </div>
-  </div>
-
-  <!-- 15s Redirect Popup (no explicit m.me link shown) -->
-  <div id="redirectPopup">
-    <div class="cardPop">
-      <h3>Opening Messenger in <span id="redirSec">15</span>s…</h3>
-      <p>We copied your order details. <br>
-      <b>Paste</b> it in chat and send to <b>MOISEES TRAJANO BITONIO</b>.</p>
-      <div style="display:flex;gap:10px;justify-content:center;margin-top:10px">
-        <button id="openMsgNow" class="btn" style="background:#1877f2;color:#fff">Open Messenger Now</button>
-        <button id="redirClose" class="btn" style="background:#272327;color:#fff">Close</button>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+        <button id="openNow" class="btn" style="background:#1877f2;color:#fff">Open Messenger now</button>
+        <button id="closePop" class="btn" style="background:#272327;color:#fff">Stay Here</button>
       </div>
     </div>
   </div>
 
-  <!-- GCash Copied Popup -->
-  <div id="gcashPopup">
+  <!-- Generic "Copied" popup -->
+  <div id="copyPopup">
     <div class="cardPop">
-      <h3>GCash number copied ✔</h3>
-      <p><strong>09162466318 — MOISEES B.</strong><br>Paste sa GCash Express Send.</p>
-      <button id="gcashOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
+      <h3>Copied ✔</h3>
+      <p id="copyMsg">Copied to clipboard.</p>
+      <button id="copyOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
     </div>
   </div>
 
-  <!-- GCash QR Popup -->
+  <!-- QR Modals -->
   <div id="qrPopup">
     <div class="cardPop">
       <h3>GCash QR</h3>
-      <p>Scan to pay • <strong>MOISEES B.</strong></p>
-      <img src="gcash-qr.png" alt="GCash QR" class="qrImg">
-      <div style="margin-top:12px">
-        <button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- GoTyme Copied Popup -->
-  <div id="goPopup">
-    <div class="cardPop">
-      <h3>GoTyme account copied ✔</h3>
-      <p><strong>014664932955 — MOISEES BITONIO</strong><br>Paste sa GoTyme transfer.</p>
-      <button id="goOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button>
-    </div>
-  </div>
-
-  <!-- GoTyme QR Popup -->
-  <div id="goQRPopup">
-    <div class="cardPop">
-      <h3>GoTyme QR</h3>
-      <p>Scan to pay • <strong>MOISEES BITONIO</strong></p>
-      <img src="gotyme-qr.png" alt="GoTyme QR" class="qrImg">
-      <div style="margin-top:12px">
-        <button id="goQROk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-(function(){
-  const MESSENGER_ID = 'mbitonio'; // used for redirect only (not shown in popup)
-  const REDIRECT_DELAY = 15; // seconds
-
-  // Shorthands
-  const $ = id => document.getElementById(id);
-  const clean = v => String(v ?? '').replace(/[^\d.,]/g,'').replace(/,/g,'');
-  const toInt = v => { const m = clean(v).match(/^\d+/); return m ? parseInt(m[0],10) : 0; };
-  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m ? parseFloat(m[0]) : 0; };
-  const fmt  = n => Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
-  const now  = () => new Date().toLocaleString();
-
-  // Pricing rules
-  const MIN1=1000, MIN2=4000, MIN3=8000;
-  const T1=0.80, T2=0.75, T3=0.70;
-  const getRate = q => (!q || q<MIN1) ? null : (q<MIN2?T1:(q<MIN3?T2:T3));
-
-  // Estimate diamonds from PHP
-  function estimateDiasFromPhp(p){
-    if(!p || p<=0) return 0;
-    let q = Math.floor(p / T1);
-    for(let i=0;i<3;i++){
-      const r = getRate(q) || T1;
-      q = Math.floor(p / r);
-    }
-    if(q && q<MIN1) q = MIN1;
-    return q;
-  }
-
-  // Storage
-  const STORE='ymir_orders';
-  const load = ()=>{ try { return JSON.parse(localStorage.getItem(STORE)||'{}'); } catch { return {}; } };
-  const save = m => { try { localStorage.setItem(STORE, JSON.stringify(m)); } catch {} };
-
-  // UI refs
-  const dias=$('dias'), php=$('phpIn'), server=$('serverIn'), buy=$('buyBtn');
-  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn');
-  const pill80=$('pill80'), pill75=$('pill75'), pill70=$('pill70');
-
-  // Paint tiers
-  function paintTiers(q, r){
-    [pill80,pill75,pill70].forEach(p=>p&&p.classList.remove('active','lock','flame','best'));
-    if(!q || q<MIN1){ [pill80,pill75,pill70].forEach(p=>p&&p.classList.add('lock')); return; }
-    if(r===T1 && pill80) pill80.classList.add('active');
-    if(r===T2 && pill75) pill75.classList.add('active');
-    if(r===T3 && pill70) { pill70.classList.add('active','flame','best'); }
-  }
-
-  // Compute
-  let lastEdited = null; // 'd' | 'p' | null
-
-  function recompute(){
-    const qIn = toInt(dias.value);
-    const pIn = toNum(php.value);
-
-    let q = qIn;
-    let p = pIn;
-
-    if(lastEdited==='p'){
-      q = estimateDiasFromPhp(pIn);
-      if(q){ dias.value = String(q); }
-    } else {
-      const r = getRate(qIn);
-      p = (r && qIn) ? qIn * r : 0;
-      php.value = p ? fmt(p) : '';
-    }
-
-    const r = getRate(toInt(dias.value));
-    paintTiers(toInt(dias.value), r);
-
-    if(r && toInt(dias.value)){
-      rateOut.textContent = `₱${r.toFixed(2)} / dia`;
-      const base=toInt(dias.value)*T1, saveAmt=Math.max(0, base-(toInt(dias.value)*r));
-      const savePct=Math.max(0,(1-r/T1)*100);
-      saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
-    } else {
-      rateOut.textContent = '—';
-      saveOut.textContent = '—';
-    }
-
-    const ok = toInt(dias.value)>=MIN1 && !!r && server.value.trim().length>0;
-    warn.style.display = ok ? 'none' : 'block';
-    buy.disabled = !ok;
-  }
-
-  // Events
-  ['input','change','keyup','paste'].forEach(ev=>{
-    dias.addEventListener(ev, ()=>{ lastEdited='d'; recompute(); });
-    php .addEventListener(ev, ()=>{ lastEdited='p'; recompute(); });
-  });
-  php.addEventListener('blur', ()=>{
-    const v = toNum(php.value);
-    if(v>0) php.value = fmt(v);
-    lastEdited = null;
-    recompute();
-  });
-  $('serverIn').addEventListener('input', recompute);
-  recompute();
-
-  // Helpers
-  function genRID(){
-    const t=Date.now().toString(36).toUpperCase();
-    const r=Math.random().toString(36).slice(2,6).toUpperCase();
-    return `YMIR-${t}-${r}`;
-  }
-  function openMessenger(){
-    const url=`https://m.me/${encodeURIComponent(MESSENGER_ID)}`;
-    try{ window.open(url,'_blank'); }catch(_){ location.href=url; }
-  }
-  function show(id){ const el=$(id); if(el) el.style.display='grid'; }
-  function hide(id){ const el=$(id); if(el) el.style.display='none'; }
-
-  // BUY flow + 15s redirect
-  $('buyBtn').addEventListener('click', async ()=>{
-    let q = toInt(dias.value);
-    let p = toNum(php.value);
-    if(!q && p){ q = estimateDiasFromPhp(p); dias.value = q?String(q):''; }
-    const r = getRate(q);
-    if(!(q>=1000) || !r || !$('serverIn').value.trim()){ recompute(); return; }
-
-    const total = p || (q*r);
-    const rid = genRID();
-    const txt = `YMIR ORDER
-Receipt ID: ${rid}
-Server: ${$('serverIn').value.trim()}
-Diamonds: ${q} 💎
-Rate: ₱${r.toFixed(2)} / dia
-Total: ₱${fmt(total)}
-
-Note: Open Messenger ➜ Paste this ➜ Send to MOISEES TRAJANO BITONIO.`;
-
-    try{ await navigator.clipboard.writeText(txt); }catch(_){}
-
-    const m=load(); m[rid]={status:'PENDING',server:$('serverIn').value.trim(),qty:q,rate:r,total:total,time:now()}; save(m);
-
-    $('buyOrderId').textContent = rid;
-    show('buyPopup');
-    $('closePop').onclick = ()=>hide('buyPopup');
-    setTimeout(()=>hide('buyPopup'), 900);
-
-    // 15s redirect popup
-    show('redirectPopup');
-    let s=REDIRECT_DELAY; $('redirSec').textContent=String(s);
-    const timer=setInterval(()=>{ s--; $('redirSec').textContent=String(s); if(s<=0){ clearInterval(timer); hide('redirectPopup'); openMessenger(); } },1000);
-    $('openMsgNow').onclick=()=>{ clearInterval(timer); hide('redirectPopup'); openMessenger(); };
-    $('redirClose').onclick =()=>{ clearInterval(timer); hide('redirectPopup'); };
-
-    $('trackIn').value=rid;
-    doTrack();
-  });
-
-  // Payments + QR popups
-  $('gcashRow').addEventListener('click', async ()=>{
-    try{ await navigator.clipboard.writeText(($('gcashNumber').textContent||'').trim()); }catch(_){}
-    show('gcashPopup');
-  });
-  $('gcashOk').addEventListener('click', ()=>hide('gcashPopup'));
-  $('showQR').addEventListener('click', e=>{ e.stopPropagation(); show('qrPopup'); });
-  $('qrOk').addEventListener('click', ()=>hide('qrPopup'));
-
-  $('goRow').addEventListener('click', async ()=>{
-    try{ await navigator.clipboard.writeText(($('goNumber').textContent||'').trim()); }catch(_){}
-    show('goPopup');
-  });
-  $('goOk').addEventListener('click', ()=>hide('goPopup'));
-  $('showGoQR').addEventListener('click', e=>{ e.stopPropagation(); show('goQRPopup'); });
-  $('goQROk').addEventListener('click', ()=>hide('goQRPopup'));
-
-  // Tracking (local)
-  function setStatusColor(txt){
-    const el=$('t_status');
-    el.textContent = txt || 'PENDING';
-    el.style.color = (txt==='DELIVERED')?'#ff7896' : (txt==='PAID'?'#22cf74' : '#ffd64d');
-  }
-  function doTrack(){
-    const rid=$('trackIn').value.trim();
-    if(!rid){ $('trackOut').style.display='none'; $('trackNone').style.display='block'; return; }
-    const m=load(); const o=m[rid];
-    if(!o){ $('trackOut').style.display='none'; $('trackNone').style.display='block'; return; }
-    $('trackNone').style.display='none'; $('trackOut').style.display='block';
-    $('t_id').textContent=rid;
-    setStatusColor(o.status);
-    $('t_server').textContent=o.server;
-    $('t_qty').textContent=o.qty;
-    $('t_rate').textContent=`₱${o.rate.toFixed(2)} / dia`;
-    $('t_total').textContent=`₱${fmt(o.total)}`;
-    $('t_time').textContent=o.time||'—';
-  }
-  window.doTrack = doTrack;
-  $('trackBtn').addEventListener('click', doTrack);
-  $('btnPaid').addEventListener('click', ()=>{
-    const rid=$('trackIn').value.trim();
-    const m=load(); if(!m[rid]) return;
-    m[rid].status='PAID'; save(m); setStatusColor('PAID');
-  });
-
-  // Secret delivered (6 taps sa logo)
-  let taps=0, tmr=null;
-  const logo = document.getElementById('secretLogo');
-  if(logo){
-    logo.addEventListener('click', ()=>{
-      taps++; clearTimeout(tmr); tmr=setTimeout(()=>taps=0,1200);
-      if(taps>=6){
-        taps=0;
-        const rid=$('trackIn').value.trim(); const m=load(); if(!m[rid]) return;
-        m[rid].status='DELIVERED'; save(m); setStatusColor('DELIVERED');
-      }
-    });
-  }
-
-  // Click backdrop to close
-  ['buyPopup','redirectPopup','gcashPopup','qrPopup','goPopup','goQRPopup'].forEach(id=>{
-    const el=$(id); if(!el) return;
-    el.addEventListener('click',e=>{ if(e.target===el) el.style.display='none'; });
-  });
-
-  // Minimal runtime error toast
-  window.addEventListener('error', e=>{
-    const t=document.createElement('div');
-    t.textContent='JS Error: '+(e.message||'unknown');
-    Object.assign(t.style,{position:'fixed',left:'8px',top:'8px',background:'rgba(255,0,80,.12)',color:'#fff',padding:'8px 10px',border:'1px solid rgba(255,0,80,.35)',borderRadius:'8px',zIndex:99999,fontSize:'12px'});
-    document.body.appendChild(t); setTimeout(()=>t.remove(),6000);
-  });
-})();
-</script>
-</body>
-</html>
-```0
+      <img id="qrImg" src="gcash-qr.png" alt="GCash QR" class="qrImg">
+      <div style="margin
