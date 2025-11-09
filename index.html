@@ -369,4 +369,296 @@
     <div class="cardPop">
       <h3>GCash QR</h3>
       <img id="qrImg" src="gcash-qr.png" alt="GCash QR" class="qrImg">
-      <div style="margin
+      <div style="margin-top:12px">
+        <button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="goQRPopup">
+    <div class="cardPop">
+      <h3>GoTyme QR</h3>
+      <img id="goQrImg" src="gotyme-qr.png" alt="GoTyme QR" class="qrImg">
+      <div style="margin-top:12px">
+        <button id="goQrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  /* ===== Helpers ===== */
+  const $ = id => document.getElementById(id);
+  const clean = v => String(v ?? '').replace(/[^\d.]/g,'');
+  const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
+  const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
+  const fmt2  = n => Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+
+  /* Tier rules */
+  const MIN1=1000, MIN2=4000, MIN3=8000;
+  const T1=0.80, T2=0.75, T3=0.70;
+
+  /* Tracking storage (local only) */
+  const STORE='ymir_orders';
+  const loadMap=()=>{ try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return{}} };
+  const saveMap=(m)=>{ try{localStorage.setItem(STORE, JSON.stringify(m))}catch{} };
+
+  /* Rate logic */
+  const getRate=(q)=>{
+    if(!q || q<MIN1) return null;
+    if(q<MIN2) return T1;
+    if(q<MIN3) return T2;
+    return T3;
+  };
+
+  /* Estimate dias from PHP without forcing values */
+  const estimateFromPHP=(p)=>{
+    if(!p||p<=0) return 0;
+    let q = Math.max(0, Math.floor(p/T1));
+    for(let i=0;i<3;i++){
+      const r = getRate(q) ?? T1;
+      q = Math.max(0, Math.floor(p/r));
+    }
+    return q;
+  };
+
+  /* UI refs */
+  const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
+  const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
+
+  /* Prevent auto-overwrite while typing */
+  let typingField=null;     // 'd' for dias, 'p' for php, null otherwise
+  let blurCrossfill=true;   // only cross-fill on blur / Buy
+
+  const pill80=$('pill80'), pill75=$('pill75'), pill70=$('pill70');
+  const paintPills=(q,r)=>{
+    [pill80,pill75,pill70].forEach(p=>p.classList.remove('active','flame','best'));
+    if(!q || q<MIN1 || !r) return;
+    if(r===T1) pill80.classList.add('active');
+    if(r===T2) pill75.classList.add('active');
+    if(r===T3){ pill70.classList.add('active','flame','best'); }
+  };
+
+  const validServer=()=> serverEl.value.trim().length>0;
+
+  function recalcOutputs(previewOnly=false){
+    const q = toInt(diasEl.value);
+    const p = toNum(phpEl.value);
+    let r = getRate(q);
+
+    /* When typing in PHP, don't overwrite DIAS; show preview using estimate */
+    let qEst = q;
+    if(typingField==='p'){
+      const guess = estimateFromPHP(p);
+      if(!r){ // allow preview even if dias < 1000
+        qEst = guess;
+        r = getRate(qEst);
+      }
+    }
+
+    paintPills(qEst, r);
+
+    const ok = (q>=MIN1 || (typingField==='p' && qEst>=MIN1)) && !!r && validServer();
+    warn.style.display = ok ? 'none' : 'block';
+    buyBtn.disabled = !ok;
+
+    if(r){
+      const useQ = (typingField==='p' && qEst>=MIN1) ? qEst : q;
+      if(useQ>=MIN1){
+        rateOut.textContent = `₱${r.toFixed(2)} / dia`;
+        const base = useQ*T1, saveAmt=Math.max(0, base-(useQ*r));
+        const savePct=Math.max(0,(1-r/T1)*100);
+        saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt2(saveAmt)}`;
+        return;
+      }
+    }
+    rateOut.textContent='—'; saveOut.textContent='—';
+  }
+
+  /* Input events (no cross-fill while typing) */
+  ['input','keyup'].forEach(ev=>{
+    diasEl.addEventListener(ev, ()=>{ typingField='d'; recalcOutputs(true); });
+    phpEl.addEventListener(ev,  ()=>{ typingField='p'; recalcOutputs(true); });
+    serverEl.addEventListener(ev, ()=>{ recalcOutputs(true); });
+  });
+
+  /* On blur, cross-fill politely */
+  diasEl.addEventListener('blur', ()=>{
+    typingField=null;
+    const q = toInt(diasEl.value);
+    const r = getRate(q);
+    if(r && q>=MIN1 && blurCrossfill){
+      phpEl.value = fmt2(q*r); // fill PHP only after user leaves Diamonds
+    }
+    recalcOutputs();
+  });
+  phpEl.addEventListener('blur', ()=>{
+    typingField=null;
+    const p = toNum(phpEl.value);
+    const q = estimateFromPHP(p);
+    const r = getRate(q);
+    if(r && q>=MIN1 && blurCrossfill){
+      diasEl.value = String(q); // fill DIAS only after leaving PHP
+    }
+    // Format PHP neatly on blur
+    if(p>0) phpEl.value = fmt2(p);
+    recalcOutputs();
+  });
+  serverEl.addEventListener('blur', ()=>{ typingField=null; recalcOutputs(); });
+
+  /* Initial state */
+  recalcOutputs(true);
+
+  /* ===== Copy helpers / Popups ===== */
+  const copyPopup=$('copyPopup'), copyMsg=$('copyMsg'), copyOk=$('copyOk');
+  function showCopy(msg){ copyMsg.textContent=msg||'Copied to clipboard.'; copyPopup.style.display='grid'; }
+  copyOk.addEventListener('click', ()=> copyPopup.style.display='none');
+
+  async function copy(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* GCash copy + QR */
+  $('gcashRow').addEventListener('click', async ()=>{
+    const ok = await copy('09162466318');
+    showCopy(ok?'GCash number copied ✔':'Copy failed. Long-press to copy.');
+  });
+  $('showQR').addEventListener('click', (e)=>{ e.stopPropagation(); $('qrPopup').style.display='grid'; });
+  $('qrOk').addEventListener('click', ()=> $('qrPopup').style.display='none');
+
+  /* GoTyme copy + QR */
+  $('goRow').addEventListener('click', async ()=>{
+    const ok = await copy('014664932955');
+    showCopy(ok?'GoTyme account copied ✔':'Copy failed. Long-press to copy.');
+  });
+  $('showGoQR').addEventListener('click', (e)=>{ e.stopPropagation(); $('goQRPopup').style.display='grid'; });
+  $('goQrOk').addEventListener('click', ()=> $('goQRPopup').style.display='none');
+
+  /* ===== Track (local) ===== */
+  const statusOut=$('t_status');
+  function setStatusUI(st){
+    statusOut.textContent=st;
+    statusOut.style.color = st==='DELIVERED' ? '#ff7896' : st==='PAID' ? '#22cf74' : '#ffd64d';
+  }
+  function genRID(){
+    const t = Date.now().toString(36).toUpperCase();
+    const r = Math.random().toString(36).slice(2,6).toUpperCase();
+    return `YMIR-${t}-${r}`;
+  }
+
+  $('trackBtn').addEventListener('click', ()=>{
+    const rid = $('trackIn').value.trim();
+    const map = loadMap();
+    const rec = map[rid];
+    if(!rid || !rec){
+      $('trackOut').style.display='none';
+      $('trackNone').style.display='block';
+      return;
+    }
+    $('trackNone').style.display='none';
+    $('trackOut').style.display='block';
+    $('t_id').textContent=rid;
+    setStatusUI(rec.status||'PENDING');
+    $('t_server').textContent=rec.server||'—';
+    $('t_qty').textContent=rec.qty||'—';
+    $('t_rate').textContent=rec.rate?`₱${rec.rate.toFixed(2)}`:'—';
+    $('t_total').textContent=rec.total?`₱${fmt2(rec.total)}`:'—';
+    $('t_time').textContent=rec.time||'—';
+  });
+
+  $('btnPaid').addEventListener('click', ()=>{
+    const rid = $('t_id').textContent.trim();
+    if(!rid) return;
+    const map = loadMap();
+    if(!map[rid]) return;
+    map[rid].status='PAID';
+    saveMap(map);
+    setStatusUI('PAID');
+    showCopy('Status updated: PAID ✔');
+  });
+
+  /* Secret Delivered: 6 taps on logo */
+  let taps=0, tapTimer=null;
+  $('secretLogo').addEventListener('click', ()=>{
+    taps++; clearTimeout(tapTimer);
+    tapTimer=setTimeout(()=>taps=0, 1200);
+    if(taps>=6){
+      taps=0;
+      const rid = $('t_id').textContent.trim();
+      if(!rid) return;
+      const map = loadMap();
+      if(!map[rid]) return;
+      map[rid].status='DELIVERED';
+      saveMap(map);
+      setStatusUI('DELIVERED');
+      showCopy('Status updated: DELIVERED ✔');
+    }
+  });
+
+  /* ===== Buy flow with 15s redirect ===== */
+  const buyPopup=$('buyPopup'), buyOrderId=$('buyOrderId'), countdownEl=$('countdown'), openNow=$('openNow'), closePop=$('closePop');
+
+  function buildOrder(rid, q, p, r, server){
+    return [
+      `Order ID: ${rid}`,
+      `Diamonds: ${q} 💎`,
+      `Rate: ₱${r.toFixed(2)} / dia`,
+      `Total: ₱${fmt2(p)}`,
+      `Server: ${server}`
+    ].join('\n');
+  }
+
+  function openMessenger(){
+    // Your Messenger ID
+    location.href = 'https://m.me/mbitonio';
+  }
+
+  openNow.addEventListener('click', openMessenger);
+  closePop.addEventListener('click', ()=> buyPopup.style.display='none');
+
+  $('buyBtn').addEventListener('click', async ()=>{
+    // Ensure values
+    let q = toInt(diasEl.value);
+    let p = toNum(phpEl.value);
+    const server = serverEl.value.trim();
+
+    if(typingField==='p' && (!q || q<MIN1)){
+      const qGuess=estimateFromPHP(p);
+      if(qGuess>=MIN1){ q=qGuess; }
+    }
+    if(typingField==='d' && (!p || p<=0)){
+      const rNow=getRate(q); if(rNow) p=q*rNow;
+    }
+
+    const r=getRate(q);
+    if(!r || q<MIN1 || !server){ warn.style.display='block'; return; }
+
+    const rid=genRID();
+    const orderText = buildOrder(rid, q, p||q*r, r, server);
+
+    /* Save local track */
+    const map=loadMap();
+    map[rid]={status:'PENDING', server, qty:q, rate:r, total:p||q*r, time:new Date().toLocaleString()};
+    saveMap(map);
+
+    /* Copy to clipboard */
+    const copied = await copy(orderText);
+    buyOrderId.textContent = `Copied${copied?'':' (please copy manually)'}: ${rid}`;
+
+    /* 15s countdown popup + auto-redirect */
+    buyPopup.style.display='grid';
+    let left=15;
+    countdownEl.innerHTML = `Redirecting to Messenger in <b>${left}</b>s…`;
+    const timer=setInterval(()=>{
+      left--; countdownEl.innerHTML = `Redirecting to Messenger in <b>${left}</b>s…`;
+      if(left<=0){ clearInterval(timer); openMessenger(); }
+    },1000);
+  });
+
+})();
+</script>
+</body>
+</html>
