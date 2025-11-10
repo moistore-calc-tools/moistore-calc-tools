@@ -138,4 +138,447 @@
       <datalist id="serverList"></datalist>
       <div id="availNote" class="avail" style="display:none">—</div>
       <div class="hint">Make sure tama ang server name para iwas delay sa drop.</div>
-      <div id="warn" class="warn">Minimum 1000 💎 required, Server is needed, and
+      <div id="warn" class="warn">Minimum 1000 💎 required, Server is needed, and order must not exceed stock.</div>
+      <div class="grid2">
+        <div class="box"><h5>Rate</h5><div id="rateOut" class="rateOut">—</div></div>
+        <div class="box saveBox"><h5>Save</h5><div id="saveOut" class="saveOut">—</div></div>
+      </div>
+    </div>
+
+    <!-- Copy button -->
+    <button id="buyBtn" type="button" class="btn buy" disabled>➡️ COPY & SEND ORDER TO SELLER</button>
+    <div class="label" style="text-align:center;margin-top:8px">Pagkatapos pindutin, i-paste mo ito sa chat ko para ma-process agad ✅</div>
+
+    <!-- STOCK INVENTORY (PIN-LOCKED) -->
+    <div class="section" style="margin-top:12px">
+      <div class="stockHead">
+        <div class="label" style="margin:0">📦 Stock Inventory <span id="lockState" style="opacity:.75">(Locked)</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="sAdd" class="miniBtn" disabled>+ Row</button>
+          <button id="sSave" class="miniBtn" disabled>Save</button>
+          <button id="sReset" class="miniBtn" disabled>Reset</button>
+          <button id="sCSV" class="miniBtn">Export CSV</button>
+          <button id="sMass" class="miniBtn" disabled>Mass Update</button>
+          <button id="sPop" class="miniBtn">Open Stock Popup</button>
+          <button id="sUnlock" class="miniBtn">Unlock</button>
+        </div>
+      </div>
+      <table class="stock">
+        <thead><tr><th>Pic</th><th>Server</th><th>Qty</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="stockBody"></tbody>
+      </table>
+      <div class="hint">Tip: click the picture/row to view or change image. Kapag Delivered, auto bawas sa stock.</div>
+    </div>
+
+    <!-- Payment + Socials -->
+    <div class="pay">
+      <div id="gcashRow" class="gcashRow" title="Tap to copy number">
+        <div class="gcashLeft"><div class="gcashIcon">G</div>GCash • <strong id="gcashNumber">09162466318 — MOISES B.</strong></div>
+        <button id="showQR" type="button" class="qrBtn" title="Show GCash QR">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#cfe4ff" aria-hidden="true"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm6 6h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm12-12h4v4h-4V3z"/></svg>Show QR
+        </button>
+      </div>
+      <div id="goRow" class="gcashRow" title="Tap to copy account" style="background:rgba(0,214,231,.08);border-color:rgba(0,214,231,.35)">
+        <div class="gcashLeft">
+          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"
+               style="border-radius:999px; box-shadow:0 0 10px rgba(0,214,231,.35)">
+            <defs><linearGradient id="goTeal" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#00D6E7"/><stop offset="1" stop-color="#00BFD3"/>
+            </linearGradient></defs>
+            <rect x="0" y="0" width="32" height="32" rx="16" fill="url(#goTeal)"/>
+            <path d="M10.5 16a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0zm2.6 0a2.9 2.9 0 1 0 5.8 0 2.9 2.9 0 0 0-5.8 0z"
+                  fill="#00353A" opacity=".95"/>
+          </svg>
+          GoTyme • <strong id="goNumber">014664932955 — MOISES BITONIO</strong>
+        </div>
+        <button id="showGoQR" type="button" class="qrBtn" title="Show GoTyme QR" style="background:rgba(0,214,231,.14);border-color:rgba(0,214,231,.45);color:#d6fffe">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#d6fffe" aria-hidden="true"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm6 6h8v8h-8v-8zm2 2v4h4v-4h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm12-12h4v4h-4V3z"/></svg>
+          Show QR
+        </button>
+      </div>
+      <div class="soc">
+        <a class="btnlink fb" href="https://www.facebook.com/share/p/17MiaRJ24J/" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.17 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46 h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.93z"/></svg>
+          FACEBOOK FEEDBACK
+        </a>
+        <a class="btnlink dc" href="https://discord.gg/QkdVz5mh" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.3 4.4A16 16 0 0015.9 3l-.4.8a13.3 13.3 0 00-7 0L8.1 3A16 16 0 003.7 4.4C1.7 7.5 1 10.5 1.2 13.4a16 16 0 005.9 3l.8-1.3c-.4-.1-.7-.3-1-.4.1-.1.2-.2.3-.3 1.9.9 4 .9 5.9 0l.3.3c-.3.2-.6.3-1 .4l.8 1.3a16 16 0 005.9-3c.3-3-.5-5.9-2.8-9zM9.6 13c-.9 0-1.6-.8-1.6-1.7S8.7 9.6 9.6 9.6s1.6.8 1.6 1.7S10.5 13 9.6 13zm4.8 0c-.9 0-1.6-.8-1.6-1.7s.7-1.7 1.6-1.7 1.6.8 1.6 1.7-.7 1.7-1.6 1.7z"/></svg>
+          DISCORD FEEDBACK
+        </a>
+      </div>
+    </div>
+
+    <div class="notice"><h4>⏳ Waiting Time Notice</h4><p>Processing time may vary depending on server demand. Some servers might experience longer wait times — pero <strong>guaranteed matatanggap ang order mo</strong>.</p></div>
+
+    <!-- Track Order -->
+    <div class="track">
+      <div class="label" style="margin-bottom:6px">Track Order</div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:10px">
+        <input id="trackIn" class="in" placeholder="Enter Receipt ID (e.g., YMIR-XXXX)" autocomplete="off">
+        <button id="trackBtn" class="btn" style="background:#27252c;color:#fff">Check</button>
+      </div>
+      <div id="trackOut" style="margin-top:10px;display:none">
+        <div class="chip" style="margin-bottom:8px">
+          <strong id="t_id">—</strong><span id="t_status" style="opacity:.9"></span>
+        </div>
+        <div style="display:grid;gap:6px;font-size:14px;color:#ccb9c1">
+          <div>Server: <span id="t_server" style="color:#fff"></span></div>
+          <div>Diamonds: <span id="t_qty" style="color:#fff"></span> 💎</div>
+          <div>Rate: <span id="t_rate" style="color:#fff"></span></div>
+          <div>Total: <span id="t_total" style="color:#fff"></span></div>
+          <div>Created: <span id="t_time" style="color:#fff"></span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button id="btnPaid" class="btn" style="background:#204c2f;color:#e7fff1">Buyer: I Paid</button>
+        </div>
+        <div class="hint" style="margin-top:6px">Tip: Buyer taps <b>I Paid</b> after sending payment. (Local tracking only)</div>
+      </div>
+      <div id="trackNone" class="hint" style="display:none;margin-top:8px">Walang record sa device na ’to. Note: Tracking works on the same phone/browser (local only).</div>
+    </div>
+  </div>
+
+  <!-- POPUPS -->
+  <div id="buyPopup"><div class="cardPop"><h3>Copied ✔</h3><p id="buyMsg"><strong>NA-COPY NA ANG ORDER FORMAT.</strong><br>Open Messenger then paste the order message.</p><div id="buyOrderId" style="margin:10px 0 6px;font-weight:800"></div><button id="closePop" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button></div></div>
+  <div id="gcashPopup"><div class="cardPop"><h3>GCash number copied ✔</h3><p><strong>09162466318 — MOISES B.</strong><br>Paste sa GCash Express Send.</p><button id="gcashOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button></div></div>
+  <div id="qrPopup"><div class="cardPop"><h3>GCash QR</h3><p>Scan to pay • <strong>MOISES B.</strong></p><img src="gcash-qr.png" alt="GCash QR" class="qrImg"><div style="margin-top:12px"><button id="qrOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button></div></div></div>
+  <div id="goPopup"><div class="cardPop"><h3>GoTyme account copied ✔</h3><p><strong>014664932955 — MOISES BITONIO</strong><br>Paste sa GoTyme Send Money.</p><button id="goOk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">OK</button></div></div>
+  <div id="goQRPopup"><div class="cardPop"><h3>GoTyme QR</h3><p>Scan to pay • <strong>MOISES BITONIO</strong></p><img src="gotyme-qr.png" alt="GoTyme QR" class="qrImg"><div style="margin-top:12px"><button id="goQROk" class="btn" style="background:#272327;color:#fff;width:160px;margin:auto">Close</button></div></div></div>
+
+  <!-- STOCK POPUP (Editor) -->
+  <div id="stockPopup"><div class="cardPop" style="text-align:left">
+    <h3 style="margin:0 0 8px">📦 Stock Manager</h3>
+    <div class="hint">Add/Replace picture & quick edit of the selected server.</div>
+    <div style="display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:center;margin:10px 0">
+      <img id="stPic" class="qrImg" style="width:88px;height:88px;object-fit:cover;border-radius:10px" src="" alt="preview">
+      <div>
+        <div class="label" style="margin:0">Server</div>
+        <input id="stServer" class="in"/>
+        <div class="grid2" style="margin-top:8px">
+          <div><div class="label" style="margin:0">Qty</div><input id="stQty" class="in"/></div>
+          <div><div class="label" style="margin:0">Notes</div><input id="stNotes" class="in"/></div>
+        </div>
+      </div>
+    </div>
+    <div class="hint">Click choose image to attach server photo (stored locally).</div>
+    <input id="stFile" type="file" accept="image/*" style="margin:8px 0"/>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+      <button id="stDelPic" class="miniBtn">Remove Picture</button>
+      <button id="stSaveOne" class="miniBtn">Save</button>
+      <button id="stClose" class="miniBtn">Close</button>
+    </div>
+  </div></div>
+
+  <!-- MASS UPDATE POPUP -->
+  <div id="massPopup"><div class="cardPop" style="text-align:left">
+    <h3 style="margin:0 0 8px">🧩 Mass Update Stock</h3>
+    <div class="hint">Paste CSV lines: <code>Server,Qty,Notes</code>. Existing rows will be updated, new ones will be added.</div>
+    <textarea id="massText" class="in" style="height:160px;margin-top:8px" placeholder="ASIA015,3000,Promo&#10;HOF1,/,Out"></textarea>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+      <button id="massApply" class="miniBtn">Apply</button>
+      <button id="massClose" class="miniBtn">Close</button>
+    </div>
+  </div></div>
+
+  <!-- PIN POPUP -->
+  <div id="pinOverlay"><div class="cardPop">
+    <div style="display:flex;justify-content:center;margin-bottom:8px">
+      <svg width="42" height="42" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffb45a" d="M12 2a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm-3 8V7a3 3 0 116 0v3H9z"/></svg>
+    </div>
+    <h3 style="margin:0 0 6px">Enter PIN to Unlock</h3>
+    <div class="hint">Only the correct PIN can enable editing.</div>
+    <input id="pinInput" class="pinInput" type="password" inputmode="numeric" maxlength="6" placeholder="••••••" style="margin:12px auto 6px;display:block"/>
+    <div id="pinErr" class="hint" style="color:#ff9aa8;min-height:18px"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:4px">
+      <button id="pinSubmit" class="miniBtn">Unlock</button>
+      <button id="pinCancel" class="miniBtn">Cancel</button>
+    </div>
+  </div></div>
+
+<script>
+(function(){
+  window.addEventListener('error', function (e) {
+    try{
+      const t = document.createElement('div');
+      t.textContent = 'Error: ' + (e.message || 'unknown');
+      Object.assign(t.style, {
+        position:'fixed', left:'8px', bottom:'8px', background:'rgba(255,0,80,.12)',
+        color:'#fff', padding:'8px 10px', border:'1px solid rgba(255,0,80,.35)',
+        borderRadius:'8px', zIndex:99999, fontSize:'12px', maxWidth:'90vw'
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(), 5000);
+    }catch(_){}
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const $ = id => document.getElementById(id);
+    const clean = v => String(v ?? '').replace(/[^\d.\-]/g,'');
+    const toInt = v => { const m = clean(v).match(/^\d+/); return m? parseInt(m[0],10):0; };
+    const toNum = v => { const m = clean(v).match(/^\d+(?:\.\d+)?/); return m? parseFloat(m[0]):0; };
+    const fmt = n => Number(n).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+
+    /* Tiers */
+    const MIN1=1000, MIN2=4000, MIN3=8000;
+    const T1=0.80, T2=0.75, T3=0.70;
+
+    /* ===== STOCK + PIN ===== */
+    const PIN_CODE='021116';
+    let unlocked = sessionStorage.getItem('ymir_stock_unlocked') === '1';
+
+    const STOCK_KEY='ymir_stock_v1';
+    const IMG_KEY='ymir_stock_img_v1';
+    const DEFAULT_STOCK=[
+      ['HOF1','/',''],['DaddyKin','3000',''],['Tokyo','15400',''],['HOF2','2040',''],
+      ['DaddyVerse','4912',''],['Kings','6440',''],['HOF3','1000',''],['ManiTW','9000',''],
+      ['ISEKAI','35000',''],['Bangkok','1286',''],['PROSGARD','900',''],['X','3900',''],
+      ['Chess','7444',''],['XAOU','14269',''],['ASIA015','3000',''],['ASIA016','9000',''],
+      ['ASIA017','3200',''],['ASIA018','4500',''],['ASIA020','3000',''],['ASIA021','1500',''],
+      ['ASIA023','2000',''],['ASIA024','1400',''],['ASIA025','3000',''],['ASIA027','1500',''],
+      ['ASIA028','9300','']
+    ];
+
+    const loadStock=()=>{ try{ const r=JSON.parse(localStorage.getItem(STOCK_KEY)||'null'); if(Array.isArray(r)&&r.length) return r; }catch{} return DEFAULT_STOCK.map(r=>[...r]); };
+    const saveStock=(rows)=>{ try{ localStorage.setItem(STOCK_KEY, JSON.stringify(rows)); }catch{} };
+    const loadImgs=()=>{ try{ return JSON.parse(localStorage.getItem(IMG_KEY)||'{}'); }catch{ return {}; } };
+    const saveImgs=(m)=>{ try{ localStorage.setItem(IMG_KEY, JSON.stringify(m)); }catch{} };
+
+    let STOCK=loadStock();
+    let IMGS=loadImgs();
+
+    const sBody=$('stockBody');
+
+    function setEditingEnabled(isOn){
+      ['sAdd','sSave','sReset','sMass'].forEach(id=>{ const btn=$(id); btn.disabled = !isOn; });
+      $('lockState').textContent = isOn ? '(Unlocked)' : '(Locked)';
+      renderStock();
+    }
+
+    function renderStock(){
+      sBody.innerHTML='';
+      STOCK.forEach((row,i)=>{
+        const tr=document.createElement('tr');
+        const key=row[0]||('row'+i);
+
+        const tdImg=document.createElement('td');
+        const img=document.createElement('img');
+        img.className='thumb';
+        img.src=IMGS[key]||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2244%22 height=%2244%22><rect width=%2244%22 height=%2244%22 fill=%22%23131116%22/><text x=%2250%25%22 y=%2255%25%22 fill=%22%23ff6aa1%22 font-size=%2210%22 text-anchor=%22middle%22>IMG</text></svg>';
+        img.title= unlocked ? 'Click to change' : 'Locked';
+        img.style.opacity = unlocked ? '1' : '.6';
+        img.onclick=()=>{ if(!unlocked) return; $('stServer').value=row[0]||''; $('stQty').value=row[1]||''; $('stNotes').value=row[2]||''; $('stPic').src=IMGS[key]||''; curIdx=i; $('stockPopup').style.display='grid'; };
+
+        tdImg.appendChild(img);
+
+        const tdS=document.createElement('td'); tdS.textContent=row[0]; tdS.contentEditable=!!unlocked;
+        const tdQ=document.createElement('td'); tdQ.textContent=row[1]; tdQ.contentEditable=!!unlocked; tdQ.classList.add('qtyCell');
+        const tdN=document.createElement('td'); tdN.textContent=row[2]||''; tdN.contentEditable=!!unlocked;
+        const tdA=document.createElement('td'); const del=document.createElement('button'); del.className='miniBtn'; del.textContent='Delete'; del.disabled = !unlocked; del.onclick=()=>{ if(!unlocked) return; STOCK.splice(i,1); saveStock(STOCK); renderStock(); }; tdA.appendChild(del);
+
+        [tdS,tdQ,tdN].forEach((td,idx)=> td.addEventListener('input',()=>{ if(!unlocked) return; row[idx]=td.textContent.trim(); saveStock(STOCK); }));
+
+        tr.append(tdImg,tdS,tdQ,tdN,tdA); sBody.appendChild(tr);
+      });
+    }
+
+    function updateServerDatalist(){
+      const list=$('serverList'); const val=$('serverIn').value; list.innerHTML='';
+      STOCK.map(r=>r[0]).filter(Boolean).forEach(name=>{ const o=document.createElement('option'); o.value=name; list.appendChild(o); });
+      $('serverIn').value=val; updateAvailNote();
+    }
+
+    function getStockQty(server){
+      const r=STOCK.find(x=>x[0].toLowerCase()===String(server||'').toLowerCase());
+      const q = r? parseInt(String(r[1]).replace(/[^\d]/g,''),10) : NaN;
+      return isNaN(q) ? null : q;
+    }
+
+    function updateAvailNote(){
+      const s=$('serverIn').value.trim(); const note=$('availNote');
+      if(!s){ note.style.display='none'; return; }
+      const q=getStockQty(s);
+      if(q==null){ note.textContent='No stock record for this server'; note.style.display='block'; note.style.color='#ffd4e1'; }
+      else { note.textContent=`Available stock: ${q.toLocaleString()} 💎`; note.style.display='block'; note.style.color='#b0ffa6'; }
+    }
+
+    // Buttons stock section
+    $('sAdd').onclick=()=>{ if(!unlocked) return; STOCK.push(['','/','']); saveStock(STOCK); renderStock(); updateServerDatalist(); };
+    $('sSave').onclick=()=>{ if(!unlocked) return; saveStock(STOCK); flash('Stock saved'); };
+    $('sReset').onclick=()=>{ if(!unlocked) return; if(confirm('Reset stock to defaults?')){ STOCK=DEFAULT_STOCK.map(r=>[...r]); saveStock(STOCK); renderStock(); updateServerDatalist(); } };
+    $('sCSV').onclick=()=>{ const rows=[["server","qty","notes"], ...STOCK]; const csv=rows.map(r=>r.map(x=>`"${String(x).replaceAll('"','""')}"`).join(',')).join('\n'); downloadText('ymir_stock.csv', csv); };
+    $('sMass').onclick=()=>{ if(!unlocked) return; $('massPopup').style.display='grid'; };
+    $('sPop').onclick=()=>{ if(!unlocked) { $('pinOverlay').style.display='grid'; $('pinInput').focus(); return; } openStockPopup(0); };
+    $('sUnlock').onclick=()=>{ $('pinOverlay').style.display='grid'; $('pinInput').focus(); };
+
+    // Stock popup (edit one row)
+    let curIdx=0;
+    function openStockPopup(i){ curIdx=i; const row=STOCK[i]||['','','']; $('stServer').value=row[0]||''; $('stQty').value=row[1]||''; $('stNotes').value=row[2]||''; const key=row[0]||('row'+i); $('stPic').src=IMGS[key]||''; $('stockPopup').style.display='grid'; }
+    $('stClose').onclick=()=>{ $('stockPopup').style.display='none'); };
+    $('stDelPic').onclick=()=>{ const name=$('stServer').value||('row'+curIdx); delete IMGS[name]; saveImgs(IMGS); $('stPic').src=''; flash('Picture removed'); };
+    $('stFile').addEventListener('change',e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{ $('stPic').src=reader.result; }; reader.readAsDataURL(f); });
+    $('stSaveOne').onclick=()=>{ const name=$('stServer').value.trim(); const qty=$('stQty').value.trim(); const notes=$('stNotes').value.trim(); STOCK[curIdx]=[name,qty,notes]; saveStock(STOCK); updateServerDatalist(); renderStock(); const imgSrc=$('stPic').src||''; if(imgSrc) IMGS[name]=imgSrc; saveImgs(IMGS); flash('Stock updated'); $('stockPopup').style.display='none'; };
+
+    // Mass Update
+    $('massApply').onclick=()=>{ if(!unlocked) return; const txt=$('massText').value.trim(); if(!txt){ $('massPopup').style.display='none'; return; }
+      txt.split(/\r?\n/).forEach(line=>{ const parts=line.split(','); if(!parts[0]) return; const name=parts[0].trim(); const qty=(parts[1]||'').trim(); const notes=(parts[2]||'').trim(); const idx=STOCK.findIndex(r=>r[0].toLowerCase()===name.toLowerCase()); if(idx>-1){ STOCK[idx]=[name,qty,notes]; } else { STOCK.push([name,qty,notes]); } });
+      saveStock(STOCK); renderStock(); updateServerDatalist(); flash('Mass update applied'); $('massPopup').style.display='none';
+    };
+    $('massClose').onclick=()=>{ $('massPopup').style.display='none'; };
+
+    // PIN handlers
+    $('pinCancel').onclick=()=>{ $('pinOverlay').style.display='none'; };
+    $('pinSubmit').onclick=checkPin;
+    $('pinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') checkPin(); });
+    function checkPin(){
+      const val = $('pinInput').value.trim();
+      if(val === PIN_CODE){
+        unlocked = true; sessionStorage.setItem('ymir_stock_unlocked','1');
+        $('pinOverlay').style.display='none';
+        setEditingEnabled(true);
+        $('pinErr').textContent=''; $('pinInput').value='';
+      }else{
+        $('pinErr').textContent = 'Wrong PIN';
+        const box = $('pinOverlay').querySelector('.cardPop');
+        box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+      }
+    }
+
+    // ===== RATE/ORDER LOGIC =====
+    const diasEl=$('dias'), phpEl=$('phpIn'), serverEl=$('serverIn');
+    const rateOut=$('rateOut'), saveOut=$('saveOut'), warn=$('warn'), buyBtn=$('buyBtn');
+
+    function getRate(q){ if(!q||q<MIN1) return null; if(q<MIN2) return T1; if(q<MIN3) return T2; return T3; }
+    function estimateFromPHP(p){ if(!p||p<=0) return 0; let q=Math.floor(p/T1); for(let i=0;i<4;i++){ const r=getRate(q)??T1; q=Math.floor(p/r);} return q; }
+
+    function paintPills(q,r){ const p80=$('pill80'),p75=$('pill75'),p70=$('pill70'); [p80,p75,p70].forEach(p=>p.classList.remove('active','lock','flame','best')); if(!q||q<MIN1){ p80.classList.add('lock'); p75.classList.add('lock'); p70.classList.add('lock'); return; } if(q<MIN2) p75.classList.add('lock'); if(q<MIN3) p70.classList.add('lock'); if(r===T1) p80.classList.add('active'); if(r===T2) p75.classList.add('active'); if(r===T3){ p70.classList.add('active','flame','best'); } }
+
+    let lastEdited=null; const validServer = () => serverEl.value.trim().length>0;
+
+    function recalc(){
+      let q = toInt(diasEl.value);
+      let p = toNum(phpEl.value);
+
+      if(lastEdited==='p'){ q = estimateFromPHP(p); diasEl.value = q?String(q):''; }
+      else if(lastEdited==='d'){ const r=getRate(q); phpEl.value = (r&&q)? fmt(q*r):''; }
+      else{
+        if(!q && p){ q = estimateFromPHP(p); diasEl.value = q?String(q):''; }
+        if(q && !p){ const r=getRate(q); phpEl.value = r? fmt(q*r):''; }
+      }
+
+      const r=getRate(q);
+      paintPills(q,r);
+
+      // STOCK VALIDATION
+      updateAvailNote();
+      const sQty = getStockQty(serverEl.value.trim());
+      const notExceed = (sQty==null) ? true : (q<=sQty);
+
+      const ok = q>=MIN1 && !!r && validServer() && notExceed;
+      warn.style.display = ok ? 'none' : 'block';
+      buyBtn.disabled = !ok;
+
+      if(r && q){
+        rateOut.textContent = `₱${r.toFixed(2)} / dia`;
+        const base=q*T1, saveAmt=Math.max(0, base-(q*r)); const savePct=Math.max(0,(1-r/T1)*100);
+        saveOut.textContent = `${savePct.toFixed(2)}% • ₱${fmt(saveAmt)}`;
+      }else{
+        rateOut.textContent='—';
+        saveOut.textContent='—';
+      }
+    }
+
+    ['input','change','keyup'].forEach(ev=>{
+      diasEl.addEventListener(ev, ()=>{ lastEdited='d'; recalc(); });
+      phpEl.addEventListener(ev,  ()=>{ lastEdited='p'; recalc(); });
+      serverEl.addEventListener(ev, recalc);
+    });
+
+    // Copy message (new label)
+    function buildOrderMessage(q,r,total){
+      const s=serverEl.value.trim();
+      return `— YMIR ORDER —\n💎 Diamonds: ${q}\n🛡️ Server: ${s}\n💰 Rate: ₱${r.toFixed(2)} / dia\n🧾 Total: ₱${fmt(total)}\n📱 GCash: 09162466318 (MOISES B.)\n\nPlease confirm IGN + Server. Thanks!`;
+    }
+
+    document.querySelector('#btnPaid').addEventListener('click', ()=>{
+      const id = $('trackIn').value.trim();
+      const map=loadOrders(); if(!map[id]) return;
+      map[id].status='PAID'; saveOrders(map); setStatusUI('PAID');
+    });
+
+    $('buyBtn').addEventListener('click', async ()=>{
+      let q = toInt(diasEl.value);
+      let p = toNum(phpEl.value);
+      if(!q && p) q = estimateFromPHP(p);
+      const r = getRate(q);
+      if(!r || !validServer()){ recalc(); return; }
+      const total = p || (q*r);
+      const msg = buildOrderMessage(q,r,total);
+
+      try{ await navigator.clipboard.writeText(msg); }catch{}
+      $('buyOrderId').textContent = 'Order format copied to clipboard';
+      $('buyPopup').style.display='grid';
+    });
+
+    $('closePop').addEventListener('click', ()=> $('buyPopup').style.display='none');
+
+    // ===== Track (local) =====
+    const STORE_KEY='ymir_orders';
+    const loadOrders=()=>{ try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch{return{}} };
+    const saveOrders=m=>{ try{ localStorage.setItem(STORE_KEY, JSON.stringify(m)); }catch{} };
+    function genRID(){ const t=Date.now().toString(36).toUpperCase(); const r=Math.random().toString(36).slice(2,6).toUpperCase(); return `YMIR-${t}-${r}`; }
+    function setStatusUI(status){ const s=$('t_status'); s.textContent=status; s.style.color = status==='DELIVERED' ? '#ff8aa0' : status==='PAID' ? '#22cf74' : '#ffd64d'; }
+
+    // Secret delivered (6 taps on logo) → deduct stock
+    let tapCount=0, tapTimer=null;
+    $('secretLogo').addEventListener('click', ()=>{
+      tapCount++; clearTimeout(tapTimer);
+      tapTimer=setTimeout(()=>tapCount=0,900);
+      if(tapCount>=6){
+        tapCount=0;
+        const id = $('trackIn').value.trim();
+        const map = loadOrders(); if(!map[id]) return;
+        map[id].status='DELIVERED'; saveOrders(map); setStatusUI('DELIVERED');
+        const rec=map[id]; const idx=STOCK.findIndex(r=>r[0].toLowerCase()===String(rec.server||'').toLowerCase()); if(idx>-1){
+          const cur=parseInt(String(STOCK[idx][1]).replace(/[^\d]/g,''),10);
+          if(!isNaN(cur)){ STOCK[idx][1]=String(Math.max(0, cur - (parseInt(rec.qty,10)||0))); saveStock(STOCK); renderStock(); updateServerDatalist(); flash('Stock updated: delivered deducted'); }
+        }
+      }
+    });
+
+    $('trackBtn').addEventListener('click', ()=>{
+      const id = $('trackIn').value.trim();
+      const rec = loadOrders()[id];
+      if(rec){
+        $('trackOut').style.display='block';
+        $('trackNone').style.display='none';
+        $('t_id').textContent = id; setStatusUI(rec.status);
+        $('t_server').textContent = rec.server || '—';
+        $('t_qty').textContent = rec.qty || '—';
+        $('t_rate').textContent = rec.rate ? `₱${rec.rate.toFixed(2)} / dia` : '—';
+        $('t_total').textContent = rec.total ? `₱${fmt(rec.total)}` : '—';
+        $('t_time').textContent = rec.time ? new Date(rec.time).toLocaleString() : '—';
+      }else{
+        $('trackOut').style.display='none';
+        $('trackNone').style.display='block';
+      }
+    });
+
+    // Payments
+    (function(){ const row=$('gcashRow'), pop=$('gcashPopup'), ok=$('gcashOk'); row.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText('09162466318'); }catch{} pop.style.display='grid'; }); ok.addEventListener('click', ()=> pop.style.display='none'); })();
+    (function(){ const btn=$('showQR'), modal=$('qrPopup'), close=$('qrOk'); btn.addEventListener('click', ()=> modal.style.display='grid'); close.addEventListener('click', ()=> modal.style.display='none'); })();
+    (function(){ const row=$('goRow'), pop=$('goPopup'), ok=$('goOk'); row.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText('014664932955'); }catch{} pop.style.display='grid'; }); ok.addEventListener('click', ()=> pop.style.display='none'); })();
+    (function(){ const btn=$('showGoQR'), modal=$('goQRPopup'), close=$('goQROk'); btn.addEventListener('click', ()=> modal.style.display='grid'); close.addEventListener('click', ()=> modal.style.display='none'); })();
+
+    function downloadText(filename, text){ const a=document.createElement('a'); a.href = URL.createObjectURL(new Blob([text],{type:'text/plain'})); a.download = filename; a.click(); URL.revokeObjectURL(a.href); }
+    function flash(text){ const el=document.createElement('div'); el.textContent=text; el.style.cssText='position:fixed;inset:auto auto 20px 50%;transform:translateX(-50%);background:#ffb45a;color:#2b1200;padding:10px 14px;border-radius:999px;font-weight:800;box-shadow:0 10px 20px rgba(0,0,0,.45);z-index:9999'; document.body.appendChild(el); setTimeout(()=>el.remove(),1400); }
+
+    // init
+    renderStock(); updateServerDatalist(); recalc();
+    setEditingEnabled(unlocked);
+
+    // Open stock editor via picture table as well
+    function openStockEditorByIndex(i){ if(!unlocked){ $('pinOverlay').style.display='grid'; $('pinInput').focus(); return; } openStockPopup(i); }
+  });
+})();
+</script>
+</body>
+</html>
